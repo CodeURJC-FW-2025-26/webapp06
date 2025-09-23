@@ -1,4 +1,4 @@
-"""# SHOE STORE
+# SHOE STORE
 
 ## Integrantes
 
@@ -28,4 +28,4 @@ La entidad principal llevará asociadas varias imágenes de la zapatilla desde v
 - En el **buscador** se podrá buscar la zapatilla específica que se desee.  
 - En el **filtrado** se podrán filtrar zapatillas en base a su marca, precio, etc.  
 - En la **categorización**, en caso de añadir en un futuro otro tipo de prendas de ropa, se podrá elegir qué producto se quiere que se muestre.
-"""
+
