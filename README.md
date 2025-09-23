@@ -1,4 +1,4 @@
-# SHOE STORE
+# SNEAKERS STORE
 
 ## Integrantes
 
