@@ -16,16 +16,58 @@
 
 ---
 
-## Funcionalidad
+# Funcionalidad
 
-### Entidades
-La entidad principal será la **zapatilla** que se vende, mientras que las entidades secundarias serán la **talla**, el **modelo**, la **marca**, el **precio**, etc.
+## Entidades  
 
-### Imágenes
-La entidad principal llevará asociadas varias imágenes de la zapatilla desde varias perspectivas diferentes.
+### Entidad Principal  
+**Nombre de la Entidad:** Marca  
+**Descripción:** Representa cada marca de zapatillas disponible en la plataforma.  
 
-### Buscador, filtrado o categorización
-- En el **buscador** se podrá buscar la zapatilla específica que se desee.  
-- En el **filtrado** se podrán filtrar zapatillas en base a su marca, precio, etc.  
-- En la **categorización**, en caso de añadir en un futuro otro tipo de prendas de ropa, se podrá elegir qué producto se quiere que se muestre.
+**Atributos:**  
+- `name` → Nombre de la marca (Nike, Adidas, New Balance, etc.)  
+- `description` → Breve descripción de la marca  
+- `country_origin` → País de origen de la marca  
+- `founded_year` → Año de fundación de la marca  
+- `logo_image` → Imagen/logo de la marca  
 
+---
+
+### Entidad Secundaria  
+**Nombre de la Entidad:** Sneaker  
+**Descripción:** Representa cada modelo de zapatilla listado dentro de una marca.  
+
+**Atributos:**  
+- `name` → Nombre del modelo de la sneaker  
+- `description` → Breve descripción del producto  
+- `category` → Tipo (running, lifestyle, basketball, skate, etc.)  
+- `release_year` → Año de lanzamiento del modelo  
+- `colorway` → Combinación de colores de la sneaker  
+- `price` → Precio de venta  
+- `stock` → Disponibilidad en inventario  
+- `size_range` → Tallas disponibles  
+- `cover_image` → Imagen principal de la sneaker  
+- `average_rating` → Valoración media de los usuarios  
+
+---
+
+## Imágenes  
+- **Marcas** tendrán un `logo_image` asociado.  
+- **Sneakers** tendrán una `cover_image` y se pueden añadir imágenes adicionales (vista lateral, suela, detalle de materiales).  
+
+---
+
+## Búsqueda y Filtrado  
+
+- **Búsqueda:**  
+  - Los usuarios pueden buscar **Marcas** por `name`.  
+  - Dentro de cada marca, se pueden buscar **Sneakers** por `name`.  
+
+- **Filtrado:**  
+  La aplicación permite filtrar Sneakers en base a:  
+  - `category`  
+  - `release_year`  
+  - `colorway`  
+  - `price range`  
+  - `size_range`  
+  - `average_rating`
