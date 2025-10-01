@@ -22,7 +22,7 @@
 
 ### Entidad Principal  
 **Nombre de la Entidad:** Marca  
-**Descripción:** Representa cada marca de zapatillas disponible en la plataforma.  
+**Descripción:** Representa cada marca de zapatillas disponible en la plataforma...
 
 **Atributos:**  
 - `name` → Nombre de la marca (Nike, Adidas, New Balance, etc.)  
