@@ -1,0 +1,69 @@
+
+:root{
+  --brand-bg: #0f172a; /* slate-900 */
+  --brand-accent: #22c55e; /* green-500 */
+  --brand-accent-contrast: #0a0a0a;
+  --brand-text: #0b1221;
+}
+
+html{ scroll-behavior: smooth; }
+
+body{
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  color: var(--brand-text);
+}
+
+.navbar{
+  background: linear-gradient(90deg, var(--brand-bg), #111827);
+}
+
+.navbar-brand, .navbar-nav .nav-link{
+  color: #f8fafc !important;
+}
+
+.footer{
+  background-color: #0b1221;
+  color: #cbd5e1;
+}
+
+h1, h2, h3, h4{ letter-spacing: .3px; }
+
+.btn-primary{
+  background-color: var(--brand-accent);
+  border-color: var(--brand-accent);
+  color: #111827;
+}
+.btn-primary:hover{ filter: brightness(0.95); }
+
+.btn-outline-primary{
+  color: var(--brand-accent);
+  border-color: var(--brand-accent);
+}
+.btn-outline-primary:hover{
+  background-color: var(--brand-accent);
+  color: #111827;
+  border-color: var(--brand-accent);
+}
+
+.card{
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 10px 24px rgba(0,0,0,.06);
+}
+
+.card img{ border-top-left-radius: 1rem; border-top-right-radius: 1rem; }
+
+.badge-soft{
+  background-color: #e2fbe8;
+  color: #065f46;
+  font-weight: 600;
+}
+
+.form-label{ font-weight: 600; }
+.form-control, .form-select{ border-radius: .8rem; }
+
+/* Utility tweaks */
+.section{ padding: 2rem 0; }
+.grid-gap{ row-gap: 1.5rem; }
+
+/* Make the brand grid responsive: 1 / 2 / 3 columns (xs / sm / lg) handled by Bootstrap classes */
