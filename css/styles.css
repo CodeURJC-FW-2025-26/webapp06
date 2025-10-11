@@ -1,69 +1,291 @@
-
-:root{
-  --brand-bg: #0f172a; /* slate-900 */
-  --brand-accent: #22c55e; /* green-500 */
-  --brand-accent-contrast: #0a0a0a;
-  --brand-text: #0b1221;
+/* Variables */
+:root {
+  --bg-dark: #2c1c18;
+  --accent: #22c55e;
 }
 
-html{ scroll-behavior: smooth; }
+/* Marca registrada */
+.registered-brand { font-family: Impact; }
 
-body{
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-  color: var(--brand-text);
+/* Top bar */
+.top-bar {
+  background-color: var(--bg-dark);
+  font-size: 0.85rem;
+  letter-spacing: 0.3px;
 }
 
-.navbar{
-  background: linear-gradient(90deg, var(--brand-bg), #111827);
+/* Navbar */
+.navbar {
+  background-color: #fff;
+  font-size: 0.95rem;
 }
 
-.navbar-brand, .navbar-nav .nav-link{
-  color: #f8fafc !important;
+.page-new .navbar,
+.page-detail .navbar {
+  background-color: #2c1c18;
+  margin-bottom: 5rem;
 }
 
+.page-new .navbar .nav-link,
+.page-new .navbar-brand,
+.page-detail .navbar .nav-link,
+.page-detail .navbar-brand {
+  color: #fff !important;
+}
+
+.nav-link {
+  color: #111 !important;
+  font-weight: 500;
+}
+
+.navbar-brand {
+  color: #111;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.text-accent { color: var(--accent); }
+
+/* HERO section */
+.hero {
+  height: 100vh;
+  background-image: url("../img/web/sneaker.png");
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.hero::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.25);
+}
+
+.brand-title{
+  position: relative;
+  z-index: 2;
+  color: #dfdcdc;
+  font-family: "Paytone One", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-weight: 400;
+  letter-spacing: 1.5px;
+}
+
+/* Marcas (ticker) */
+.ticker{
+  --h: 38px;
+  --bg: #2c1c18;
+  --ink: #fff;
+  --gap: 3rem;
+  --speed: 22s;
+
+  height: var(--h);
+  background: var(--bg);
+  color: var(--ink);
+  overflow: hidden;
+  line-height: var(--h);
+  font-weight: 700;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  margin-bottom: 5rem;
+}
+
+.ticker__track{
+  display: inline-block;
+  white-space: nowrap;
+  will-change: transform;
+  animation: ticker-move var(--speed) linear infinite;
+}
+
+.ticker__group{
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.ticker__group span{
+  display: inline-block;
+  padding-right: var(--gap);
+}
+
+/* hueco fantasma al final para que entre último y primero haya el mismo espacio */
+.ticker__group::after{
+  content: "";
+  display: inline-block;
+  width: var(--gap);
+  height: 1px;
+  vertical-align: middle;
+}
+
+/* hay 3 grupos → desplazamos 1/3 del ancho total */
+@keyframes ticker-move{
+  from { transform: translateX(0); }
+  to   { transform: translateX(-33.3333%); }
+}
+
+/* pausa opcional */
+.ticker:hover .ticker__track{ animation-play-state: paused; }
+
+@media (prefers-reduced-motion: reduce){
+  .ticker__track{ animation: none; }
+}
+
+/* Footer */
 .footer{
-  background-color: #0b1221;
-  color: #cbd5e1;
+  background-color: #2c1c18;
+  color: #f8f9fa;
+  font-weight: 500;
+  border-top: 1px solid rgba(255,255,255,0.2);
+  box-shadow: 0 -6px 20px rgba(0,0,0,0.4);
 }
 
-h1, h2, h3, h4{ letter-spacing: .3px; }
-
-.btn-primary{
-  background-color: var(--brand-accent);
-  border-color: var(--brand-accent);
-  color: #111827;
+.footer a{
+  color: #f8f9fa;
+  text-decoration: underline;
 }
-.btn-primary:hover{ filter: brightness(0.95); }
+.footer a:hover{ color: #d1c0b2; }
 
-.btn-outline-primary{
-  color: var(--brand-accent);
-  border-color: var(--brand-accent);
-}
-.btn-outline-primary:hover{
-  background-color: var(--brand-accent);
-  color: #111827;
-  border-color: var(--brand-accent);
-}
+/* ===============================
+   RESPONSIVE TWEAKS
+   =============================== */
 
-.card{
-  border: none;
-  border-radius: 1rem;
-  box-shadow: 0 10px 24px rgba(0,0,0,.06);
-}
+/* XS (≤576px): texto y alturas más contenidos */
+@media (max-width: 576px){
+  .navbar { font-size: 0.9rem; }
 
-.card img{ border-top-left-radius: 1rem; border-top-right-radius: 1rem; }
+  .hero { height: 80vh; }                 /* menos alto en móvil */
+  .brand-title {
+    font-size: clamp(2rem, 8vw, 3rem);    /* tamaño fluido */
+    letter-spacing: 1px;
+    text-align: center;
+  }
 
-.badge-soft{
-  background-color: #e2fbe8;
-  color: #065f46;
-  font-weight: 600;
+  .ticker{
+    --h: 32px;        /* barra un pelín más estrecha */
+    --gap: 1.5rem;    /* menos hueco entre marcas */
+    margin-bottom: 2rem;
+  }
 }
 
-.form-label{ font-weight: 600; }
-.form-control, .form-select{ border-radius: .8rem; }
+/* SM–MD (≥576px y <992px): ajustes suaves */
+@media (min-width: 576px) and (max-width: 991.98px){
+  .brand-title{
+    font-size: clamp(2.5rem, 6vw, 4rem);
+  }
+}
 
-/* Utility tweaks */
-.section{ padding: 2rem 0; }
-.grid-gap{ row-gap: 1.5rem; }
+/* LG+ (≥992px): hero completo y tipografía amplia */
+@media (min-width: 992px){
+  .hero { height: 100vh; }
+  .brand-title{
+    font-size: clamp(3.5rem, 5vw, 5.5rem);
+    letter-spacing: 2px;
+  }
+}
 
-/* Make the brand grid responsive: 1 / 2 / 3 columns (xs / sm / lg) handled by Bootstrap classes */
+/* ===========================================
+   NOTA GRID (USAR BOOTSTRAP, NO CSS GRID NATIVO)
+   =========================================== */
+/*
+  El grid de marcas debe construirse con clases de Bootstrap.
+  Para 1 / 2 / 3 columnas (xs / sm / lg):
+
+  <div class="row g-3">
+    <div class="col-12 col-sm-6 col-lg-4">...</div>
+    <div class="col-12 col-sm-6 col-lg-4">...</div>
+    <div class="col-12 col-sm-6 col-lg-4">...</div>
+    ...
+  </div>
+
+  - col-12   → 1 columna en móviles (xs)
+  - col-sm-6 → 2 columnas en pantallas pequeñas (sm)
+  - col-lg-4 → 3 columnas en pantallas grandes (lg)
+*/
+
+
+/* ===== SOLO móvil (≤575.98px) ===== */
+@media (max-width: 575.98px){
+  .navbar .container{
+    position: relative;
+    min-height: 52px;
+  }
+
+  /* Brand centrado en la barra (estado colapsado) */
+  .navbar-brand{
+    position: absolute;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1;
+    z-index: 2;
+  }
+
+  /* Hamburguesa a la derecha */
+  .navbar-toggler{
+    position: absolute;
+    right: .75rem; top: 50%;
+    transform: translateY(-50%);
+    z-index: 3;
+    border: 1px solid rgba(0,0,0,.15);
+  }
+
+  /* Cuando el menú está ABIERTO, quitamos el absoluto del brand para que NO se superponga */
+  .navbar-collapse.show ~ .navbar-brand,
+  .navbar-collapse.collapsing ~ .navbar-brand{
+    position: static;
+    transform: none;
+    display: block;
+    text-align: center;
+    padding: .35rem 0;
+    z-index: 1;
+  }
+
+  /* Panel del menú abierto */
+  .navbar-collapse{
+    background: #fff;
+    border-top: 1px solid rgba(0,0,0,.08);
+    padding: .5rem 0;
+    z-index: 2;
+  }
+  .page-new .navbar-collapse,
+  .page-detail .navbar-collapse{
+    background:#2c1c18;
+    border-top:1px solid rgba(255,255,255,.12);
+  }
+
+  .navbar-nav{ flex-direction: column; align-items: center; gap: .25rem; }
+
+  /* Icono hamburguesa siempre visible */
+  .navbar .navbar-toggler-icon{
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='currentColor' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+  }
+  .page-new .navbar .navbar-toggler,
+  .page-detail .navbar .navbar-toggler{
+    border-color: rgba(255,255,255,.25);
+    color:#fff;
+  }
+}
+
+/* ===== Brand centrado en iPad/escritorio (≥768px) ===== */
+@media (min-width: 768px){
+  .navbar .container{
+    position: relative; /* ancla para el posicionamiento absoluto del brand */
+  }
+  .navbar-brand{
+    position: absolute;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    z-index: 2; /* por si coincide visualmente con los ULs */
+    pointer-events: none; /* evita tapar clics de los menús laterales */
+  }
+  /* permite clics dentro del texto si lo necesitas */
+  .navbar-brand a, .navbar-brand span { pointer-events: auto; }
+}
+
+
+
+
+
+
