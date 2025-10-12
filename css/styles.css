@@ -5,7 +5,9 @@
 }
 
 /* Marca registrada */
-.registered-brand { font-family: Impact; }
+.registered-brand {
+  font-family: Impact;
+}
 
 /* Top bar */
 .top-bar {
@@ -44,7 +46,9 @@
   letter-spacing: 0.3px;
 }
 
-.text-accent { color: var(--accent); }
+.text-accent {
+  color: var(--accent);
+}
 
 /* HERO section */
 .hero {
@@ -55,14 +59,14 @@
   position: relative;
 }
 
-.hero::after{
+.hero::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.25);
+  background: rgba(0, 0, 0, 0.25);
 }
 
-.brand-title{
+.brand-title {
   position: relative;
   z-index: 2;
   color: #dfdcdc;
@@ -72,7 +76,7 @@
 }
 
 /* Marcas (ticker) */
-.ticker{
+.ticker {
   --h: 38px;
   --bg: #2c1c18;
   --ink: #fff;
@@ -91,25 +95,25 @@
   margin-bottom: 5rem;
 }
 
-.ticker__track{
+.ticker__track {
   display: inline-block;
   white-space: nowrap;
   will-change: transform;
   animation: ticker-move var(--speed) linear infinite;
 }
 
-.ticker__group{
+.ticker__group {
   display: inline-block;
   white-space: nowrap;
 }
 
-.ticker__group span{
+.ticker__group span {
   display: inline-block;
   padding-right: var(--gap);
 }
 
 /* hueco fantasma al final para que entre último y primero haya el mismo espacio */
-.ticker__group::after{
+.ticker__group::after {
   content: "";
   display: inline-block;
   width: var(--gap);
@@ -118,66 +122,90 @@
 }
 
 /* hay 3 grupos → desplazamos 1/3 del ancho total */
-@keyframes ticker-move{
-  from { transform: translateX(0); }
-  to   { transform: translateX(-33.3333%); }
+@keyframes ticker-move {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-33.3333%);
+  }
 }
 
 /* pausa opcional */
-.ticker:hover .ticker__track{ animation-play-state: paused; }
+.ticker:hover .ticker__track {
+  animation-play-state: paused;
+}
 
-@media (prefers-reduced-motion: reduce){
-  .ticker__track{ animation: none; }
+@media (prefers-reduced-motion: reduce) {
+  .ticker__track {
+    animation: none;
+  }
 }
 
 /* Footer */
-.footer{
+.footer {
   background-color: #2c1c18;
   color: #f8f9fa;
   font-weight: 500;
-  border-top: 1px solid rgba(255,255,255,0.2);
-  box-shadow: 0 -6px 20px rgba(0,0,0,0.4);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.4);
 }
 
-.footer a{
+.footer a {
   color: #f8f9fa;
   text-decoration: underline;
 }
-.footer a:hover{ color: #d1c0b2; }
+
+.footer a:hover {
+  color: #d1c0b2;
+}
 
 /* ===============================
    RESPONSIVE TWEAKS
    =============================== */
 
 /* XS (≤576px): texto y alturas más contenidos */
-@media (max-width: 576px){
-  .navbar { font-size: 0.9rem; }
+@media (max-width: 576px) {
+  .navbar {
+    font-size: 0.9rem;
+  }
 
-  .hero { height: 80vh; }                 /* menos alto en móvil */
+  .hero {
+    height: 80vh;
+  }
+
+  /* menos alto en móvil */
   .brand-title {
-    font-size: clamp(2rem, 8vw, 3rem);    /* tamaño fluido */
+    font-size: clamp(2rem, 8vw, 3rem);
+    /* tamaño fluido */
     letter-spacing: 1px;
     text-align: center;
   }
 
-  .ticker{
-    --h: 32px;        /* barra un pelín más estrecha */
-    --gap: 1.5rem;    /* menos hueco entre marcas */
+  .ticker {
+    --h: 32px;
+    /* barra un pelín más estrecha */
+    --gap: 1.5rem;
+    /* menos hueco entre marcas */
     margin-bottom: 2rem;
   }
 }
 
 /* SM–MD (≥576px y <992px): ajustes suaves */
-@media (min-width: 576px) and (max-width: 991.98px){
-  .brand-title{
+@media (min-width: 576px) and (max-width: 991.98px) {
+  .brand-title {
     font-size: clamp(2.5rem, 6vw, 4rem);
   }
 }
 
 /* LG+ (≥992px): hero completo y tipografía amplia */
-@media (min-width: 992px){
-  .hero { height: 100vh; }
-  .brand-title{
+@media (min-width: 992px) {
+  .hero {
+    height: 100vh;
+  }
+
+  .brand-title {
     font-size: clamp(3.5rem, 5vw, 5.5rem);
     letter-spacing: 2px;
   }
@@ -204,16 +232,17 @@
 
 
 /* ===== SOLO móvil (≤575.98px) ===== */
-@media (max-width: 575.98px){
-  .navbar .container{
+@media (max-width: 575.98px) {
+  .navbar .container {
     position: relative;
     min-height: 52px;
   }
 
   /* Brand centrado en la barra (estado colapsado) */
-  .navbar-brand{
+  .navbar-brand {
     position: absolute;
-    left: 50%; top: 50%;
+    left: 50%;
+    top: 50%;
     transform: translate(-50%, -50%);
     margin: 0;
     font-size: 1.05rem;
@@ -222,17 +251,18 @@
   }
 
   /* Hamburguesa a la derecha */
-  .navbar-toggler{
+  .navbar-toggler {
     position: absolute;
-    right: .75rem; top: 50%;
+    right: .75rem;
+    top: 50%;
     transform: translateY(-50%);
     z-index: 3;
-    border: 1px solid rgba(0,0,0,.15);
+    border: 1px solid rgba(0, 0, 0, .15);
   }
 
   /* Cuando el menú está ABIERTO, quitamos el absoluto del brand para que NO se superponga */
-  .navbar-collapse.show ~ .navbar-brand,
-  .navbar-collapse.collapsing ~ .navbar-brand{
+  .navbar-collapse.show~.navbar-brand,
+  .navbar-collapse.collapsing~.navbar-brand {
     position: static;
     transform: none;
     display: block;
@@ -242,50 +272,112 @@
   }
 
   /* Panel del menú abierto */
-  .navbar-collapse{
+  .navbar-collapse {
     background: #fff;
-    border-top: 1px solid rgba(0,0,0,.08);
+    border-top: 1px solid rgba(0, 0, 0, .08);
     padding: .5rem 0;
     z-index: 2;
   }
+
   .page-new .navbar-collapse,
-  .page-detail .navbar-collapse{
-    background:#2c1c18;
-    border-top:1px solid rgba(255,255,255,.12);
+  .page-detail .navbar-collapse {
+    background: #2c1c18;
+    border-top: 1px solid rgba(255, 255, 255, .12);
   }
 
-  .navbar-nav{ flex-direction: column; align-items: center; gap: .25rem; }
+  .navbar-nav {
+    flex-direction: column;
+    align-items: center;
+    gap: .25rem;
+  }
 
   /* Icono hamburguesa siempre visible */
-  .navbar .navbar-toggler-icon{
+  .navbar .navbar-toggler-icon {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='currentColor' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
   }
+
   .page-new .navbar .navbar-toggler,
-  .page-detail .navbar .navbar-toggler{
-    border-color: rgba(255,255,255,.25);
-    color:#fff;
+  .page-detail .navbar .navbar-toggler {
+    border-color: rgba(255, 255, 255, .25);
+    color: #fff;
   }
 }
 
 /* ===== Brand centrado en iPad/escritorio (≥768px) ===== */
-@media (min-width: 768px){
-  .navbar .container{
-    position: relative; /* ancla para el posicionamiento absoluto del brand */
+@media (min-width: 768px) {
+  .navbar .container {
+    position: relative;
+    /* ancla para el posicionamiento absoluto del brand */
   }
-  .navbar-brand{
+
+  .navbar-brand {
     position: absolute;
-    left: 50%; top: 50%;
+    left: 50%;
+    top: 50%;
     transform: translate(-50%, -50%);
     margin: 0;
-    z-index: 2; /* por si coincide visualmente con los ULs */
-    pointer-events: none; /* evita tapar clics de los menús laterales */
+    z-index: 2;
+    /* por si coincide visualmente con los ULs */
+    pointer-events: none;
+    /* evita tapar clics de los menús laterales */
   }
+
   /* permite clics dentro del texto si lo necesitas */
-  .navbar-brand a, .navbar-brand span { pointer-events: auto; }
+  .navbar-brand a,
+  .navbar-brand span {
+    pointer-events: auto;
+  }
 }
 
+/* === Ajustes para logos y sneakers === */
 
+/* Logos de la entidad principal (index.html) */
+.logo-img {
+  height: 140px;
+  width: 100%;
+  object-fit: contain;
+  display: block;
+  padding: 10px;
+}
 
+/* Imágenes de sneakers (detail.html) */
+.sneaker-img {
+  height: 180px;
+  width: 100%;
+  object-fit: contain;
+  display: block;
+  padding: 8px;
+}
 
+/* Uniformidad de las cards dentro del grid Bootstrap */
+.card.h-100 {
+  display: flex;
+  flex-direction: column;
+}
 
+.card.h-100 .card-body {
+  margin-top: auto;
+}
 
+/* --- Para imágenes PNG o WebP --- */
+.card-img-top {
+  width: 100%;
+  height: 140px;
+  /* altura fija y uniforme */
+  object-fit: contain;
+  /* adapta el logo sin deformar */
+  background-color: #fff;
+  /* evita fondo gris o transparente visible */
+  padding: 10px;
+  display: block;
+}
+
+/* Cards uniformes */
+.card.h-100 {
+  display: flex;
+  flex-direction: column;
+}
+
+.card.h-100 .card-body {
+  margin-top: auto;
+}

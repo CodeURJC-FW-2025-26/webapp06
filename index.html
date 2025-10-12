@@ -1,198 +1,211 @@
 <!doctype html>
 <html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Sneakers Store — Marcas</title>
-    <link href="https://fonts.googleapis.com/css2?family=Paytone+One&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/styles.css" rel="stylesheet">
-  </head>
-  <body>
-    <div class="top-bar text-center text-white py-1">
-      Free Shipping: Spain Over 100€ | Worldwide Over 200€
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sneakers Store — Marcas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Paytone+One&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/styles.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="top-bar text-center text-white py-1">
+    Free Shipping: Spain Over 100€ | Worldwide Over 200€
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-md border-bottom">
+    <div class="container position-relative">
+      <!-- BRAND -->
+      <a class="navbar-brand fw-bold" href="index.html">
+        Sneakers<span class="text-accent">®</span> Store
+      </a>
+      <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"
+        aria-controls="navMenu" aria-expanded="false" aria-label="Menú">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navMenu">
+        <!-- Menú izquierdo -->
+        <ul class="navbar-nav me-md-auto flex-row gap-4">
+          <li class="nav-item"><a class="nav-link" href="#">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#marcas">Marcas</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#about">About Us</a></li>
+        </ul>
+        <!-- Menú derecho -->
+        <ul class="navbar-nav ms-md-auto flex-row gap-3">
+          <li class="nav-item"><a class="nav-link small" href="#">ES | EUR€</a></li>
+          <li class="nav-item"><a class="nav-link small" href="#">Buscar</a></li>
+          <li class="nav-item"><a class="nav-link small" href="#">Carrito</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero d-flex align-items-center justify-content-center text-center">
+    <h1 class="brand-title display-1 fw-bold">SNEAKERS <span class="registered-brand">®</span></h1>
+  </section>
+
+  <!-- TICKER DE MARCAS -->
+  <div class="ticker" aria-label="Marcas">
+    <div class="ticker__track">
+      <div class="ticker__group">
+        <span>Nike</span><span>Adidas</span><span>New Balance</span><span>Vans</span>
+        <span>Converse</span><span>Jordan</span><span>Puma</span><span>Reebok</span>
+      </div>
+      <div class="ticker__group" aria-hidden="true">
+        <span>Nike</span><span>Adidas</span><span>New Balance</span><span>Vans</span>
+        <span>Converse</span><span>Jordan</span><span>Puma</span><span>Reebok</span>
+      </div>
+      <div class="ticker__group" aria-hidden="true">
+        <span>Nike</span><span>Adidas</span><span>New Balance</span><span>Vans</span>
+        <span>Converse</span><span>Jordan</span><span>Puma</span><span>Reebok</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main class="container section" id="marcas">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h1 class="h3 m-0">Marcas</h1>
+      <a class="btn btn-primary" href="new.html">Crear nuevo elemento</a>
     </div>
 
-    <!-- NAVBAR -->
-    <nav class="navbar navbar-expand-md border-bottom">
-      <div class="container position-relative">
-        <!-- BRAND -->
-        <a class="navbar-brand fw-bold" href="index.html">
-          Sneakers<span class="text-accent">®</span> Store
+    <div class="row grid-gap">
+
+      <!-- Nike -->
+      <div class="col-12 col-sm-6 col-lg-4">
+        <a href="detail.html" class="text-decoration-none text-reset">
+          <div class="card h-100">
+            <img src="img/brands/nike.webp" class="card-img-top" alt="Logo de Nike">
+            <div class="card-body">
+              <h5 class="card-title">Nike</h5>
+              <p class="card-text small text-muted">Originaria de Estados Unidos • Fundada en 1964</p>
+            </div>
+          </div>
         </a>
-        <button class="navbar-toggler bg-light" type="button"
-                data-bs-toggle="collapse" data-bs-target="#navMenu"
-                aria-controls="navMenu" aria-expanded="false" aria-label="Menú">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navMenu">
-          <!-- Menú izquierdo -->
-          <ul class="navbar-nav me-md-auto flex-row gap-4">
-            <li class="nav-item"><a class="nav-link" href="#">Inicio</a></li>
-            <li class="nav-item"><a class="nav-link" href="index.html#marcas">Marcas</a></li>
-            <li class="nav-item"><a class="nav-link" href="index.html#about">About Us</a></li>
-          </ul>
-          <!-- Menú derecho -->
-          <ul class="navbar-nav ms-md-auto flex-row gap-3">
-            <li class="nav-item"><a class="nav-link small" href="#">ES | EUR€</a></li>
-            <li class="nav-item"><a class="nav-link small" href="#">Buscar</a></li>
-            <li class="nav-item"><a class="nav-link small" href="#">Carrito</a></li>
-          </ul>
-        </div>
       </div>
-    </nav>
 
-    <!-- HERO -->
-    <section class="hero d-flex align-items-center justify-content-center text-center">
-      <h1 class="brand-title display-1 fw-bold">SNEAKERS <span class="registered-brand">®</span></h1>
-    </section>
-
-    <!-- TICKER DE MARCAS -->
-    <div class="ticker" aria-label="Marcas">
-      <div class="ticker__track">
-        <div class="ticker__group">
-          <span>Nike</span><span>Adidas</span><span>New Balance</span><span>Vans</span>
-          <span>Converse</span><span>Jordan</span><span>Puma</span><span>Reebok</span>
-        </div>
-        <div class="ticker__group" aria-hidden="true">
-          <span>Nike</span><span>Adidas</span><span>New Balance</span><span>Vans</span>
-          <span>Converse</span><span>Jordan</span><span>Puma</span><span>Reebok</span>
-        </div>
-        <div class="ticker__group" aria-hidden="true">
-          <span>Nike</span><span>Adidas</span><span>New Balance</span><span>Vans</span>
-          <span>Converse</span><span>Jordan</span><span>Puma</span><span>Reebok</span>
-        </div>
+      <!-- Adidas -->
+      <div class="col-12 col-sm-6 col-lg-4">
+        <a href="detail.html" class="text-decoration-none text-reset">
+          <div class="card h-100">
+            <img src="img/brands/adidas.webp" class="card-img-top" alt="Logo de Adidas">
+            <div class="card-body">
+              <h5 class="card-title">Adidas</h5>
+              <p class="card-text small text-muted">Originaria de Alemania • Fundada en 1949</p>
+            </div>
+          </div>
+        </a>
       </div>
+
+      <!-- New Balance -->
+      <div class="col-12 col-sm-6 col-lg-4">
+        <a href="detail.html" class="text-decoration-none text-reset">
+          <div class="card h-100">
+            <img src="img/brands/new_balance.webp" class="card-img-top" alt="Logo de New Balance">
+            <div class="card-body">
+              <h5 class="card-title">New Balance</h5>
+              <p class="card-text small text-muted">Originaria de Estados Unidos • Fundada en 1906</p>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- Puma -->
+      <div class="col-12 col-sm-6 col-lg-4">
+        <a href="detail.html" class="text-decoration-none text-reset">
+          <div class="card h-100">
+            <img src="img/brands/puma.webp" class="card-img-top" alt="Logo de Puma">
+            <div class="card-body">
+              <h5 class="card-title">Puma</h5>
+              <p class="card-text small text-muted">Originaria de Alemania • Fundada en 1948</p>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- Asics -->
+      <div class="col-12 col-sm-6 col-lg-4">
+        <a href="detail.html" class="text-decoration-none text-reset">
+          <div class="card h-100">
+            <img src="img/brands/asics.webp" class="card-img-top" alt="Logo de Asics">
+            <div class="card-body">
+              <h5 class="card-title">Asics</h5>
+              <p class="card-text small text-muted">Originaria de Japón • Fundada en 1949</p>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- Reebok -->
+      <div class="col-12 col-sm-6 col-lg-4">
+        <a href="detail.html" class="text-decoration-none text-reset">
+          <div class="card h-100">
+            <img src="img/brands/reebok.webp" class="card-img-top" alt="Logo de Reebok">
+            <div class="card-body">
+              <h5 class="card-title">Reebok</h5>
+              <p class="card-text small text-muted">Originaria de Inglaterra • Fundada en 1895</p>
+              <p class="card-text small text-muted">Fundada en 1895 bajo el nombre J.W. Foster and Sons. El nombre
+                "Reebok" se adoptó formalmente en 1958.</p>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- Converse -->
+      <div class="col-12 col-sm-6 col-lg-4">
+        <a href="detail.html" class="text-decoration-none text-reset">
+          <div class="card h-100">
+            <img src="img/brands/converse.webp" class="card-img-top" alt="Logo de Converse">
+            <div class="card-body">
+              <h5 class="card-title">Converse</h5>
+              <p class="card-text small text-muted">Originaria de Estados Unidos • Fundada en 1908</p>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- Vans -->
+      <div class="col-12 col-sm-6 col-lg-4">
+        <a href="detail.html" class="text-decoration-none text-reset">
+          <div class="card h-100">
+            <img src="img/brands/vans.webp" class="card-img-top" alt="Logo de Vans">
+            <div class="card-body">
+              <h5 class="card-title">Vans</h5>
+              <p class="card-text small text-muted">Originaria de Estados Unidos • Fundada en 1966</p>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- Jordan -->
+      <div class="col-12 col-sm-6 col-lg-4">
+        <a href="detail.html" class="text-decoration-none text-reset">
+          <div class="card h-100">
+            <img src="img/brands/jordan.webp" class="card-img-top" alt="Logo de Jordan">
+            <div class="card-body">
+              <h5 class="card-title">Jordan</h5>
+              <p class="card-text small text-muted">Originaria de Estados Unidos • Independizada de Nike en 1997</p>
+            </div>
+          </div>
+        </a>
+      </div>
+
     </div>
+  </main>
 
-    <!-- MAIN CONTENT -->
-    <main class="container section" id="marcas">
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <h1 class="h3 m-0">Marcas</h1>
-        <a class="btn btn-primary" href="new.html">Crear nuevo elemento</a>
-      </div>
-      <div class="row grid-gap">
-        <!-- ...existing code for brand cards... -->
-        <div class="col-12 col-sm-6 col-lg-4">
-          <a href="detail.html" class="text-decoration-none text-reset">
-            <div class="card h-100">
-              <img src="img/brands/nike.svg" class="card-img-top" alt="Logo de Nike">
-              <div class="card-body">
-                <h5 class="card-title">Nike</h5>
-                <p class="card-text small text-muted">Originaria de Estados Unidos • Fundada en 1964</p>
-              </div>
-            </div>
-          </a>
-        </div>
-        <!-- ...existing code for other brands... -->
-        <div class="col-12 col-sm-6 col-lg-4">
-          <a href="detail.html" class="text-decoration-none text-reset">
-            <div class="card h-100">
-              <img src="img/brands/adidas.svg" class="card-img-top" alt="Logo de Adidas">
-              <div class="card-body">
-                <h5 class="card-title">Adidas</h5>
-                <p class="card-text small text-muted">Originaria de Alemania • Fundada en 1949</p>
-              </div>
-            </div>
-          </a>
-        </div>
-        <!-- ...existing code for other brands... -->
-        <div class="col-12 col-sm-6 col-lg-4">
-          <a href="detail.html" class="text-decoration-none text-reset">
-            <div class="card h-100">
-              <img src="img/brands/new_balance.svg" class="card-img-top" alt="Logo de New Balance">
-              <div class="card-body">
-                <h5 class="card-title">New Balance</h5>
-                <p class="card-text small text-muted">Originaria de Estados Unidos • Fundada en 1906</p>
-              </div>
-            </div>
-          </a>
-        </div>
-        <!-- ...existing code for other brands... -->
-        <div class="col-12 col-sm-6 col-lg-4">
-          <a href="detail.html" class="text-decoration-none text-reset">
-            <div class="card h-100">
-              <img src="img/brands/puma.svg" class="card-img-top" alt="Logo de Puma">
-              <div class="card-body">
-                <h5 class="card-title">Puma</h5>
-                <p class="card-text small text-muted">Originaria de Alemania • Fundada en 1948</p>
-              </div>
-            </div>
-          </a>
-        </div>
-        <!-- ...existing code for other brands... -->
-        <div class="col-12 col-sm-6 col-lg-4">
-          <a href="detail.html" class="text-decoration-none text-reset">
-            <div class="card h-100">
-              <img src="img/brands/asics.svg" class="card-img-top" alt="Logo de Asics">
-              <div class="card-body">
-                <h5 class="card-title">Asics</h5>
-                <p class="card-text small text-muted">Originaria de Japón • Fundada en 1949</p>
-              </div>
-            </div>
-          </a>
-        </div>
-        <!-- ...existing code for other brands... -->
-        <div class="col-12 col-sm-6 col-lg-4">
-          <a href="detail.html" class="text-decoration-none text-reset">
-            <div class="card h-100">
-              <img src="img/brands/reebok.svg" class="card-img-top" alt="Logo de Reebok">
-              <div class="card-body">
-                <h5 class="card-title">Reebok</h5>
-                <p class="card-text small text-muted">Originaria de Inglaterra • Fundada en 1895</p>
-                <p class="card-text small text-muted">Fundada en 1895 bajo el nombre J.W. Foster and Sons. El nombre "Reebok" se adoptó formalmente en 1958. </p>
-              </div>
-            </div>
-          </a>
-        </div>
-        <!-- ...existing code for other brands... -->
-        <div class="col-12 col-sm-6 col-lg-4">
-          <a href="detail.html" class="text-decoration-none text-reset">
-            <div class="card h-100">
-              <img src="img/brands/converse.svg" class="card-img-top" alt="Logo de Converse">
-              <div class="card-body">
-                <h5 class="card-title">Converse</h5>
-                <p class="card-text small text-muted">Originaria de Estados Unidos • Fundada en 1908</p>
-              </div>
-            </div>
-          </a>
-        </div>
-        <!-- ...existing code for other brands... -->
-        <div class="col-12 col-sm-6 col-lg-4">
-          <a href="detail.html" class="text-decoration-none text-reset">
-            <div class="card h-100">
-              <img src="img/brands/vans.svg" class="card-img-top" alt="Logo de Vans">
-              <div class="card-body">
-                <h5 class="card-title">Vans</h5>
-                <p class="card-text small text-muted">Originaria de Estados Unidos • Fundada en 1966</p>
-              </div>
-            </div>
-          </a>
-        </div>
-        <!-- ...existing code for other brands... -->
-        <div class="col-12 col-sm-6 col-lg-4">
-          <a href="detail.html" class="text-decoration-none text-reset">
-            <div class="card h-100">
-              <img src="img/brands/jordan.svg" class="card-img-top" alt="Logo de Jordan">
-              <div class="card-body">
-                <h5 class="card-title">Jordan</h5>
-                <p class="card-text small text-muted">Originaria de Estados Unidos • Independizada de Nike en 1997</p>
-              </div>
-            </div>
-          </a>
-        </div>
-        <!-- ...existing code... -->
-      </div>
-    </main>
+  <!-- FOOTER -->
+  <footer class="footer mt-5 py-4" id="about">
+    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+      <p class="mb-2 mb-md-0 small">© 2025 Sneakers Store — Proyecto Fundamentos de la Web</p>
+      <div class="small">Equipo: Julián • Pablo • Álvaro</div>
+    </div>
+  </footer>
 
-    <!-- FOOTER -->
-    <footer class="footer mt-5 py-4" id="about">
-      <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
-        <p class="mb-2 mb-md-0 small">© 2025 Sneakers Store — Proyecto Fundamentos de la Web</p>
-        <div class="small">Equipo: Julián • Pablo • Álvaro</div>
-      </div>
-    </footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
 </html>
