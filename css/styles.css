@@ -152,14 +152,6 @@
   box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.4);
 }
 
-.footer a {
-  color: #f8f9fa;
-  text-decoration: underline;
-}
-
-.footer a:hover {
-  color: #d1c0b2;
-}
 
 /* ===============================
    RESPONSIVE TWEAKS
