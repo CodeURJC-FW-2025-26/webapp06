@@ -2,6 +2,7 @@
 :root {
   --bg-dark: #2c1c18;
   --accent: #22c55e;
+  --accent-hover: #16a34a;
 }
 
 /* Marca registrada */
@@ -372,4 +373,42 @@
 
 .card.h-100 .card-body {
   margin-top: auto;
+}
+
+/* Rating*/
+.badge-soft {
+  background-color: #e2fbe8;
+  color: #065f46;
+  font-weight: 600;
+}
+
+/*Botones*/
+.btn-primary {
+  background-color: var(--accent);
+  border-color: var(--accent);
+  font-weight: 600;
+}
+
+.btn-primary:hover {
+  background-color: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
+
+/* Cambia TODOS los outline-primary a verde */
+.btn-outline-primary {
+  --bs-btn-color: #28a745;
+  --bs-btn-border-color: #28a745;
+  --bs-btn-hover-bg: #28a745;
+  --bs-btn-hover-border-color: #28a745;
+  --bs-btn-active-bg: #28a745;
+  --bs-btn-active-border-color: #28a745;
+  /* estados focus/active usan el color de borde activo */
+}
+
+/* MUY IMPORTANTE: estado deshabilitado */
+.btn-outline-primary:disabled,
+.btn-outline-primary.disabled {
+  --bs-btn-disabled-color: #28a745;
+  --bs-btn-disabled-border-color: #28a745;
+  /* outline disabled mantiene bg transparente por defecto */
 }
