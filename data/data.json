@@ -1,14 +1,56 @@
 [
     {
-        "user": "Pepe",
-        "title": "Vendo moto",
-        "text": "Barata, barata",
-        "imageFilename": "post0.jpeg"
+        "name": "Nike",
+        "country_origin": "Originaria de Estados Unidos",
+        "founded_year": "Fundada en 1964",
+        "imageFilename": "nike.webp"
     },
     {
-        "user": "Juan",
-        "title": "Compro coche",
-        "text": "Pago bien",
-        "imageFilename": "post1.jpeg"
+        "name": "Adidas",
+        "country_origin": "Originaria de Estados Unidos",
+        "founded_year": "Fundada en 1949",
+        "imageFilename": "adidas.webp"
+    },
+    {
+        "name": "New Balance",
+        "country_origin": "Originaria de Estados Unidos",
+        "founded_year": "Fundada en 1906",
+        "imageFilename": "new_balance.webp"
+    },
+    {
+        "name": "Puma",
+        "country_origin": "Originaria de Alemania",
+        "founded_year": "Fundada en 1948",
+        "imageFilename": "puma.webp"
+    },
+    {
+        "name": "Reebok",
+        "country_origin": "Originaria de Reino Unido",
+        "founded_year": "Fundada en 1958",
+        "imageFilename": "reebok.webp"
+    },
+    {
+        "name": "Asics",
+        "country_origin": "Originaria de Japón",
+        "founded_year": "Fundada en 1949",
+        "imageFilename": "asics.webp"
+    },
+    {
+        "name": "Converse",
+        "country_origin": "Originaria de Estados Unidos",
+        "founded_year": "Fundada en 1908",
+        "imageFilename": "converse.webp"
+    },
+    {
+        "name": "Vans",
+        "country_origin": "Originaria de Estados Unidos",
+        "founded_year": "Fundada en 1966",
+        "imageFilename": "vans.webp"
+    },
+    {
+        "name": "Jordan",
+        "country_origin": "Originaria de Estados Unidos",
+        "founded_year": "Fundada en 1984",
+        "imageFilename": "jordan.webp"
     }
 ]
