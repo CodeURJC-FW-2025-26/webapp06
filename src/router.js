@@ -27,7 +27,7 @@ router.post('/brand/new', upload.single('image'), async (req, res) => {
 
     await sneakersdb.addPost(brand);
 
-    res.render('saved_post', { _id: post._id.toString() });
+    res.render('saved_brand', { _id: post._id.toString() });
 
 });
 
@@ -56,4 +56,10 @@ router.get('/brand/:id/image', async (req, res) => {
     res.download(sneakersdb.UPLOADS_FOLDER + '/' + post.imageFilename);
 
 });
+
+router.get('/detail/:id/', async (req, res) => {
+    let brand = await sneakersdb.getPost(req.params.id);
+    res.render('detail', { brand } );
+}
+)
 
