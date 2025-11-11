@@ -60,6 +60,16 @@ router.get('/brand/:id/image', async (req, res) => {
 router.get('/detail/:id/', async (req, res) => {
     let brand = await sneakersdb.getPost(req.params.id);
     res.render('detail', { brand } );
-}
-)
+});
+
+router.get('/new', (req, res) => {
+    res.render('new');
+});
+
+router.get('/index', async (req, res) => {
+    let brands = await sneakersdb.getPosts();
+    res.render('index', { brands });
+});
+
+
 
