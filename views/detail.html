@@ -33,7 +33,7 @@
           <img src="/brand/{{_id}}/image" class="card-img-top" alt="Logo de Nike">
           <div class="card-body">
             <h1 class="h4" href="brand/{{_id}}">{{name}}</h1>
-            <p class="mb-1" href=""><strong>País de origen:</strong> {{country_origin}}</p>
+            <p class="mb-1"><strong>País de origen:</strong> {{country_origin}}</p>
             <p class="mb-1"><strong>Año de fundación:</strong> {{founded_year}}</p>
             <p class="mb-3"><strong>Descripción:</strong> {{description}}</p>
             <div class="d-flex gap-2">
@@ -50,14 +50,16 @@
         <h2 class="h5 mb-3">Modelos</h2>
         <div class="row g-4">
           <!-- Modelo 1: air zoom -->
+          {{#brand}}
+          {{#models}}
           <div class="col-12 col-md-6">
             <div class="card h-100">
               <img src="img/sneakers/air_zoom.webp" class="card-img-top" alt="Imagen de la sneaker Air Zoom">
               <div class="card-body">
-                <h5 class="card-title">Air Zoom</h5>
-                <p class="mb-1 small text-muted">Categoría: Lifestyle · Lanzamiento: 2019</p>
-                <p class="mb-1 small text-muted">Colorway: Black/White · Tallas: 39-43 EU</p>
-                <p class="fw-semibold">99,99 € <span class="badge badge-soft ms-2">⭐ 4.6</span></p>
+                <h5 class="card-title">{{name}}</h5>
+                <p class="mb-1 small text-muted">{{category}} · {{release_year}}</p>
+                <p class="mb-1 small text-muted">Colorway: {{colorway}} · Tallas: {{size_range}}</p>
+                <p class="fw-semibold">{{price}} € <span class="badge badge-soft ms-2">⭐ {{average_rating}}</span></p>
                 <div class="d-flex gap-2">
                   <button class="btn btn-outline-primary btn-sm" type="button" disabled>Editar</button>
                   <button class="btn btn-outline-danger btn-sm" type="button" disabled>Borrar</button>
@@ -65,94 +67,8 @@
               </div>
             </div>
           </div>
-
-          <!-- Modelo 2: air force one -->
-          <div class="col-12 col-md-6">
-            <div class="card h-100">
-              <img src="img/sneakers/air_force_one.webp" class="card-img-top" alt="Imagen de la sneaker Air Force 1">
-              <div class="card-body">
-                <h5 class="card-title">Air Force 1</h5>
-                <p class="mb-1 small text-muted">Categoría: Running · Lanzamiento: 2022</p>
-                <p class="mb-1 small text-muted">Colorway: White · Tallas: 41-44 EU</p>
-                <p class="fw-semibold">119,99 € <span class="badge badge-soft ms-2">⭐ 4.6</span></p>
-                <div class="d-flex gap-2">
-                  <button class="btn btn-outline-primary btn-sm" type="button" disabled>Editar</button>
-                  <button class="btn btn-outline-danger btn-sm" type="button" disabled>Borrar</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Modelo 3: air max -->
-          <div class="col-12 col-md-6">
-            <div class="card h-100">
-              <img src="img/sneakers/air_max_tuned.jpg" class="card-img-top" alt="Imagen de la sneaker air max 97">
-              <div class="card-body">
-                <h5 class="card-title">Air Max Plus Tuned</h5>
-                <p class="mb-1 small text-muted">Categoría: Running · Lanzamiento: 2024</p>
-                <p class="mb-1 small text-muted">Colorway: Black/Pink · Tallas: 38-46 EU</p>
-                <p class="fw-semibold">115,99 € <span class="badge badge-soft ms-2">⭐ 4.6</span></p>
-                <div class="d-flex gap-2">
-                  <button class="btn btn-outline-primary btn-sm" type="button" disabled>Editar</button>
-                  <button class="btn btn-outline-danger btn-sm" type="button" disabled>Borrar</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Modelo 4: air max 97 -->
-          <div class="col-12 col-md-6">
-            <div class="card h-100">
-              <img src="img/sneakers/air_max_97.png" class="card-img-top" alt="Imagen de la sneaker Air Max 97">
-              <div class="card-body">
-                <h5 class="card-title">Air Max 97</h5>
-                <p class="mb-1 small text-muted">Categoría: Running · Lanzamiento: 2020</p>
-                <p class="mb-1 small text-muted">Colorway: Grey · Tallas: 39-43 EU</p>
-                <p class="fw-semibold">100,99 € <span class="badge badge-soft ms-2">⭐ 4.6</span></p>
-                <div class="d-flex gap-2">
-                  <button class="btn btn-outline-primary btn-sm" type="button" disabled>Editar</button>
-                  <button class="btn btn-outline-danger btn-sm" type="button" disabled>Borrar</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Modelo 5: precission 7 -->
-          <div class="col-12 col-md-6">
-            <div class="card h-100">
-              <img src="img/sneakers/precision_7.png" class="card-img-top"
-                alt="Imagen de la sneaker precission 7">
-              <div class="card-body">
-                <h5 class="card-title">Precission 7</h5>
-                <p class="mb-1 small text-muted">Categoría: Basketball · Lanzamiento: 2023</p>
-                <p class="mb-1 small text-muted">Colorway: White/Blue · Tallas: 43-47 EU</p>
-                <p class="fw-semibold">139,99 € <span class="badge badge-soft ms-2">⭐ 4.6</span></p>
-                <div class="d-flex gap-2">
-                  <button class="btn btn-outline-primary btn-sm" type="button" disabled>Editar</button>
-                  <button class="btn btn-outline-danger btn-sm" type="button" disabled>Borrar</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Modelo 6: zoom vapor pro 3 -->
-          <div class="col-12 col-md-6">
-            <div class="card h-100">
-              <img src="img/sneakers/zoom_vapor_pro_3.png" class="card-img-top"
-                alt="Imagen de la sneaker zoom vapor pro 3">
-              <div class="card-body">
-                <h5 class="card-title">Zoom Vapor Pro 3</h5>
-                <p class="mb-1 small text-muted">Categoría: Tenis · Lanzamiento: 2025</p>
-                <p class="mb-1 small text-muted">Colorway: Orange · Tallas: 41-45 EU</p>
-                <p class="fw-semibold">109,99 € <span class="badge badge-soft ms-2">⭐ 4.6</span></p>
-                <div class="d-flex gap-2">
-                  <button class="btn btn-outline-primary btn-sm" type="button" disabled>Editar</button>
-                  <button class="btn btn-outline-danger btn-sm" type="button" disabled>Borrar</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
+          {{/models}}
+          {{/brand}}
         </div>
         <hr class="my-4">
         <h3 class="h6">Añadir nuevo modelo</h3>
