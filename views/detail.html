@@ -28,21 +28,23 @@
   <main class="container section">
     <div class="row g-4 align-items-start">
       <div class="col-12 col-lg-5">
+        {{#brand}}
         <div class="card">
-          <img src="img/brands/nike.webp" class="card-img-top" alt="Logo de Nike">
+          <img src="/brand/{{_id}}/image" class="card-img-top" alt="Logo de Nike">
           <div class="card-body">
-            <h1 class="h4">Nike</h1>
-            <p class="mb-1"><strong>País de origen:</strong> Estados Unidos</p>
-            <p class="mb-1"><strong>Año de fundación:</strong> 1964</p>
-            <p class="mb-3"><strong>Descripción:</strong> Marca global de calzado deportivo, rendimiento e innovación.
-            </p>
+            <h1 class="h4" href="brand/{{_id}}">{{name}}</h1>
+            <p class="mb-1" href=""><strong>País de origen:</strong> {{country_origin}}</p>
+            <p class="mb-1"><strong>Año de fundación:</strong> {{founded_year}}</p>
+            <p class="mb-3"><strong>Descripción:</strong> {{description}}</p>
             <div class="d-flex gap-2">
               <button class="btn btn-outline-danger" type="button" disabled>Borrar</button>
               <button class="btn btn-outline-primary" type="button" disabled>Editar</button>
               <a class="btn btn-primary" href="/index">Volver a página principal</a>
             </div>
           </div>
-        </div>
+        </div> 
+        {{/brand}}
+
       </div>
       <div class="col-12 col-lg-7">
         <h2 class="h5 mb-3">Modelos</h2>

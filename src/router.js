@@ -35,7 +35,7 @@ router.get('/brand/:id', async (req, res) => {
 
     let brand = await sneakersdb.getPost(req.params.id);
 
-    res.render('show_post', { post });
+    res.render('detail', { brand });
 });
 
 router.get('/brand/:id/delete', async (req, res) => {

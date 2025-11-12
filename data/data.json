@@ -3,54 +3,63 @@
         "name": "Nike",
         "country_origin": "Originaria de USA",
         "founded_year": "Fundada en 1964",
-        "imageFilename": "nike.webp"
+        "imageFilename": "nike.webp",
+        "description": "Marca estadounidense líder en calzado deportivo, conocida por innovación y zapatillas icónicas como Air Max y Air Jordan."
     },
     {
         "name": "Adidas",
         "country_origin": "Originaria de Estados Unidos",
         "founded_year": "Fundada en 1949",
-        "imageFilename": "adidas.webp"
+        "imageFilename": "adidas.webp",
+        "description": "Empresa alemana famosa por sus tres franjas; destaca en fútbol, running y lifestyle con colaboraciones de diseño."
     },
     {
         "name": "New Balance",
         "country_origin": "Originaria de Estados Unidos",
         "founded_year": "Fundada en 1906",
-        "imageFilename": "new_balance.webp"
+        "imageFilename": "new_balance.webp",
+        "description": "Marca estadounidense conocida por la comodidad y la fabricación en EE. UU./Reino Unido; especialista en zapatillas de running."
     },
     {
         "name": "Puma",
         "country_origin": "Originaria de Alemania",
         "founded_year": "Fundada en 1948",
-        "imageFilename": "puma.webp"
+        "imageFilename": "puma.webp",
+        "description": "Marca deportiva alemana reconocida por diseño audaz y presencia en fútbol y moda urbana."
     },
     {
         "name": "Reebok",
         "country_origin": "Originaria de Reino Unido",
         "founded_year": "Fundada en 1958",
-        "imageFilename": "reebok.webp"
+        "imageFilename": "reebok.webp",
+        "description": "Marca británica con enfoque en fitness y entrenamiento; popularizó zapatillas clásicas y colecciones retro."
     },
     {
         "name": "Asics",
         "country_origin": "Originaria de Japón",
         "founded_year": "Fundada en 1949",
-        "imageFilename": "asics.webp"
+        "imageFilename": "asics.webp",
+        "description": "Marca japonesa especializada en running; conocida por su tecnología GEL y soporte para corredores."
     },
     {
         "name": "Converse",
         "country_origin": "Originaria de Estados Unidos",
         "founded_year": "Fundada en 1908",
-        "imageFilename": "converse.webp"
+        "imageFilename": "converse.webp",
+        "description": "Icono del calzado casual; creadora de las clásicas Chuck Taylor All Star, presente en cultura y moda."
     },
     {
         "name": "Vans",
         "country_origin": "Originaria de Estados Unidos",
         "founded_year": "Fundada en 1966",
-        "imageFilename": "vans.webp"
+        "imageFilename": "vans.webp",
+        "description": "Marca vinculada al skate y la cultura juvenil; famosa por sus estampados y zapatillas vulcanizadas."
     },
     {
         "name": "Jordan",
         "country_origin": "Originaria de Estados Unidos",
         "founded_year": "Fundada en 1984",
-        "imageFilename": "jordan.webp"
+        "imageFilename": "jordan.webp",
+        "description": "Línea creada por y para Michael Jordan; símbolo de estilo deportivo con zapatillas icónicas y alto coleccionismo."
     }
 ]
