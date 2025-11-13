@@ -253,18 +253,18 @@
                 "size_range": "38-46 EU",
                 "price": 109.99,
                 "average_rating": 4.4,
-                "imageFilename": "rs_x.webp",
+                "imageFilename": "rs_x.png",
                 "description": "Diseño contemporáneo con bloques de color y buena amortiguación."
             },
             {
                 "name": "Future Rider",
                 "category": "Lifestyle",
                 "release_year": 2019,
-                "colorway": "White/Blue",
+                "colorway": "White/Red",
                 "size_range": "37-46 EU",
                 "price": 74.99,
                 "average_rating": 4.3,
-                "imageFilename": "future_rider.webp",
+                "imageFilename": "future_rider.png",
                 "description": "Silueta retro con suela ligera inspirada en modelos de los 80s."
             }
             ,
@@ -294,11 +294,11 @@
                 "name": "MB.01",
                 "category": "Basketball",
                 "release_year": 2020,
-                "colorway": "Black/Gold",
+                "colorway": "Green/Red",
                 "size_range": "40-48 EU",
                 "price": 139.99,
                 "average_rating": 4.5,
-                "imageFilename": "mb_01.webp",
+                "imageFilename": "mb_01.png",
                 "description": "Modelo de baloncesto moderno con tecnología de rendimiento y diseño robusto."
             }
         ]
@@ -314,7 +314,7 @@
                 "name": "Classic Leather",
                 "category": "Lifestyle",
                 "release_year": 1983,
-                "colorway": "White",
+                "colorway": "Black",
                 "size_range": "37-46 EU",
                 "price": 89.99,
                 "average_rating": 4.4,
@@ -343,6 +343,40 @@
                 "imageFilename": "club_c_85.webp",
                 "description": "Retro-tenis elegante y minimalista, popular en moda casual."
             }
+            ,
+            {
+                "name": "Instapump Fury",
+                "category": "Lifestyle",
+                "release_year": 1994,
+                "colorway": "Black",
+                "size_range": "38-46 EU",
+                "price": 129.99,
+                "average_rating": 4.4,
+                "imageFilename": "instapump_fury.webp",
+                "description": "Diseño audaz sin cordones con tecnología Pump, icono de los 90s."
+            },
+            {
+                "name": "DMX Series",
+                "category": "Running",
+                "release_year": 2000,
+                "colorway": "White/Black",
+                "size_range": "39-46 EU",
+                "price": 109.99,
+                "average_rating": 4.2,
+                "imageFilename": "dmx_series.webp",
+                "description": "Tecnología DMX para amortiguación dinámica; cómodo para entrenamientos y uso diario."
+            },
+            {
+                "name": "Club C Revenge",
+                "category": "Lifestyle",
+                "release_year": 1984,
+                "colorway": "White/Navy",
+                "size_range": "36-45 EU",
+                "price": 79.99,
+                "average_rating": 4.3,
+                "imageFilename": "club_c_revenge.webp",
+                "description": "Evolución del clásico Club C con detalles modernos y mayor comodidad."
+            }
         ]
     },
     {
@@ -356,7 +390,7 @@
                 "name": "Gel-Kayano",
                 "category": "Running",
                 "release_year": 1993,
-                "colorway": "Blue",
+                "colorway": "Grey/White",
                 "size_range": "38-46 EU",
                 "price": 159.99,
                 "average_rating": 4.6,
@@ -367,23 +401,57 @@
                 "name": "Gel-Nimbus",
                 "category": "Running",
                 "release_year": 2006,
-                "colorway": "Black/White",
+                "colorway": "Green/White",
                 "size_range": "39-46 EU",
                 "price": 149.99,
                 "average_rating": 4.5,
-                "imageFilename": "gel_nimbus.webp",
+                "imageFilename": "gel_nimbus.png",
                 "description": "Modelo enfocado en amortiguación suave y confort para corredores neutros."
             },
             {
                 "name": "GT-2000",
                 "category": "Running",
                 "release_year": 2000,
-                "colorway": "Grey/Blue",
+                "colorway": "Black/Orange",
                 "size_range": "38-46 EU",
                 "price": 129.99,
                 "average_rating": 4.4,
-                "imageFilename": "gt_2000.webp",
+                "imageFilename": "gt_2000.png",
                 "description": "Zapatilla de soporte con buena relación calidad-precio para entrenamientos diarios."
+            }
+            ,
+            {
+                "name": "GEL-Quantum 360",
+                "category": "Running",
+                "release_year": 2018,
+                "colorway": "Grey/Black",
+                "size_range": "39-46 EU",
+                "price": 159.99,
+                "average_rating": 4.4,
+                "imageFilename": "gel_quantum_360.webp",
+                "description": "Amortiguación 360º con unidades GEL para máxima absorción de impactos y ajuste envolvente."
+            },
+            {
+                "name": "Novablast",
+                "category": "Running",
+                "release_year": 2020,
+                "colorway": "Blue/White",
+                "size_range": "38-46 EU",
+                "price": 139.99,
+                "average_rating": 4.5,
+                "imageFilename": "novablast.png",
+                "description": "Zapatilla ligera y reactiva diseñada para entrenamiento diario y carreras de ritmo medio."
+            },
+            {
+                "name": "MetaRide",
+                "category": "Running",
+                "release_year": 2019,
+                "colorway": "Black/Red",
+                "size_range": "39-47 EU",
+                "price": 179.99,
+                "average_rating": 4.3,
+                "imageFilename": "metaride.png",
+                "description": "Diseñada para eficiencia en largas distancias, con placa y geometría innovadoras."
             }
         ]
     },
@@ -402,7 +470,7 @@
                 "size_range": "36-46 EU",
                 "price": 54.99,
                 "average_rating": 4.5,
-                "imageFilename": "chuck_taylor.webp",
+                "imageFilename": "chuck_taylor.png",
                 "description": "Zapatilla clásica de lona, presente en la cultura desde hace décadas."
             },
             {
@@ -426,6 +494,40 @@
                 "average_rating": 4.1,
                 "imageFilename": "run_star_hike.webp",
                 "description": "Versión moderna con suela elevada y estética rompedor­a sobre la clásica silueta."
+            }
+            ,
+            {
+                "name": "Chuck 70",
+                "category": "Lifestyle",
+                "release_year": 2013,
+                "colorway": "Canvas White",
+                "size_range": "36-46 EU",
+                "price": 79.99,
+                "average_rating": 4.5,
+                "imageFilename": "chuck_70.webp",
+                "description": "Reinterpretación premium del clásico Chuck Taylor con materiales mejorados y mayor amortiguación."
+            },
+            {
+                "name": "Pro Leather",
+                "category": "Basketball",
+                "release_year": 1976,
+                "colorway": "White",
+                "size_range": "39-47 EU",
+                "price": 89.99,
+                "average_rating": 4.3,
+                "imageFilename": "pro_leather.png",
+                "description": "Clásico de baloncesto con corte en piel, conocido por su diseño limpio y suela resistente."
+            },
+            {
+                "name": "Jack Purcell",
+                "category": "Lifestyle",
+                "release_year": 1935,
+                "colorway": "White/Navy",
+                "size_range": "36-46 EU",
+                "price": 69.99,
+                "average_rating": 4.2,
+                "imageFilename": "jack_purcell.png",
+                "description": "Modelo elegante y sencillo con la característica puntera 'smile', popular en moda casual."
             }
         ]
     },
@@ -455,7 +557,7 @@
                 "size_range": "36-46 EU",
                 "price": 69.99,
                 "average_rating": 4.4,
-                "imageFilename": "old_skool.webp",
+                "imageFilename": "old_skool.png",
                 "description": "Con la característica franja lateral, muy popular en skate y streetwear."
             },
             {
@@ -468,6 +570,40 @@
                 "average_rating": 4.3,
                 "imageFilename": "sk8_hi.webp",
                 "description": "Bota alta con soporte para el tobillo, clásica del mundo del skate."
+            }
+            ,
+            {
+                "name": "Slip-On",
+                "category": "Lifestyle",
+                "release_year": 1977,
+                "colorway": "Black/White",
+                "size_range": "36-46 EU",
+                "price": 54.99,
+                "average_rating": 4.3,
+                "imageFilename": "slip_on.png",
+                "description": "Clásico sin cordones, cómodo y fácil de poner, icono del skate y la cultura urbana."
+            },
+            {
+                "name": "Era",
+                "category": "Lifestyle",
+                "release_year": 1976,
+                "colorway": "Canvas White",
+                "size_range": "36-46 EU",
+                "price": 59.99,
+                "average_rating": 4.2,
+                "imageFilename": "era.webp",
+                "description": "Modelo clásico de corte bajo con amplia paleta de colores; popular en skate y moda casual."
+            },
+            {
+                "name": "Anaheim Factory",
+                "category": "Lifestyle",
+                "release_year": 2018,
+                "colorway": "White/Black",
+                "size_range": "36-46 EU",
+                "price": 69.99,
+                "average_rating": 4.4,
+                "imageFilename": "anaheim_factory.webp",
+                "description": "Edición inspirada en los primeros modelos de Vans con detalles vintage y construcción premium."
             }
         ]
     },
@@ -482,7 +618,7 @@
                 "name": "Precission 7",
                 "category": "Basketball",
                 "release_year": 2023,
-                "colorway": "White/Blue",
+                "colorway": "White/Black",
                 "size_range": "43-47 EU",
                 "price": 139.99,
                 "average_rating": 4.6,
@@ -510,6 +646,40 @@
                 "average_rating": 4.8,
                 "imageFilename": "aj4_white_red.webp",
                 "description": "Modelo clásico con detalles técnicos y gran impacto en la cultura sneaker."
+            }
+            ,
+            {
+                "name": "Air Jordan 11",
+                "category": "Basketball",
+                "release_year": 1995,
+                "colorway": "Concord/Black",
+                "size_range": "40-47 EU",
+                "price": 219.99,
+                "average_rating": 4.9,
+                "imageFilename": "aj11_concord.webp",
+                "description": "Diseño icónico con paneles de charol y gran aceptación tanto en pista como en la calle."
+            },
+            {
+                "name": "Air Jordan 3",
+                "category": "Basketball",
+                "release_year": 1988,
+                "colorway": "White/Black/Cement",
+                "size_range": "39-47 EU",
+                "price": 189.99,
+                "average_rating": 4.8,
+                "imageFilename": "aj3_black_cement.png",
+                "description": "Diseño clásico con la primera aparición del elefante en la suela y amortiguación visible."
+            },
+            {
+                "name": "Air Jordan 5",
+                "category": "Basketball",
+                "release_year": 1990,
+                "colorway": "Fire Red/Black",
+                "size_range": "40-47 EU",
+                "price": 179.99,
+                "average_rating": 4.7,
+                "imageFilename": "aj5_fire_red.png",
+                "description": "Silueta deportiva con detalles reflectantes y ventilación lateral; un clásico de los 90s."
             }
         ]
     }
