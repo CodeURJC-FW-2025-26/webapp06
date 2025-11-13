@@ -49,12 +49,12 @@
       <div class="col-12 col-lg-7">
         <h2 class="h5 mb-3">Modelos</h2>
         <div class="row g-4">
-          <!-- Modelo 1: air zoom -->
+          <!-- Modelo -->
           {{#brand}}
           {{#models}}
           <div class="col-12 col-md-6">
             <div class="card h-100">
-              <img src="img/sneakers/air_zoom.webp" class="card-img-top" alt="Imagen de la sneaker Air Zoom">
+              <img src="/brand.models/{{_id}}/image" class="card-img-top" alt="Imagen de la sneaker {{name}}">
               <div class="card-body">
                 <h5 class="card-title">{{name}}</h5>
                 <p class="mb-1 small text-muted">{{category}} · {{release_year}}</p>

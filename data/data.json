@@ -61,6 +61,18 @@
                 "imageFilename": "zoom_vapor_pro_3.png",
                 "description": "Zapatilla técnica orientada a tenis, con diseño ligero y buen agarre."
             }
+            ,
+            {
+                "name": "Air Max 270",
+                "category": "Lifestyle",
+                "release_year": 2018,
+                "colorway": "Red/White",
+                "size_range": "39-46 EU",
+                "price": 129.99,
+                "average_rating": 4.5,
+                "imageFilename": "air_max_270.webp",
+                "description": "Zapatilla con gran unidad Air visible en el talón, pensada para confort urbano y estilo."
+            }
         ]
     },
     {
@@ -103,6 +115,40 @@
                 "imageFilename": "stan_smith.webp",
                 "description": "Tenis minimalista y elegante, un básico atemporal en moda casual."
             }
+            ,
+            {
+                "name": "NMD_R1",
+                "category": "Lifestyle",
+                "release_year": 2015,
+                "colorway": "Core White/Red",
+                "size_range": "38-46 EU",
+                "price": 129.99,
+                "average_rating": 4.4,
+                "imageFilename": "nmd_r1.webp",
+                "description": "Silueta moderna con amortiguación Boost y estética urbana minimalista."
+            },
+            {
+                "name": "Gazelle",
+                "category": "Lifestyle",
+                "release_year": 1968,
+                "colorway": "Suede Blue",
+                "size_range": "36-45 EU",
+                "price": 69.99,
+                "average_rating": 4.3,
+                "imageFilename": "gazelle.png",
+                "description": "Clásico de ante popular en moda retro y streetwear."
+            },
+            {
+                "name": "Copa Mundial",
+                "category": "Football",
+                "release_year": 1978,
+                "colorway": "Black/White",
+                "size_range": "39-48 EU",
+                "price": 119.99,
+                "average_rating": 4.5,
+                "imageFilename": "copa_mundial.webp",
+                "description": "Botas de fútbol históricas, muy apreciadas por su ajuste y durabilidad."
+            }
         ]
     },
     {
@@ -120,7 +166,7 @@
                 "size_range": "39-46 EU",
                 "price": 189.99,
                 "average_rating": 4.6,
-                "imageFilename": "990v5.webp",
+                "imageFilename": "990v5.png",
                 "description": "Modelo premium con enfoque en estabilidad y confort, fabricado parcialmente en EE. UU."
             },
             {
@@ -144,6 +190,40 @@
                 "average_rating": 4.5,
                 "imageFilename": "fresh_foam_1080.webp",
                 "description": "Zapatilla de running con amortiguación Fresh Foam para largas distancias."
+            }
+            ,
+            {
+                "name": "327",
+                "category": "Lifestyle",
+                "release_year": 2020,
+                "colorway": "Grey/White",
+                "size_range": "37-46 EU",
+                "price": 89.99,
+                "average_rating": 4.3,
+                "imageFilename": "327.png",
+                "description": "Modelo retro-futurista inspirado en zapatillas de los 70s con diseño estilizado."
+            },
+            {
+                "name": "860v11",
+                "category": "Running",
+                "release_year": 2021,
+                "colorway": "Blue/White",
+                "size_range": "38-46 EU",
+                "price": 129.99,
+                "average_rating": 4.5,
+                "imageFilename": "860v11.webp",
+                "description": "Zapatilla de estabilidad para corredores que necesitan soporte y amortiguación."
+            },
+            {
+                "name": "1500",
+                "category": "Lifestyle",
+                "release_year": 1994,
+                "colorway": "White/Black",
+                "size_range": "39-47 EU",
+                "price": 179.99,
+                "average_rating": 4.6,
+                "imageFilename": "1500.png",
+                "description": "Modelo premium y clásico de New Balance, apreciado por su confort y construcción."
             }
         ]
     },
@@ -186,6 +266,40 @@
                 "average_rating": 4.3,
                 "imageFilename": "future_rider.webp",
                 "description": "Silueta retro con suela ligera inspirada en modelos de los 80s."
+            }
+            ,
+            {
+                "name": "Clyde",
+                "category": "Lifestyle",
+                "release_year": 1973,
+                "colorway": "Suede Black",
+                "size_range": "36-45 EU",
+                "price": 79.99,
+                "average_rating": 4.4,
+                "imageFilename": "clyde.webp",
+                "description": "Clásico de Puma en ante, popular en baloncesto retro y streetwear."
+            },
+            {
+                "name": "Cali",
+                "category": "Lifestyle",
+                "release_year": 2018,
+                "colorway": "White",
+                "size_range": "36-46 EU",
+                "price": 84.99,
+                "average_rating": 4.2,
+                "imageFilename": "cali.webp",
+                "description": "Modelo inspirado en las zapatillas de los 80s con suela ancha y estética veraniega."
+            },
+            {
+                "name": "MB.01",
+                "category": "Basketball",
+                "release_year": 2020,
+                "colorway": "Black/Gold",
+                "size_range": "40-48 EU",
+                "price": 139.99,
+                "average_rating": 4.5,
+                "imageFilename": "mb_01.webp",
+                "description": "Modelo de baloncesto moderno con tecnología de rendimiento y diseño robusto."
             }
         ]
     },

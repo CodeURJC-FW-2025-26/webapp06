@@ -1,6 +1,7 @@
 import express from 'express';
 import multer from 'multer';
 import fs from 'node:fs/promises';
+import path from 'node:path';
 
 import * as sneakersdb from './sneakersdb.js';
 
@@ -54,6 +55,25 @@ router.get('/brand/:id/image', async (req, res) => {
     let post = await sneakersdb.getPost(req.params.id);
 
     res.download(sneakersdb.UPLOADS_FOLDER + '/' + post.imageFilename);
+
+});
+
+router.get('/brand.models/:id/image', async (req, res) => {
+    // req.params.id is the model _id (p.ej. 'nike_0').
+    const result = await sneakersdb.getModelById(req.params.id);
+
+    if(!result || !result.model || !result.model.imageFilename){
+        return res.status(404).send('Imagen no encontrada');
+    }
+
+    // Servir la imagen del modelo desde la carpeta uploads (inline) para que funcione en <img>
+    const imagePath = path.resolve(sneakersdb.UPLOADS_FOLDER, result.model.imageFilename);
+    res.sendFile(imagePath, (err) => {
+        if(err){
+            console.error('Error enviando fichero', err);
+            res.status(404).send('Imagen no encontrada');
+        }
+    });
 
 });
 
