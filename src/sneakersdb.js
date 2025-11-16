@@ -16,6 +16,15 @@ export async function addPost(brand) {
     return await brands.insertOne(brand);
 }
 
+export async function updatePost(id, updatedFields) {
+    return await brands.findOneAndUpdate(
+        { _id: new ObjectId(id) },
+        { $set: updatedFields },
+        { returnDocument: 'after' } // devolvemos el documento actualizado
+    );
+}
+
+
 export async function deletePost(id){
 
     return await brands.findOneAndDelete({ _id: new ObjectId(id) });

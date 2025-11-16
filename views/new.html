@@ -3,40 +3,93 @@
 
 {{> header}}
 
-  <main class="container section m-5">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h1 class="h4 m-0">Crear nueva Marca</h1>
-      <a class="btn btn-outline-primary" href="/index">Cancelar</a>
+<main class="container section m-5">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h4 m-0">{{formTitle}}</h1>
+    <a class="btn btn-outline-primary" href="/index">Cancelar</a>
+  </div>
+
+  <form class="row g-3" action="{{formAction}}" method="POST" enctype="multipart/form-data">
+    <!-- Nombre de la marca -->
+    <div class="col-12 col-md-6">
+      <label for="brandName" class="form-label">Nombre de la marca</label>
+      <input
+        type="text"
+        id="brandName"
+        name="name"
+        class="form-control"
+        placeholder="Ej. Nike"
+        value="{{brand.name}}"
+        required
+      >
     </div>
-    <form class="row g-3" action="#" method="post" enctype="multipart/form-data">
-      <div class="col-12 col-md-6">
-        <label for="brandName" class="form-label">Nombre de la marca</label>
-        <input type="text" id="brandName" name="name" class="form-control" placeholder="Ej. Nike" required>
-      </div>
-      <div class="col-12 col-md-6">
-        <label for="country" class="form-label">País de origen</label>
-        <input type="text" id="country" name="country_origin" class="form-control" placeholder="Ej. Estados Unidos"
-          required>
-      </div>
-      <div class="col-12 col-md-6">
-        <label for="founded" class="form-label">Año de fundación</label>
-        <input type="number" id="founded" name="founded_year" class="form-control" min="1900" max="2025" step="1"
-          required>
-      </div>
-      <div class="col-12">
-        <label for="description" class="form-label">Descripción</label>
-        <textarea id="description" name="description" class="form-control" rows="3"
-          placeholder="Breve historia y estilo de la marca" required></textarea>
-      </div>
-      <div class="col-12">
-        <label for="logo" class="form-label">Logo / Imagen</label>
-        <input type="file" id="logo" name="logo_image" class="form-control" accept="image/*" required>
-      </div>
-      <div class="col-12">
-        <button class="btn btn-primary" type="button" disabled>Guardar</button>
-        <a class="btn btn-outline-secondary" href="/index">Cancelar</a>
-      </div>
-    </form>
-  </main>
+
+    <!-- País de origen -->
+    <div class="col-12 col-md-6">
+      <label for="country" class="form-label">País de origen</label>
+      <input
+        type="text"
+        id="country"
+        name="country_origin"
+        class="form-control"
+        placeholder="Ej. Estados Unidos"
+        value="{{brand.country_origin}}"
+        required
+      >
+    </div>
+
+    <!-- Año de fundación -->
+    <div class="col-12 col-md-6">
+      <label for="founded" class="form-label">Año de fundación</label>
+      <input
+        type="number"
+        id="founded"
+        name="founded_year"
+        class="form-control"
+        min="1900"
+        max="2025"
+        step="1"
+        value="{{brand.founded_year}}"
+        required
+      >
+    </div>
+
+    <!-- Descripción -->
+    <div class="col-12">
+      <label for="description" class="form-label">Descripción</label>
+      <textarea
+        id="description"
+        name="description"
+        class="form-control"
+        rows="3"
+        placeholder="Breve historia y estilo de la marca"
+        required
+      >{{brand.description}}</textarea>
+    </div>
+
+    <!-- Logo / Imagen -->
+    <div class="col-12">
+      <label for="logo" class="form-label">Logo / Imagen</label>
+      <input
+        type="file"
+        id="logo"
+        name="logo_image"
+        class="form-control"
+        accept="image/*"
+      >
+      {{#brand.imageFilename}}
+        <p class="form-text">
+          Imagen actual: {{brand.imageFilename}} <!--(si subes una nueva, reemplazará a la anterior).-->
+        </p>
+      {{/brand.imageFilename}}
+    </div>
+
+    <!-- Botones -->
+    <div class="col-12">
+      <button class="btn btn-primary" type="submit">Guardar</button>
+      <a class="btn btn-outline-secondary" href="/index">Cancelar</a>
+    </div>
+  </form>
+</main>
 
 {{> footer}}

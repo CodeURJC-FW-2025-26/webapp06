@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="es">
+
+{{> header}}
+
+<main class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="alert alert-{{type}} text-center">
+        <h1 class="h3 mb-3">{{title}}</h1>
+        <p class="mb-4">{{message}}</p>
+        <a href="{{backUrl}}" class="btn btn-primary">
+          {{backText}}
+        </a>
+      </div>
+    </div>
+  </div>
+</main>
+
+{{> footer}}

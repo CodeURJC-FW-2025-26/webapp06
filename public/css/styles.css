@@ -5,6 +5,20 @@
   --accent-hover: #16a34a;
 }
 
+html, body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+/* El contenido principal ocupa todo el espacio disponible */
+main {
+  flex: 1;
+}
+
 /* Marca registrada */
 .registered-brand {
   font-family: Impact;
