@@ -15,9 +15,17 @@
             <p class="mb-1"><strong>Año de fundación:</strong> {{founded_year}}</p>
             <p class="mb-3"><strong>Descripción:</strong> {{description}}</p>
             <div class="d-flex gap-2">
-              <button class="btn btn-outline-danger" type="button" disabled>Borrar</button>
-              <button class="btn btn-outline-primary" type="button" disabled>Editar</button>
+
+              <form action="/brand/{{brand._id}}/delete" method="POST" class="d-inline">
+                <button class="btn btn-outline-danger" type="submit"> Borrar </button>
+              </form>
+
+              <a class="btn btn-outline-primary" href="/brand/{{brand._id}}/edit">
+                Editar
+              </a>
+
               <a class="btn btn-primary" href="/index">Volver a página principal</a>
+
             </div>
           </div>
         </div> 
