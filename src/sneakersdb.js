@@ -16,23 +16,28 @@ export async function addPost(brand) {
     return await brands.insertOne(brand);
 }
 
-export async function deletePost(id){
+export async function deletePost(id) {
 
     return await brands.findOneAndDelete({ _id: new ObjectId(id) });
 }
 
-export async function deletePosts(){
+export async function deletePosts() {
 
     return await brands.deleteMany();
 }
 
-export async function getPosts(){
+export async function getPosts() {
 
     return await brands.find().toArray();
 }
 
-export async function getPost(id){
+export async function getPost(id) {
 
     return await brands.findOne({ _id: new ObjectId(id) });
+}
+
+export async function findBrandName(name) {
+
+    return await brands.findOne({ name: name });
 }
 

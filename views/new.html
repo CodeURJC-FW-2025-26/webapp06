@@ -30,32 +30,44 @@
       <h1 class="h4 m-0">Crear nueva Marca</h1>
       <a class="btn btn-outline-primary" href="/index">Cancelar</a>
     </div>
-    <form class="row g-3" action="#" method="post" enctype="multipart/form-data">
+    <!-- Control de errores -->
+    {{#hasErrors}}
+    <div class="alert alert-danger">
+      <ul>
+        {{#errors}}
+        <li>{{.}}</li>
+        {{/errors}}
+      </ul>
+    </div>
+    {{/hasErrors}}
+    <form class="row g-3" action="/brand/new" method="post" enctype="multipart/form-data">
       <div class="col-12 col-md-6">
         <label for="brandName" class="form-label">Nombre de la marca</label>
-        <input type="text" id="brandName" name="name" class="form-control" placeholder="Ej. Nike" required>
+        <input type="text" id="brandName" name="name" value="{{form.name}}" class="form-control" placeholder="Ej. Nike"
+          required pattern="[A-ZÁÉÍÓÚÑ].*" title="La primera letra debe ser mayúscula.">
       </div>
       <div class="col-12 col-md-6">
         <label for="country" class="form-label">País de origen</label>
-        <input type="text" id="country" name="country_origin" class="form-control" placeholder="Ej. Estados Unidos"
-          required>
+        <input type="text" id="country" name="country_origin" value="{{form.country_origin}}" class="form-control"
+          placeholder="Ej. Estados Unidos" required>
       </div>
       <div class="col-12 col-md-6">
         <label for="founded" class="form-label">Año de fundación</label>
-        <input type="number" id="founded" name="founded_year" class="form-control" min="1900" max="2025" step="1"
-          required>
+        <input type="number" id="founded" name="founded_year" value="{{form.founded_year}}" class="form-control"
+          min="1900" max="2025" step="1" required>
       </div>
       <div class="col-12">
         <label for="description" class="form-label">Descripción</label>
         <textarea id="description" name="description" class="form-control" rows="3"
-          placeholder="Breve historia y estilo de la marca" required></textarea>
+          placeholder="Breve historia y estilo de la marca" required minlength="20"
+          maxlength="250">{{form.description}}</textarea>
       </div>
       <div class="col-12">
         <label for="logo" class="form-label">Logo / Imagen</label>
-        <input type="file" id="logo" name="logo_image" class="form-control" accept="image/*" required>
+        <input type="file" id="logo" name="brand_image" class="form-control" accept="image/*" required>
       </div>
       <div class="col-12">
-        <button class="btn btn-primary" type="button" disabled>Guardar</button>
+        <input class="btn btn-primary" type="submit" value="Enviar">
         <a class="btn btn-outline-secondary" href="/index">Cancelar</a>
       </div>
     </form>
