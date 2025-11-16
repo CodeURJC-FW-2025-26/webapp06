@@ -40,14 +40,12 @@ router.get('/brand/:id', async (req, res) => {
 });
 
 router.post('/brand/:id/delete', async (req, res) => {
+    const brandId = req.params.id;
 
-    // Llamamos a deletePost, que usa findOneAndDelete
-    const result = await sneakersdb.deletePost(req.params.id);
+    // 1. Obtenemos la marca ANTES de borrarla
+    const brand = await sneakersdb.getPost(brandId);
 
-    // result.value es el documento borrado (o null si no existía)
-    const deletedBrand = result.value;
-
-    if (!deletedBrand) {
+    if (!brand) {
         // No se ha encontrado la marca → error 404
         return res.status(404).render('message', {
             title: 'Marca no encontrada',
@@ -58,15 +56,18 @@ router.post('/brand/:id/delete', async (req, res) => {
         });
     }
 
-    // Si tenía imagen asociada, la borramos del disco
-    if (deletedBrand.imageFilename) {
-        await fs.rm(sneakersdb.UPLOADS_FOLDER + '/' + deletedBrand.imageFilename);
+    // 2. Borramos la marca (aunque deletePost devuelva lo que quiera)
+    await sneakersdb.deletePost(brandId);
+
+    // 3. Borramos la imagen asociada si existe
+    if (brand.imageFilename) {
+        await fs.rm(sneakersdb.UPLOADS_FOLDER + '/' + brand.imageFilename);
     }
 
-    // Mostramos página de confirmación genérica
+    // 4. Mostramos página de confirmación genérica
     return res.render('message', {
         title: 'Marca borrada',
-        message: `La marca "${deletedBrand.name}" se ha borrado correctamente.`,
+        message: `La marca "${brand.name}" se ha borrado correctamente.`,
         backUrl: '/index', // o la ruta de listado de marcas si la cambiáis
         backText: 'Volver a la página principal',
         type: 'success'
@@ -141,7 +142,6 @@ router.get('/new', (req, res) => {
     });
 });
 
-
 router.post('/brand/:id/edit', upload.single('image'), async (req, res) => {
     try {
         const brandId = req.params.id;
@@ -178,17 +178,14 @@ router.post('/brand/:id/edit', upload.single('image'), async (req, res) => {
             updatedFields.imageFilename = currentBrand.imageFilename;
         }
 
-        // Aquí podrías añadir validaciones: campos vacíos, año correcto, etc.
-
-        // 4. Actualizamos en la base de datos
-        const result = await sneakersdb.updatePost(brandId, updatedFields);
-        const updatedBrand = result.value; // gracias a returnDocument: 'after'
+        // 4. Actualizamos en la base de datos (no necesitamos el retorno)
+        await sneakersdb.updatePost(brandId, updatedFields);
 
         // 5. Mostramos página de confirmación usando message.html
         return res.render('message', {
             title: 'Marca actualizada',
-            message: `La marca "${updatedBrand.name}" se ha actualizado correctamente.`,
-            backUrl: `/detail/${brandId}`,   // o /brand/${brandId} según la ruta que uséis
+            message: `La marca "${updatedFields.name}" se ha actualizado correctamente.`,
+            backUrl: `/detail/${brandId}`,
             backText: 'Volver a la página de detalle',
             type: 'success'
         });
@@ -205,6 +202,7 @@ router.post('/brand/:id/edit', upload.single('image'), async (req, res) => {
         });
     }
 });
+
 
 
 router.get('/index', async (req, res) => {
