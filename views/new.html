@@ -13,83 +13,90 @@
     <!-- Nombre de la marca -->
     <div class="col-12 col-md-6">
       <label for="brandName" class="form-label">Nombre de la marca</label>
-      <input
-        type="text"
-        id="brandName"
-        name="name"
-        class="form-control"
-        placeholder="Ej. Nike"
-        value="{{brand.name}}"
-        required
-      >
+      <input type="text" id="brandName" name="name" class="form-control" placeholder="Ej. Nike" value="{{brand.name}}"
+        required>
     </div>
 
     <!-- País de origen -->
     <div class="col-12 col-md-6">
       <label for="country" class="form-label">País de origen</label>
-      <input
-        type="text"
-        id="country"
-        name="country_origin"
-        class="form-control"
-        placeholder="Ej. Estados Unidos"
-        value="{{brand.country_origin}}"
-        required
-      >
+      <input type="text" id="country" name="country_origin" class="form-control" placeholder="Ej. Estados Unidos"
+        value="{{brand.country_origin}}" required>
     </div>
+    <!-- Control de errores -->
+    {{#hasErrors}}
+    <div class="alert alert-danger">
+      <ul>
+        {{#errors}}
+        <li>{{.}}</li>
+        {{/errors}}
+      </ul>
+    </div>
+    {{/hasErrors}}
+    <form class="row g-3" action="/brand/new" method="post" enctype="multipart/form-data">
+      <div class="col-12 col-md-6">
+        <label for="brandName" class="form-label">Nombre de la marca</label>
+        <input type="text" id="brandName" name="name" value="{{form.name}}" class="form-control" placeholder="Ej. Nike"
+          required pattern="[A-ZÁÉÍÓÚÑ].*" title="La primera letra debe ser mayúscula.">
+      </div>
+      <div class="col-12 col-md-6">
+        <label for="country" class="form-label">País de origen</label>
+        <input type="text" id="country" name="country_origin" value="{{form.country_origin}}" class="form-control"
+          placeholder="Ej. Estados Unidos" required>
+      </div>
+      <div class="col-12 col-md-6">
+        <label for="founded" class="form-label">Año de fundación</label>
+        <input type="number" id="founded" name="founded_year" value="{{form.founded_year}}" class="form-control"
+          min="1900" max="2025" step="1" required>
+      </div>
+      <div class="col-12">
+        <label for="description" class="form-label">Descripción</label>
+        <textarea id="description" name="description" class="form-control" rows="3"
+          placeholder="Breve historia y estilo de la marca" required minlength="20"
+          maxlength="250">{{form.description}}</textarea>
+      </div>
+      <div class="col-12">
+        <label for="logo" class="form-label">Logo / Imagen</label>
+        <input type="file" id="logo" name="brand_image" class="form-control" accept="image/*" required>
+      </div>
+      <div class="col-12">
+        <input class="btn btn-primary" type="submit" value="Enviar">
+        <a class="btn btn-outline-secondary" href="/index">Cancelar</a>
+      </div>
+    </form>
+</main>
 
-    <!-- Año de fundación -->
-    <div class="col-12 col-md-6">
-      <label for="founded" class="form-label">Año de fundación</label>
-      <input
-        type="number"
-        id="founded"
-        name="founded_year"
-        class="form-control"
-        min="1900"
-        max="2025"
-        step="1"
-        value="{{brand.founded_year}}"
-        required
-      >
-    </div>
+<!-- Año de fundación -->
+<div class="col-12 col-md-6">
+  <label for="founded" class="form-label">Año de fundación</label>
+  <input type="number" id="founded" name="founded_year" class="form-control" min="1900" max="2025" step="1"
+    value="{{brand.founded_year}}" required>
+</div>
 
-    <!-- Descripción -->
-    <div class="col-12">
-      <label for="description" class="form-label">Descripción</label>
-      <textarea
-        id="description"
-        name="description"
-        class="form-control"
-        rows="3"
-        placeholder="Breve historia y estilo de la marca"
-        required
-      >{{brand.description}}</textarea>
-    </div>
+<!-- Descripción -->
+<div class="col-12">
+  <label for="description" class="form-label">Descripción</label>
+  <textarea id="description" name="description" class="form-control" rows="3"
+    placeholder="Breve historia y estilo de la marca" required>{{brand.description}}</textarea>
+</div>
 
-    <!-- Logo / Imagen -->
-    <div class="col-12">
-      <label for="logo" class="form-label">Logo / Imagen</label>
-      <input
-        type="file"
-        id="logo"
-        name="logo_image"
-        class="form-control"
-        accept="image/*"
-      >
-      {{#brand.imageFilename}}
-        <p class="form-text">
-          Imagen actual: {{brand.imageFilename}} <!--(si subes una nueva, reemplazará a la anterior).-->
-        </p>
-      {{/brand.imageFilename}}
-    </div>
+<!-- Logo / Imagen -->
+<div class="col-12">
+  <label for="logo" class="form-label">Logo / Imagen</label>
+  <input type="file" id="logo" name="logo_image" class="form-control" accept="image/*">
+  {{#brand.imageFilename}}
+  <p class="form-text">
+    Imagen actual: {{brand.imageFilename}} <!--(si subes una nueva, reemplazará a la anterior).-->
+  </p>
+  {{/brand.imageFilename}}
+</div>
 
-    <!-- Botones -->
-    <div class="col-12">
-      <button class="btn btn-primary" type="submit">Guardar</button>
-      <a class="btn btn-outline-secondary" href="/index">Cancelar</a>
-    </div>
-  </form>
+<!-- Botones -->
+<div class="col-12">
+  <button class="btn btn-primary" type="submit">Guardar</button>
+  <a class="btn btn-outline-secondary" href="/index">Cancelar</a>
+</div>
+</form>
 </main>
 
 {{> footer}}

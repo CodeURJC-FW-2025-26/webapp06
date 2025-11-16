@@ -4,8 +4,8 @@
         "country_origin": "Originaria de Estados Unidos",
         "founded_year": "1964",
         "imageFilename": "nike.webp",
-        "description": "Marca estadounidense líder en calzado deportivo, conocida por innovación y zapatillas icónicas como Air Max y Air Jordan."
-        ,"models": [
+        "description": "Marca estadounidense líder en calzado deportivo, conocida por innovación y zapatillas icónicas como Air Max y Air Jordan.",
+        "models": [
             {
                 "name": "Air Zoom",
                 "category": "Lifestyle",
@@ -60,8 +60,7 @@
                 "average_rating": 4.6,
                 "imageFilename": "zoom_vapor_pro_3.png",
                 "description": "Zapatilla técnica orientada a tenis, con diseño ligero y buen agarre."
-            }
-            ,
+            },
             {
                 "name": "Air Max 270",
                 "category": "Lifestyle",
@@ -80,8 +79,8 @@
         "country_origin": "Originaria de Estados Unidos",
         "founded_year": "1949",
         "imageFilename": "adidas.webp",
-        "description": "Empresa alemana famosa por sus tres franjas; destaca en fútbol, running y lifestyle con colaboraciones de diseño."
-        ,"models": [
+        "description": "Empresa alemana famosa por sus tres franjas; destaca en fútbol, running y lifestyle con colaboraciones de diseño.",
+        "models": [
             {
                 "name": "Superstar",
                 "category": "Lifestyle",
@@ -114,8 +113,7 @@
                 "average_rating": 4.5,
                 "imageFilename": "stan_smith.webp",
                 "description": "Tenis minimalista y elegante, un básico atemporal en moda casual."
-            }
-            ,
+            },
             {
                 "name": "NMD_R1",
                 "category": "Lifestyle",
@@ -156,8 +154,8 @@
         "country_origin": "Originaria de Estados Unidos",
         "founded_year": "1906",
         "imageFilename": "new_balance.webp",
-        "description": "Marca estadounidense conocida por la comodidad y la fabricación en EE. UU./Reino Unido; especialista en zapatillas de running."
-        ,"models": [
+        "description": "Marca estadounidense conocida por la comodidad y la fabricación en EE. UU./Reino Unido; especialista en zapatillas de running.",
+        "models": [
             {
                 "name": "990v5",
                 "category": "Running",
@@ -190,8 +188,7 @@
                 "average_rating": 4.5,
                 "imageFilename": "fresh_foam_1080.webp",
                 "description": "Zapatilla de running con amortiguación Fresh Foam para largas distancias."
-            }
-            ,
+            },
             {
                 "name": "327",
                 "category": "Lifestyle",
@@ -232,8 +229,8 @@
         "country_origin": "Originaria de Alemania",
         "founded_year": "1948",
         "imageFilename": "puma.webp",
-        "description": "Marca deportiva alemana reconocida por diseño audaz y presencia en fútbol y moda urbana."
-        ,"models": [
+        "description": "Marca deportiva alemana reconocida por diseño audaz y presencia en fútbol y moda urbana.",
+        "models": [
             {
                 "name": "Suede Classic",
                 "category": "Lifestyle",
@@ -266,8 +263,7 @@
                 "average_rating": 4.3,
                 "imageFilename": "future_rider.png",
                 "description": "Silueta retro con suela ligera inspirada en modelos de los 80s."
-            }
-            ,
+            },
             {
                 "name": "Clyde",
                 "category": "Lifestyle",
@@ -308,8 +304,8 @@
         "country_origin": "Originaria de Reino Unido",
         "founded_year": "1958",
         "imageFilename": "reebok.webp",
-        "description": "Marca británica con enfoque en fitness y entrenamiento; popularizó zapatillas clásicas y colecciones retro."
-        ,"models": [
+        "description": "Marca británica con enfoque en fitness y entrenamiento; popularizó zapatillas clásicas y colecciones retro.",
+        "models": [
             {
                 "name": "Classic Leather",
                 "category": "Lifestyle",
@@ -342,8 +338,7 @@
                 "average_rating": 4.1,
                 "imageFilename": "club_c_85.webp",
                 "description": "Retro-tenis elegante y minimalista, popular en moda casual."
-            }
-            ,
+            },
             {
                 "name": "Instapump Fury",
                 "category": "Lifestyle",
@@ -384,8 +379,8 @@
         "country_origin": "Originaria de Japón",
         "founded_year": "1949",
         "imageFilename": "asics.webp",
-        "description": "Marca japonesa especializada en running; conocida por su tecnología GEL y soporte para corredores."
-        ,"models": [
+        "description": "Marca japonesa especializada en running; conocida por su tecnología GEL y soporte para corredores.",
+        "models": [
             {
                 "name": "Gel-Kayano",
                 "category": "Running",
@@ -418,8 +413,7 @@
                 "average_rating": 4.4,
                 "imageFilename": "gt_2000.png",
                 "description": "Zapatilla de soporte con buena relación calidad-precio para entrenamientos diarios."
-            }
-            ,
+            },
             {
                 "name": "GEL-Quantum 360",
                 "category": "Running",
@@ -460,8 +454,8 @@
         "country_origin": "Originaria de Estados Unidos",
         "founded_year": "1908",
         "imageFilename": "converse.webp",
-        "description": "Icono del calzado casual; creadora de las clásicas Chuck Taylor All Star, presente en cultura y moda."
-        ,"models": [
+        "description": "Icono del calzado casual; creadora de las clásicas Chuck Taylor All Star, presente en cultura y moda.",
+        "models": [
             {
                 "name": "Chuck Taylor All Star",
                 "category": "Lifestyle",
@@ -494,8 +488,7 @@
                 "average_rating": 4.1,
                 "imageFilename": "run_star_hike.webp",
                 "description": "Versión moderna con suela elevada y estética rompedor­a sobre la clásica silueta."
-            }
-            ,
+            },
             {
                 "name": "Chuck 70",
                 "category": "Lifestyle",
@@ -536,8 +529,8 @@
         "country_origin": "Originaria de Estados Unidos",
         "founded_year": "1966",
         "imageFilename": "vans.webp",
-        "description": "Marca vinculada al skate y la cultura juvenil; famosa por sus estampados y zapatillas vulcanizadas."
-        ,"models": [
+        "description": "Marca vinculada al skate y la cultura juvenil; famosa por sus estampados y zapatillas vulcanizadas.",
+        "models": [
             {
                 "name": "Authentic",
                 "category": "Lifestyle",
@@ -570,8 +563,7 @@
                 "average_rating": 4.3,
                 "imageFilename": "sk8_hi.webp",
                 "description": "Bota alta con soporte para el tobillo, clásica del mundo del skate."
-            }
-            ,
+            },
             {
                 "name": "Slip-On",
                 "category": "Lifestyle",
@@ -612,8 +604,8 @@
         "country_origin": "Originaria de Estados Unidos",
         "founded_year": "1984",
         "imageFilename": "jordan.webp",
-        "description": "Línea creada por y para Michael Jordan; símbolo de estilo deportivo con zapatillas icónicas y alto coleccionismo."
-        ,"models": [
+        "description": "Línea creada por y para Michael Jordan; símbolo de estilo deportivo con zapatillas icónicas y alto coleccionismo.",
+        "models": [
             {
                 "name": "Precission 7",
                 "category": "Basketball",
@@ -646,8 +638,7 @@
                 "average_rating": 4.8,
                 "imageFilename": "aj4_white_red.webp",
                 "description": "Modelo clásico con detalles técnicos y gran impacto en la cultura sneaker."
-            }
-            ,
+            },
             {
                 "name": "Air Jordan 11",
                 "category": "Basketball",
