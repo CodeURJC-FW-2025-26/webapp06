@@ -19,7 +19,7 @@ router.get('/', async (req, res) => {
 
 router.post('/brand/new', upload.single('brand_image'), async function (req, res, next) {
     try {
-        // Evitar destructuring complejo para que el código sea más claro
+       
         const name = req.body.name;
         const country_origin = req.body.country_origin;
         const founded_year = req.body.founded_year;
@@ -267,7 +267,7 @@ router.get('/new', (req, res) => {
     });
 });
 
-router.post('/brand/:id/edit', upload.single('image'), async (req, res) => {
+router.post('/brand/:id/edit', upload.single('brand_image'), async (req, res) => {
     try {
         const brandId = req.params.id;
 
