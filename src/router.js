@@ -150,7 +150,7 @@ router.post('/brand/new', upload.single('brand_image'), async function (req, res
             founded_year: year,
             description: descTrim,
             imageFilename: req.file && req.file.filename ? req.file.filename : null,
-            sneakers: []
+            models: []
         };
 
         const result = await sneakersdb.addPost(brand);
@@ -182,7 +182,7 @@ router.get('/brand/:id', async (req, res) => {
             try {
                 brand.models[i]._id = brand.models[i]._id.toString();
             } catch (e) {
-                // si no tiene _id o no es ObjectId, lo dejamos como está
+                // Si no tiene _id o no es ObjectId, lo dejamos como está
             }
         }
     }
@@ -300,7 +300,7 @@ router.get('/new', (req, res) => {
     res.render('new', {
         formTitle: 'Crear nueva marca',
         formAction: '/brand/new',
-        // brand vacío para que los campos salgan en blanco
+        // Brand vacío para que los campos salgan en blanco
         brand: {}
     });
 });
@@ -507,8 +507,9 @@ router.post('/brand/:id/model/:modelId/delete', async (req, res) => {
         });
 
     }
-    // 2. Buscar el modelo dentro de la marca
-    const modelIndex = brand.models.findIndex(model => {
+    // 2. Buscar el modelo dentro de la marca (proteger si no tiene models)
+    const modelsArray = brand.models || [];
+    const modelIndex = modelsArray.findIndex(model => {
         try {
             return model._id.toString() === modelId;
         } catch (e) {
@@ -529,6 +530,8 @@ router.post('/brand/:id/model/:modelId/delete', async (req, res) => {
     }
 
     // 3. Borrar el modelo del array
+    // Asegurarnos de tener el array en la marca antes de modificar
+    brand.models = modelsArray;
     brand.models.splice(modelIndex, 1);
     await sneakersdb.updatePost(brandId, { models: brand.models });
 
@@ -616,9 +619,10 @@ router.post('/brand/:id/model/new', upload.single('cover_image'), async function
             errors.push("El precio es obligatorio.");
         }
 
-        // Validar nombre único en la marca
+        // Validar nombre único en la marca (proteger si brand.models no existe)
+        const modelsArray = brand.models || [];
         if (name && name.trim()) {
-            const existingModel = brand.models.find(model => 
+            const existingModel = modelsArray.find(model => 
                 model.name && model.name.toLowerCase() === name.trim().toLowerCase()
             );
             if (existingModel) {
@@ -762,8 +766,9 @@ router.post('/brand/:id/model/:modelId/edit', upload.single('cover_image'), asyn
             });
         }
 
-        // Buscar el modelo
-        const modelIndex = brand.models.findIndex(model => {
+        // Buscar el modelo (proteger si brand.models no existe)
+        const modelsArray = brand.models || [];
+        const modelIndex = modelsArray.findIndex(model => {
             try {
                 return model._id.toString() === modelId;
             } catch (e) {
@@ -781,6 +786,8 @@ router.post('/brand/:id/model/:modelId/edit', upload.single('cover_image'), asyn
             });
         }
 
+        // Asegurar que brand.models existe antes de trabajar con él
+        brand.models = modelsArray;
         const currentModel = brand.models[modelIndex];
 
         // Obtener datos del formulario
