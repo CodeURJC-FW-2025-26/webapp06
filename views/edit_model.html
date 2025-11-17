@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="es">
+
+{{> header}}
+
+<main class="container section m-5">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h4 m-0">{{formTitle}}</h1>
+    <a class="btn btn-outline-primary" href="/brand/{{brandId}}">Cancelar</a>
+  </div>
+
+  {{#hasErrors}}
+  <div class="alert alert-danger">
+    <ul>
+      {{#errors}}
+      <li>{{.}}</li>
+      {{/errors}}
+    </ul>
+  </div>
+  {{/hasErrors}}
+
+  <form class="row g-3" action="{{formAction}}" method="POST" enctype="multipart/form-data">
+    
+    <!-- Nombre del modelo -->
+    <div class="col-12 col-md-6">
+      <label for="modelName" class="form-label">Nombre del modelo</label>
+      <input
+        type="text"
+        id="modelName"
+        name="name"
+        class="form-control"
+        placeholder="Ej. Air Zoom"
+        value="{{model.name}}"
+        required
+      >
+    </div>
+
+    <!-- Categoría -->
+    <div class="col-12 col-md-6">
+      <label for="category" class="form-label">Categoría</label>
+      <select id="category" name="category" class="form-select" required>
+        <option value="">Selecciona...</option>
+        <option value="Running" {{#categories_Running}}selected{{/categories_Running}}>Running</option>
+        <option value="Lifestyle" {{#categories_Lifestyle}}selected{{/categories_Lifestyle}}>Lifestyle</option>
+        <option value="Basketball" {{#categories_Basketball}}selected{{/categories_Basketball}}>Basketball</option>
+        <option value="Skate" {{#categories_Skate}}selected{{/categories_Skate}}>Skate</option>
+        <option value="Tenis" {{#categories_Tenis}}selected{{/categories_Tenis}}>Tenis</option>
+        <option value="Football" {{#categories_Football}}selected{{/categories_Football}}>Football</option>
+        <option value="Training" {{#categories_Training}}selected{{/categories_Training}}>Training</option>
+      </select>
+    </div>
+
+    <!-- Descripción -->
+    <div class="col-12">
+      <label for="description" class="form-label">Descripción</label>
+      <textarea
+        id="description"
+        name="description"
+        class="form-control"
+        rows="3"
+        placeholder="Breve descripción del modelo"
+        required
+      >{{model.description}}</textarea>
+    </div>
+
+    <!-- Año de lanzamiento -->
+    <div class="col-6 col-md-4">
+      <label for="releaseYear" class="form-label">Año de lanzamiento</label>
+      <input
+        type="number"
+        id="releaseYear"
+        name="release_year"
+        class="form-control"
+        min="1970"
+        max="2025"
+        step="1"
+        value="{{model.release_year}}"
+        required
+      >
+    </div>
+
+    <!-- Precio -->
+    <div class="col-6 col-md-4">
+      <label for="price" class="form-label">Precio (€)</label>
+      <input
+        type="number"
+        id="price"
+        name="price"
+        class="form-control"
+        min="0"
+        step="0.01"
+        value="{{model.price}}"
+        required
+      >
+    </div>
+
+    <!-- Valoración media -->
+    <div class="col-12 col-md-4">
+      <label for="rating" class="form-label">Valoración media</label>
+      <input
+        type="number"
+        id="rating"
+        name="average_rating"
+        class="form-control"
+        min="0"
+        max="5"
+        step="0.1"
+        value="{{model.average_rating}}"
+      >
+    </div>
+
+    <!-- Colorway -->
+    <div class="col-12 col-md-6">
+      <label for="colorway" class="form-label">Colorway</label>
+      <input
+        type="text"
+        id="colorway"
+        name="colorway"
+        class="form-control"
+        placeholder="Black/White"
+        value="{{model.colorway}}"
+      >
+    </div>
+
+    <!-- Tallas -->
+    <div class="col-12 col-md-6">
+      <label for="sizeRange" class="form-label">Tallas (EU)</label>
+      <input
+        type="text"
+        id="sizeRange"
+        name="size_range"
+        class="form-control"
+        placeholder="40-45"
+        value="{{model.size_range}}"
+      >
+    </div>
+
+    <!-- Imagen -->
+    <div class="col-12">
+      <label for="coverImage" class="form-label">Imagen principal</label>
+      <input
+        type="file"
+        id="coverImage"
+        name="cover_image"
+        class="form-control"
+        accept="image/*"
+      >
+      {{#model.imageFilename}}
+      <p class="form-text mt-2">
+        Imagen actual: {{model.imageFilename}}
+      </p>
+      {{/model.imageFilename}}
+    </div>
+
+    <!-- Botones -->
+    <div class="col-12">
+      <button class="btn btn-primary" type="submit">Guardar</button>
+      <a class="btn btn-outline-secondary" href="/brand/{{brandId}}">Cancelar</a>
+    </div>
+  </form>
+</main>
+
+{{> footer}}

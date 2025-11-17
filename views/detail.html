@@ -47,8 +47,15 @@
                 <p class="mb-1 small text-muted">Colorway: {{colorway}} · Tallas: {{size_range}}</p>
                 <p class="fw-semibold">{{price}} € <span class="badge badge-soft ms-2">⭐ {{average_rating}}</span></p>
                 <div class="d-flex gap-2">
-                  <button class="btn btn-outline-primary btn-sm" type="button" disabled>Editar</button>
-                  <button class="btn btn-outline-danger btn-sm" type="button" disabled>Borrar</button>
+
+                  <a class="btn btn-outline-primary btn-sm" href="/brand/{{brand._id}}/model/{{_id}}/edit">
+                    Editar
+                  </a>
+
+                  <form action="/brand/{{brand._id}}/model/{{_id}}/delete" method="POST" class="d-inline">
+                    <button class="btn btn-outline-danger btn-sm" type="submit">Borrar</button>
+                  </form>
+
                 </div>
               </div>
             </div>
@@ -58,7 +65,7 @@
         </div>
         <hr class="my-4">
         <h3 class="h6">Añadir nuevo modelo</h3>
-        <form class="row g-3 mt-1" action="#" method="post" enctype="multipart/form-data">
+        <form class="row g-3 mt-1" action="/brand/{{brand._id}}/model/new" method="post" enctype="multipart/form-data">
           <div class="col-12 col-md-6">
             <label for="name" class="form-label">Nombre del modelo</label>
             <input type="text" id="name" name="name" class="form-control" placeholder="Ej. Air Zoom" required>
@@ -72,6 +79,8 @@
               <option>Basketball</option>
               <option>Skate</option>
               <option>Tenis</option>
+              <option>Football</option>
+              <option>Training</option>
             </select>
           </div>
           <div class="col-12">
@@ -106,7 +115,7 @@
             <input type="file" id="cover_image" name="cover_image" class="form-control" accept="image/*">
           </div>
           <div class="col-12">
-            <button class="btn btn-primary" type="button" disabled>Crear</button>
+            <button class="btn btn-primary" type="submit">Crear</button>
           </div>
         </form>
       </div>

@@ -411,3 +411,472 @@ router.get('/index', async (req, res) => {
     let brands = await sneakersdb.getPosts();
     res.render('index', { brands });
 });
+
+router.post('/brand/:id/model/:modelId/delete', async (req, res) => {
+    const brandId = req.params.id;
+    const modelId = req.params.modelId;
+    // 1. Obtener la marca
+    const brand = await sneakersdb.getPost(brandId);
+
+    if (!brand) {
+        // No se ha encontrado la marca → error 404
+        return res.status(404).render('message', {
+            title: 'Marca no encontrada',
+            message: 'La marca que intentas borrar no existe.',
+            backUrl: '/index',
+            backText: 'Volver a la página principal',
+            type: 'danger'
+        });
+
+    }
+    // 2. Buscar el modelo dentro de la marca
+    const modelIndex = brand.models.findIndex(model => {
+        try {
+            return model._id.toString() === modelId;
+        } catch (e) {
+            return false;
+        }
+    });
+
+    if (modelIndex === -1) {
+        // No se ha encontrado el modelo → error 404
+        return res.status(404).render('message', {
+            title: 'Modelo no encontrado',
+            message: 'El modelo que intentas borrar no existe en esta marca.',
+            backUrl: `/brand/${brandId}`,
+            backText: 'Volver a la página de la marca',
+            type: 'danger'
+        });
+
+    }
+
+    // 3. Borrar el modelo del array
+    brand.models.splice(modelIndex, 1);
+    await sneakersdb.updatePost(brandId, { models: brand.models });
+
+    // 4. Mostrar página de confirmación
+    return res.render('message', {
+        title: 'Modelo borrado',
+        message: `El modelo se ha borrado correctamente.`,
+        backUrl: `/brand/${brandId}`,
+        backText: 'Volver a la página de la marca',
+        type: 'success'
+    });
+});
+
+router.get('/brand/:id/model/:modelId/edit', async (req, res) => {
+    const brandId = req.params.id;
+    const modelId = req.params.modelId;
+    const result = await sneakersdb.getModelById(modelId);
+
+    if (!result || !result.model) {
+        return res.status(404).render('message', {
+            title: 'Modelo no encontrado',
+            message: 'El modelo que intentas editar no existe.',
+            backUrl: `/brand/${brandId}`,
+            backText: 'Volver a la página de la marca',
+            type: 'danger'
+        });
+
+    }
+
+    // Crear objeto para marcar la categoría seleccionada
+    const categories = {};
+    if (result.model.category) {
+        categories[`categories_${result.model.category}`] = true;
+    }
+
+    return res.render('edit_model', {
+        formTitle: 'Editar modelo',
+        formAction: `/brand/${brandId}/model/${modelId}/edit`,
+        brandId,
+        model: result.model,
+        ...categories
+    });
+});
+
+router.post('/brand/:id/model/new', upload.single('cover_image'), async function(req, res) {
+    try {
+        const brandId = req.params.id;
+        const brand = await sneakersdb.getPost(brandId);
+
+        if (!brand) {
+            return res.status(404).render('message', {
+                title: 'Marca no encontrada',
+                message: 'La marca no existe.',
+                backUrl: '/index',
+                backText: 'Volver a la página principal',
+                type: 'danger'
+            });
+        }
+
+        // Obtener datos del formulario
+        const name = req.body.name;
+        const category = req.body.category;
+        const description = req.body.description;
+        const release_year = req.body.release_year;
+        const price = req.body.price;
+        const average_rating = req.body.average_rating;
+        const colorway = req.body.colorway;
+        const size_range = req.body.size_range;
+        const errors = [];
+
+        // Validaciones
+        if (!name || !name.trim()) {
+            errors.push("El nombre del modelo es obligatorio.");
+        }
+        if (!category || !category.trim()) {
+            errors.push("La categoría es obligatoria.");
+        }
+        if (!description || !description.trim()) {
+            errors.push("La descripción es obligatoria.");
+        }
+        if (!release_year) {
+            errors.push("El año de lanzamiento es obligatorio.");
+        }
+        if (!price) {
+            errors.push("El precio es obligatorio.");
+        }
+
+        // Validar nombre único en la marca
+        if (name && name.trim()) {
+            const existingModel = brand.models.find(model => 
+                model.name && model.name.toLowerCase() === name.trim().toLowerCase()
+            );
+            if (existingModel) {
+                errors.push("Ya existe un modelo con ese nombre en esta marca.");
+            }
+        }
+
+        // Validar año numérico y en rango
+        let year = NaN;
+        if (release_year) {
+            year = parseInt(release_year, 10);
+            if (Number.isNaN(year)) {
+                errors.push("El año de lanzamiento debe ser un número.");
+            } else {
+                const minYear = 1970;
+                const maxYear = 2025;
+                if (year < minYear || year > maxYear) {
+                    errors.push(`El año de lanzamiento debe estar entre ${minYear} y ${maxYear}.`);
+                }
+            }
+        }
+
+        // Validar precio numérico y positivo
+        let priceNum = NaN;
+        if (price) {
+            priceNum = parseFloat(price);
+            if (Number.isNaN(priceNum) || priceNum < 0) {
+                errors.push("El precio debe ser un número positivo.");
+            }
+        }
+
+        // Validar rating
+        let rating = NaN;
+        if (average_rating && average_rating.trim()) {
+            rating = parseFloat(average_rating);
+            if (Number.isNaN(rating) || rating < 0 || rating > 5) {
+                errors.push("La valoración debe estar entre 0 y 5.");
+            }
+        }
+
+        // Validar descripción longitud
+        const descTrim = (description || "").trim();
+        if (descTrim.length < 10 || descTrim.length > 500) {
+            errors.push("La descripción debe tener entre 10 y 500 caracteres.");
+        }
+
+        if (errors.length > 0) {
+            // Si se subió un archivo y hay errores, bórralo
+            if (req.file && req.file.filename) {
+                try {
+                    await fs.rm(sneakersdb.UPLOADS_FOLDER + '/' + req.file.filename);
+                } catch (e) {
+                    // ignore
+                }
+            }
+
+            // Crear objeto para marcar la categoría seleccionada
+            const categories = {};
+            if (category) {
+                categories[`categories_${category}`] = true;
+            }
+
+            return res.status(400).render('edit_model', {
+                formTitle: 'Añadir nuevo modelo',
+                formAction: `/brand/${brandId}/model/new`,
+                brandId,
+                hasErrors: true,
+                errors,
+                model: {
+                    name,
+                    category,
+                    description,
+                    release_year,
+                    price,
+                    average_rating,
+                    colorway,
+                    size_range
+                },
+                ...categories
+            });
+        }
+
+        // Crear el nuevo modelo con ObjectId
+        const { ObjectId } = await import('mongodb');
+        const newModel = {
+            _id: new ObjectId(),
+            name: name.trim(),
+            category: category.trim(),
+            description: descTrim,
+            release_year: year,
+            price: priceNum,
+            average_rating: rating || 0,
+            colorway: colorway ? colorway.trim() : '',
+            size_range: size_range ? size_range.trim() : '',
+            imageFilename: req.file && req.file.filename ? req.file.filename : null
+        };
+
+        // Añadir modelo al array de la marca
+        if (!brand.models) {
+            brand.models = [];
+        }
+        brand.models.push(newModel);
+
+        // Guardar en BD
+        await sneakersdb.updatePost(brandId, { models: brand.models });
+
+        return res.render('message', {
+            title: 'Modelo creado',
+            message: `El modelo "${newModel.name}" se ha creado correctamente.`,
+            backUrl: `/brand/${brandId}`,
+            backText: 'Volver a la página de la marca',
+            type: 'success'
+        });
+
+    } catch (error) {
+        console.error('Error creating model:', error);
+        return res.status(500).render('message', {
+            title: 'Error en el servidor',
+            message: 'Ha ocurrido un error al crear el modelo.',
+            backUrl: '/index',
+            backText: 'Volver a la página principal',
+            type: 'danger'
+        });
+    }
+});
+
+router.post('/brand/:id/model/:modelId/edit', upload.single('cover_image'), async function(req, res) {
+    try {
+        const brandId = req.params.id;
+        const modelId = req.params.modelId;
+
+        // Obtener la marca
+        const brand = await sneakersdb.getPost(brandId);
+        if (!brand) {
+            return res.status(404).render('message', {
+                title: 'Marca no encontrada',
+                message: 'La marca no existe.',
+                backUrl: '/index',
+                backText: 'Volver a la página principal',
+                type: 'danger'
+            });
+        }
+
+        // Buscar el modelo
+        const modelIndex = brand.models.findIndex(model => {
+            try {
+                return model._id.toString() === modelId;
+            } catch (e) {
+                return false;
+            }
+        });
+
+        if (modelIndex === -1) {
+            return res.status(404).render('message', {
+                title: 'Modelo no encontrado',
+                message: 'El modelo no existe en esta marca.',
+                backUrl: `/brand/${brandId}`,
+                backText: 'Volver a la página de la marca',
+                type: 'danger'
+            });
+        }
+
+        const currentModel = brand.models[modelIndex];
+
+        // Obtener datos del formulario
+        const name = req.body.name;
+        const category = req.body.category;
+        const description = req.body.description;
+        const release_year = req.body.release_year;
+        const price = req.body.price;
+        const average_rating = req.body.average_rating;
+        const colorway = req.body.colorway;
+        const size_range = req.body.size_range;
+        const errors = [];
+
+        // Validaciones (iguales que en creación)
+        if (!name || !name.trim()) {
+            errors.push("El nombre del modelo es obligatorio.");
+        }
+        if (!category || !category.trim()) {
+            errors.push("La categoría es obligatoria.");
+        }
+        if (!description || !description.trim()) {
+            errors.push("La descripción es obligatoria.");
+        }
+        if (!release_year) {
+            errors.push("El año de lanzamiento es obligatorio.");
+        }
+        if (!price) {
+            errors.push("El precio es obligatorio.");
+        }
+
+        // Validar nombre único en la marca (excepto el modelo actual)
+        if (name && name.trim()) {
+            const existingModel = brand.models.find(model => {
+                try {
+                    const modelIdStr = model._id.toString();
+                    const isSameModel = modelIdStr === modelId;
+                    const sameName = model.name && model.name.toLowerCase() === name.trim().toLowerCase();
+                    return sameName && !isSameModel;
+                } catch (e) {
+                    return false;
+                }
+            });
+            if (existingModel) {
+                errors.push("Ya existe un modelo con ese nombre en esta marca.");
+            }
+        }
+
+        // Validar año numérico y en rango
+        let year = NaN;
+        if (release_year) {
+            year = parseInt(release_year, 10);
+            if (Number.isNaN(year)) {
+                errors.push("El año de lanzamiento debe ser un número.");
+            } else {
+                const minYear = 1970;
+                const maxYear = 2025;
+                if (year < minYear || year > maxYear) {
+                    errors.push(`El año de lanzamiento debe estar entre ${minYear} y ${maxYear}.`);
+                }
+            }
+        }
+
+        // Validar precio numérico y positivo
+        let priceNum = NaN;
+        if (price) {
+            priceNum = parseFloat(price);
+            if (Number.isNaN(priceNum) || priceNum < 0) {
+                errors.push("El precio debe ser un número positivo.");
+            }
+        }
+
+        // Validar rating
+        let rating = NaN;
+        if (average_rating && average_rating.trim()) {
+            rating = parseFloat(average_rating);
+            if (Number.isNaN(rating) || rating < 0 || rating > 5) {
+                errors.push("La valoración debe estar entre 0 y 5.");
+            }
+        }
+
+        // Validar descripción longitud
+        const descTrim = (description || "").trim();
+        if (descTrim.length < 10 || descTrim.length > 500) {
+            errors.push("La descripción debe tener entre 10 y 500 caracteres.");
+        }
+
+        if (errors.length > 0) {
+            // Si se subió un archivo y hay errores, bórralo
+            if (req.file && req.file.filename) {
+                try {
+                    await fs.rm(sneakersdb.UPLOADS_FOLDER + '/' + req.file.filename);
+                } catch (e) {
+                    // ignore
+                }
+            }
+
+            // Crear objeto para marcar la categoría seleccionada
+            const categories = {};
+            if (category) {
+                categories[`categories_${category}`] = true;
+            }
+
+            return res.status(400).render('edit_model', {
+                formTitle: 'Editar modelo',
+                formAction: `/brand/${brandId}/model/${modelId}/edit`,
+                brandId,
+                hasErrors: true,
+                errors,
+                model: {
+                    name,
+                    category,
+                    description,
+                    release_year,
+                    price,
+                    average_rating,
+                    colorway,
+                    size_range,
+                    imageFilename: currentModel.imageFilename
+                },
+                ...categories
+            });
+        }
+
+        // Actualizar el modelo
+        const updatedModel = {
+            _id: currentModel._id,
+            name: name.trim(),
+            category: category.trim(),
+            description: descTrim,
+            release_year: year,
+            price: priceNum,
+            average_rating: rating || 0,
+            colorway: colorway ? colorway.trim() : '',
+            size_range: size_range ? size_range.trim() : '',
+            imageFilename: currentModel.imageFilename
+        };
+
+        // Si se subió nueva imagen, actualizar
+        if (req.file && req.file.filename) {
+            updatedModel.imageFilename = req.file.filename;
+            // Borrar la imagen antigua si existe
+            if (currentModel.imageFilename) {
+                try {
+                    await fs.rm(sneakersdb.UPLOADS_FOLDER + '/' + currentModel.imageFilename);
+                } catch (e) {
+                    // ignore
+                }
+            }
+        }
+
+        // Reemplazar el modelo en el array
+        brand.models[modelIndex] = updatedModel;
+
+        // Guardar en BD
+        await sneakersdb.updatePost(brandId, { models: brand.models });
+
+        return res.render('message', {
+            title: 'Modelo actualizado',
+            message: `El modelo "${updatedModel.name}" se ha actualizado correctamente.`,
+            backUrl: `/brand/${brandId}`,
+            backText: 'Volver a la página de la marca',
+            type: 'success'
+        });
+
+    } catch (error) {
+        console.error('Error updating model:', error);
+        return res.status(500).render('message', {
+            title: 'Error en el servidor',
+            message: 'Ha ocurrido un error al actualizar el modelo.',
+            backUrl: '/index',
+            backText: 'Volver a la página principal',
+            type: 'danger'
+        });
+    }
+});
+
+
