@@ -11,10 +11,48 @@ export default router;
 const upload = multer({ dest: sneakersdb.UPLOADS_FOLDER })
 
 router.get('/', async (req, res) => {
+    try {
+        const q = req.query.q || '';
+        const category = req.query.category || '';
+        let page = parseInt(req.query.page, 10) || 1;
+        if (page < 1) page = 1;
+        const pageSize = 6;
 
-    let brands = await sneakersdb.getPosts();
+        const { items, total } = await sneakersdb.getPostsPaged({ q, category }, page, pageSize);
+        const totalPages = Math.max(1, Math.ceil(total / pageSize));
+        if (page > totalPages) page = totalPages;
 
-    res.render('index', { brands });
+        const pages = [];
+        for (let i = 1; i <= totalPages; i++) {
+            pages.push({ n: i, active: i === page, q, category });
+        }
+
+        const categories = {};
+        if (category) categories[`categories_${category}`] = true;
+
+        return res.render('index', {
+            brands: items,
+            currentPage: page,
+            totalPages,
+            pages,
+            q,
+            category,
+            prevPage: Math.max(1, page - 1),
+            nextPage: Math.min(totalPages, page + 1),
+            prevDisabled: page === 1,
+            nextDisabled: page === totalPages,
+            ...categories
+        });
+    } catch (err) {
+        console.error('Error listing brands:', err);
+        return res.status(500).render('message', {
+            title: 'Error en el servidor',
+            message: 'No se pudieron listar las marcas.',
+            backUrl: '/index',
+            backText: 'Volver',
+            type: 'danger'
+        });
+    }
 });
 
 router.post('/brand/new', upload.single('brand_image'), async function (req, res, next) {
@@ -408,8 +446,48 @@ router.post('/brand/:id/edit', upload.single('brand_image'), async (req, res) =>
 
 
 router.get('/index', async (req, res) => {
-    let brands = await sneakersdb.getPosts();
-    res.render('index', { brands });
+    try {
+        const q = req.query.q || '';
+        const category = req.query.category || '';
+        let page = parseInt(req.query.page, 10) || 1;
+        if (page < 1) page = 1;
+        const pageSize = 6;
+
+        const { items, total } = await sneakersdb.getPostsPaged({ q, category }, page, pageSize);
+        const totalPages = Math.max(1, Math.ceil(total / pageSize));
+        if (page > totalPages) page = totalPages;
+
+        const pages = [];
+        for (let i = 1; i <= totalPages; i++) {
+            pages.push({ n: i, active: i === page, q, category });
+        }
+
+        const categories = {};
+        if (category) categories[`categories_${category}`] = true;
+
+        return res.render('index', {
+            brands: items,
+            currentPage: page,
+            totalPages,
+            pages,
+            q,
+            category,
+            prevPage: Math.max(1, page - 1),
+            nextPage: Math.min(totalPages, page + 1),
+            prevDisabled: page === 1,
+            nextDisabled: page === totalPages,
+            ...categories
+        });
+    } catch (err) {
+        console.error('Error listing brands:', err);
+        return res.status(500).render('message', {
+            title: 'Error en el servidor',
+            message: 'No se pudieron listar las marcas.',
+            backUrl: '/index',
+            backText: 'Volver',
+            type: 'danger'
+        });
+    }
 });
 
 router.post('/brand/:id/model/:modelId/delete', async (req, res) => {

@@ -40,6 +40,28 @@ export async function getPosts() {
     return await brands.find().toArray();
 }
 
+// Get posts with optional filtering and pagination
+export async function getPostsPaged(filterParams = {}, page = 1, pageSize = 6) {
+    const { q, category } = filterParams || {};
+    const filter = {};
+
+    if (q) {
+        filter.$or = [
+            { name: { $regex: q, $options: 'i' } },
+            { 'models.name': { $regex: q, $options: 'i' } }
+        ];
+    }
+
+    if (category) {
+        filter['models.category'] = category;
+    }
+
+    const total = await brands.countDocuments(filter);
+    const skip = (Math.max(1, page) - 1) * pageSize;
+    const items = await brands.find(filter).skip(skip).limit(pageSize).toArray();
+
+    return { items, total };
+}
 export async function getPost(id) {
 
     return await brands.findOne({ _id: new ObjectId(id) });

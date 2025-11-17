@@ -519,5 +519,30 @@ main {
 .btn-outline-primary.disabled {
   --bs-btn-disabled-color: #28a745;
   --bs-btn-disabled-border-color: #28a745;
-  /* outline disabled mantiene bg transparente por defecto */
+  /* outline disabled mantiene bg transparente por defecto */
+}
+
+/* === Paginación en verde === */
+.btn-pagination {
+  color: var(--accent);
+  border-color: var(--accent);
+  transition: all 0.2s ease;
+}
+
+.btn-pagination:hover {
+  background-color: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.page-item.active .btn-pagination {
+  background-color: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.page-item.disabled .btn-pagination {
+  color: #6c757d;
+  border-color: #dee2e6;
+  cursor: not-allowed;
 }
