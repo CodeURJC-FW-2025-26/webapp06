@@ -17,9 +17,13 @@ router.get('/', async (req, res) => {
     res.render('index', { brands });
 });
 
-router.post('/brand/new', upload.single('brand_image'), async (req, res, next) => {
+router.post('/brand/new', upload.single('brand_image'), async function (req, res, next) {
     try {
-        const { name, country_origin, founded_year, description } = req.body;
+        // Evitar destructuring complejo para que el código sea más claro
+        const name = req.body.name;
+        const country_origin = req.body.country_origin;
+        const founded_year = req.body.founded_year;
+        const description = req.body.description;
         const errors = [];
 
         //VALIDACIONES DEL SERVIDOR
@@ -75,10 +79,22 @@ router.post('/brand/new', upload.single('brand_image'), async (req, res, next) =
         //SI HAY ERRORES -> VOLVER AL FORMULARIO
 
         if (errors.length > 0) {
+            // Si se subió un archivo durante la petición y hay errores,
+            // eliminar el fichero subido para no dejar archivos huérfanos
+            if (req.file && req.file.filename) {
+                try {
+                    await fs.rm(sneakersdb.UPLOADS_FOLDER + '/' + req.file.filename);
+                } catch (e) {
+                    // ignore
+                }
+            }
+
             return res.status(400).render('new', {
-                hasErrors: errors.length > 0,
+                formTitle: 'Crear nueva marca',
+                formAction: '/brand/new',
+                hasErrors: true,
                 errors,
-                form: {
+                brand: {
                     name,
                     country_origin,
                     founded_year,
@@ -95,7 +111,7 @@ router.post('/brand/new', upload.single('brand_image'), async (req, res, next) =
             country_origin: country_origin.trim(),
             founded_year: year,
             description: descTrim,
-            imageFilename: req.file?.filename ?? null,
+            imageFilename: req.file && req.file.filename ? req.file.filename : null,
             sneakers: []
         };
 
@@ -123,10 +139,14 @@ router.get('/brand/:id', async (req, res) => {
 
     // Convertir ObjectIds de modelos a strings para que funcione en Mustache
     if (brand && brand.models) {
-        brand.models = brand.models.map(model => ({
-            ...model,
-            _id: model._id.toString()
-        }));
+        for (let i = 0; i < brand.models.length; i++) {
+            // Convertimos el _id del modelo a string
+            try {
+                brand.models[i]._id = brand.models[i]._id.toString();
+            } catch (e) {
+                // si no tiene _id o no es ObjectId, lo dejamos como está
+            }
+        }
     }
 
     res.render('detail', { brand });
@@ -201,10 +221,13 @@ router.get('/detail/:id/', async (req, res) => {
     
     // Convertir ObjectIds de modelos a strings para que funcione en Mustache
     if (brand && brand.models) {
-        brand.models = brand.models.map(model => ({
-            ...model,
-            _id: model._id.toString()
-        }));
+        for (let i = 0; i < brand.models.length; i++) {
+            try {
+                brand.models[i]._id = brand.models[i]._id.toString();
+            } catch (e) {
+                // ignore
+            }
+        }
     }
     
     res.render('detail', { brand });
@@ -261,11 +284,88 @@ router.post('/brand/:id/edit', upload.single('image'), async (req, res) => {
             });
         }
 
+        // VALIDACIONES del formulario de edición (mismas que en creación)
+        const name = req.body.name;
+        const country_origin = req.body.country_origin;
+        const founded_year = req.body.founded_year;
+        const description = req.body.description;
+        const errors = [];
+
+        if (!name || !name.trim()) {
+            errors.push("El nombre es obligatorio.");
+        }
+        if (!country_origin || !country_origin.trim()) {
+            errors.push("El país de origen es obligatorio.");
+        }
+        if (!founded_year) {
+            errors.push("El año de fundación es obligatorio.");
+        }
+        if (!description || !description.trim()) {
+            errors.push("La descripción es obligatoria.");
+        }
+
+        if (name && !/^[A-ZÁÉÍÓÚÑ]/.test(name.trim())) {
+            errors.push("El nombre debe comenzar por una letra mayúscula.");
+        }
+
+        // Comprobar nombre único (excluir la propia marca que estamos editando)
+        if (name && name.trim()) {
+            const existingBrand = await sneakersdb.findBrandName(name.trim());
+            if (existingBrand && existingBrand._id && existingBrand._id.toString() !== brandId) {
+                errors.push("Ya existe una marca con ese nombre.");
+            }
+        }
+
+        let year = NaN;
+        if (founded_year) {
+            year = parseInt(founded_year, 10);
+            if (Number.isNaN(year)) {
+                errors.push("El año de fundación debe ser un número.");
+            } else {
+                const minYear = 1900;
+                const maxYear = 2025;
+                if (year < minYear || year > maxYear) {
+                    errors.push(`El año de fundación debe estar entre ${minYear} y ${maxYear}.`);
+                }
+            }
+        }
+
+        const descTrim = (description || "").trim();
+        if (descTrim.length < 20 || descTrim.length > 300) {
+            errors.push("La descripción debe tener entre 20 y 300 caracteres.");
+        }
+
+        if (errors.length > 0) {
+            // Si se subió un nuevo archivo, eliminarlo para no dejar huérfanos
+            if (req.file && req.file.filename) {
+                try {
+                    await fs.rm(sneakersdb.UPLOADS_FOLDER + '/' + req.file.filename);
+                } catch (e) {
+                    // ignore
+                }
+            }
+
+            return res.status(400).render('new', {
+                formTitle: 'Editar marca',
+                formAction: `/brand/${brandId}/edit`,
+                hasErrors: true,
+                errors,
+                brand: {
+                    name,
+                    country_origin,
+                    founded_year,
+                    description,
+                    imageFilename: currentBrand.imageFilename
+                }
+            });
+        }
+
         // 2. Construimos los nuevos valores
         const updatedFields = {
-            name: req.body.name,
-            country_origin: req.body.country_origin,
-            founded_year: req.body.founded_year
+            name: name.trim(),
+            country_origin: country_origin.trim(),
+            founded_year: year,
+            description: descTrim
         };
 
         // 3. Si el usuario ha subido una nueva imagen, la guardamos y borramos la antigua
