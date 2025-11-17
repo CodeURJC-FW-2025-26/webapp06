@@ -104,8 +104,11 @@ router.post('/brand/new', upload.single('brand_image'), async (req, res, next) =
 
         // Página intermedia de confirmación
         res.render('message', {
-            _id: insertedId,
-            name: brand.name
+            title: 'Marca creada',
+            message: `La marca "${brand.name}" se ha creado correctamente.`,
+            backUrl: `/brand/${insertedId}`,
+            backText: 'Ver detalles de la marca',
+            type: 'success'
         });
 
     } catch (err) {
@@ -117,6 +120,14 @@ router.post('/brand/new', upload.single('brand_image'), async (req, res, next) =
 router.get('/brand/:id', async (req, res) => {
 
     let brand = await sneakersdb.getPost(req.params.id);
+
+    // Convertir ObjectIds de modelos a strings para que funcione en Mustache
+    if (brand && brand.models) {
+        brand.models = brand.models.map(model => ({
+            ...model,
+            _id: model._id.toString()
+        }));
+    }
 
     res.render('detail', { brand });
 });
@@ -187,6 +198,15 @@ router.get('/brand.models/:id/image', async (req, res) => {
 
 router.get('/detail/:id/', async (req, res) => {
     let brand = await sneakersdb.getPost(req.params.id);
+    
+    // Convertir ObjectIds de modelos a strings para que funcione en Mustache
+    if (brand && brand.models) {
+        brand.models = brand.models.map(model => ({
+            ...model,
+            _id: model._id.toString()
+        }));
+    }
+    
     res.render('detail', { brand });
 });
 

@@ -1,5 +1,5 @@
 import fs from 'node:fs/promises';
-import * as brand from './sneakersdb.js';
+import * as sneakersdb from './sneakersdb.js';
 import { ObjectId } from 'mongodb';
 
 const UPLOADS_FOLDER = './uploads';
@@ -13,6 +13,13 @@ const brands = JSON.parse(dataString);
 
 await sneakersdb.deletePosts();
 for (let brand of brands) {
+    // Asignar _id a cada modelo si no lo tienen
+    if (brand.models && Array.isArray(brand.models)) {
+        brand.models = brand.models.map(model => ({
+            ...model,
+            _id: new ObjectId()
+        }));
+    }
     await sneakersdb.addPost(brand);
 }
 

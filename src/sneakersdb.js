@@ -74,3 +74,6 @@ export async function getModelById(modelId) {
     return { model: brand.models[0], brandId: brand._id };
 }
 
+export async function findBrandName(name) {
+    return await brands.findOne({ name: name });
+}
