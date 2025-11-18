@@ -114,12 +114,21 @@ O iniciar el servicio desde Windows.
 ```bash
 npm start
 ```
+La aplicación estará disponible en:
 
-Para desarrollo:
+👉 **http://localhost:3000/**
 
+Para desarrollo con recarga automática:
 ```bash
 npm run watch
 ```
+Este comando utiliza **nodemon** para reiniciar automáticamente el servidor cuando detecta cambios en los archivos:
+
+- `.js`
+- `.html`
+- `.css`
+
+De esta forma no es necesario reiniciar manualmente la aplicación durante el desarrollo.
 
 ---
 
