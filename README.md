@@ -71,3 +71,100 @@
   - `price range`  
   - `size_range`  
   - `average_rating`
+
+## Práctica 2
+
+### 1. Instrucciones de ejecución
+
+#### 1.1. Requisitos previos
+
+- **Node.js**: versión **18.x o superior**  
+- **npm**: versión **9.x o superior**  
+- **MongoDB**: versión **6.x o superior** ejecutándose en local  
+  - URL por defecto: `mongodb://localhost:27017`
+  - Base de datos: `sneakersdb`
+
+Opcional:
+
+- **nodemon** (dev dependency).
+
+#### 1.2. Clonado del repositorio
+
+```bash
+git clone https://github.com/USUARIO/REPO.git
+cd REPO
+```
+
+#### 1.3. Instalación de dependencias
+
+```bash
+npm install
+```
+
+#### 1.4. Ejecución de MongoDB
+
+```bash
+mongod
+```
+
+O iniciar el servicio desde Windows.
+
+#### 1.5. Carga de datos y ejecución
+
+```bash
+npm start
+```
+
+Para desarrollo:
+
+```bash
+npm run watch
+```
+
+---
+
+### 2. Descripción de ficheros
+
+#### 2.1. Backend (Node.js / Express)
+
+- `src/app.js`: Configuración principal de Express, Mustache, rutas y carga de datos.
+- `src/router.js`: Define todas las rutas de la web.
+- `src/sneakersdb.js`: Acceso a MongoDB.
+- `src/load_data.js`: Carga los datos de demo y gestiona la carpeta uploads.
+
+#### 2.2. Vistas (Mustache)
+
+- `views/header.html`: Cabecera común.
+- `views/footer.html`: Pie de página.
+- `views/index.html`: Página principal.
+- `views/detail.html`: Detalle de un modelo.
+- `views/new.html`: Crear marca.
+- `views/edit_model.html`: Editar modelo.
+- `views/message.html`: Página de mensajes.
+
+#### 2.3. Estilos y estáticos
+
+- `public/css/styles.css`: Estilos personalizados.
+- `public/img/sneakers/`: Imágenes de modelos.
+- `public/img/web/`: Recursos web.
+
+#### 2.4. Datos de ejemplo
+
+- `data/data.json`: Datos de marcas y modelos.
+- `data/images/`: Imágenes para copiar a uploads.
+
+---
+
+### 3. Vídeo demostrativo
+
+📹 [Vídeo demostrativo](https://www.youtube.com)
+
+---
+
+### 4. Participación de miembros
+
+| Miembro | Usuario GitHub | Tareas |
+|--------|----------------|--------|
+| Julián García Panadero | `julianjgp23` | Backend, vistas, estilos |
+| Pablo Villaplana Rodríguez | `pvillar81` | Rutas, validaciones, filtros |
+| Álvaro Fernández Jiménez | `minicruck` | MongoDB, carga de datos |
