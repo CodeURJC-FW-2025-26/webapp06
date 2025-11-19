@@ -20,7 +20,7 @@
   {{/hasErrors}}
 
   <form class="row g-3" action="{{formAction}}" method="POST" enctype="multipart/form-data">
-    <!-- Nombre de la marca -->
+    <!-- Brand name -->
     <div class="col-12 col-md-6">
       <label for="brandName" class="form-label">Nombre de la marca</label>
       <input
@@ -34,7 +34,7 @@
       >
     </div>
 
-    <!-- País de origen -->
+    <!-- Country of origin -->
     <div class="col-12 col-md-6">
       <label for="country" class="form-label">País de origen</label>
       <input
@@ -49,7 +49,7 @@
     </div>
 
     
-    <!-- Año de fundación -->
+    <!-- Founding date -->
     <div class="col-12 col-md-6">
       <label for="founded" class="form-label">Año de fundación</label>
       <input
@@ -65,7 +65,7 @@
       >
     </div>
 
-    <!-- Descripción -->
+    <!-- Description -->
     <div class="col-12">
       <label for="description" class="form-label">Descripción</label>
       <textarea
@@ -78,7 +78,7 @@
       >{{brand.description}}</textarea>
     </div>
 
-    <!-- Logo / Imagen -->
+    <!-- Logo / Image -->
     <div class="col-12">
       <label for="logo" class="form-label">Logo / Imagen</label>
       <input
@@ -95,7 +95,7 @@
       {{/brand.imageFilename}}
     </div>
 
-    <!-- Botones -->
+    <!-- Buttons -->
     <div class="col-12">
       <button class="btn btn-primary" type="submit">Guardar</button>
       <a class="btn btn-outline-secondary" href="/index">Cancelar</a>

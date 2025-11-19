@@ -13,7 +13,7 @@ const brands = JSON.parse(dataString);
 
 await sneakersdb.deletePosts();
 for (let brand of brands) {
-    // Asignar _id a cada modelo si no lo tienen
+    // Assign _id to each model if they don't have one
     if (brand.models && Array.isArray(brand.models)) {
         brand.models = brand.models.map(model => ({
             ...model,

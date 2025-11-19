@@ -20,7 +20,7 @@ export async function updatePost(id, updatedFields) {
     return await brands.findOneAndUpdate(
         { _id: new ObjectId(id) },
         { $set: updatedFields },
-        { returnDocument: 'after' } // devolvemos el documento actualizado
+        { returnDocument: 'after' } // return updated document
     );
 }
 
@@ -67,16 +67,16 @@ export async function getPost(id) {
     return await brands.findOne({ _id: new ObjectId(id) });
 }
 
-// Busca y devuelve un modelo por su _id dentro del array models de las marcas.
-// Retorna { model, brandId } o null si no se encuentra.
+// Find and return a model by its _id within the models array of brands.
+// Returns { model, brandId } or null if not found.
 export async function getModelById(modelId) {
-    // Buscar la marca que contenga el modelo con _id == modelId
+    // Find the brand containing the model with _id == modelId
     let brand = await brands.findOne(
         { 'models._id': modelId },
         { projection: { models: { $elemMatch: { _id: modelId } }, _id: 1 } }
     );
 
-    // Si no se encuentra, probar si modelId es un ObjectId en base 16 y buscar con ObjectId
+    // If not found, try if modelId is a hex-based ObjectId and search with ObjectId
     if (!brand) {
         try {
             if (ObjectId.isValid(modelId)) {

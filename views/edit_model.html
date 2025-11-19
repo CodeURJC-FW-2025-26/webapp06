@@ -21,7 +21,7 @@
 
   <form class="row g-3" action="{{formAction}}" method="POST" enctype="multipart/form-data">
     
-    <!-- Nombre del modelo -->
+    <!-- Model name -->
     <div class="col-12 col-md-6">
       <label for="modelName" class="form-label">Nombre del modelo</label>
       <input
@@ -35,7 +35,7 @@
       >
     </div>
 
-    <!-- Categoría -->
+    <!-- Category -->
     <div class="col-12 col-md-6">
       <label for="category" class="form-label">Categoría</label>
       <select id="category" name="category" class="form-select" required>
@@ -50,7 +50,7 @@
       </select>
     </div>
 
-    <!-- Descripción -->
+    <!-- Description -->
     <div class="col-12">
       <label for="description" class="form-label">Descripción</label>
       <textarea
@@ -63,7 +63,7 @@
       >{{model.description}}</textarea>
     </div>
 
-    <!-- Año de lanzamiento -->
+    <!-- Release Year -->
     <div class="col-6 col-md-4">
       <label for="releaseYear" class="form-label">Año de lanzamiento</label>
       <input
@@ -79,7 +79,7 @@
       >
     </div>
 
-    <!-- Precio -->
+    <!-- Prize -->
     <div class="col-6 col-md-4">
       <label for="price" class="form-label">Precio (€)</label>
       <input
@@ -94,7 +94,7 @@
       >
     </div>
 
-    <!-- Valoración media -->
+    <!-- Average rating -->
     <div class="col-12 col-md-4">
       <label for="rating" class="form-label">Valoración media</label>
       <input
@@ -122,7 +122,7 @@
       >
     </div>
 
-    <!-- Tallas -->
+    <!-- Size -->
     <div class="col-12 col-md-6">
       <label for="sizeRange" class="form-label">Tallas (EU)</label>
       <input
@@ -135,7 +135,7 @@
       >
     </div>
 
-    <!-- Imagen -->
+    <!-- Image -->
     <div class="col-12">
       <label for="coverImage" class="form-label">Imagen principal</label>
       <input
@@ -152,7 +152,7 @@
       {{/model.imageFilename}}
     </div>
 
-    <!-- Botones -->
+    <!-- Buttons -->
     <div class="col-12">
       <button class="btn btn-primary" type="submit">Guardar</button>
       <a class="btn btn-outline-secondary" href="/brand/{{brandId}}">Cancelar</a>

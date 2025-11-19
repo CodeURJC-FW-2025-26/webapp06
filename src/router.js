@@ -64,9 +64,9 @@ router.post('/brand/new', upload.single('brand_image'), async function (req, res
         const description = req.body.description;
         const errors = [];
 
-        //VALIDACIONES DEL SERVIDOR
+        // SERVER VALIDATIONS
 
-        // 1) Campos obligatorios
+        // 1) Required fields
         if (!name || !name.trim()) {
             errors.push("El nombre es obligatorio.");
         }
@@ -80,12 +80,12 @@ router.post('/brand/new', upload.single('brand_image'), async function (req, res
             errors.push("La descripción es obligatoria.");
         }
 
-        // 2) Nombre empieza por mayúscula
+        // 2) Name starts with uppercase letter
         if (name && !/^[A-ZÁÉÍÓÚÑ]/.test(name.trim())) {
             errors.push("El nombre debe comenzar por una letra mayúscula.");
         }
 
-        // 3) Nombre único en BBDD
+        // 3) Unique name in database
         if (name && name.trim()) {
             const existingBrand = await sneakersdb.findBrandName(name.trim());
             if (existingBrand) {
@@ -93,7 +93,7 @@ router.post('/brand/new', upload.single('brand_image'), async function (req, res
             }
         }
 
-        // 4) Año en numero y dentro de rango
+        // 4) Year is numeric and within range
         let year = NaN;
         if (founded_year) {
             year = parseInt(founded_year, 10);
@@ -108,17 +108,17 @@ router.post('/brand/new', upload.single('brand_image'), async function (req, res
             }
         }
 
-        // 5) Descripción con longitud mínima y máxima
+        // 5) Description with minimum and maximum length
         const descTrim = (description || "").trim();
         if (descTrim.length < 20 || descTrim.length > 300) {
             errors.push("La descripción debe tener entre 20 y 300 caracteres.");
         }
 
-        //SI HAY ERRORES -> VOLVER AL FORMULARIO
+        // IF THERE ARE ERRORS -> RETURN TO FORM
 
         if (errors.length > 0) {
-            // Si se subió un archivo durante la petición y hay errores,
-            // eliminar el fichero subido para no dejar archivos huérfanos
+            // If a file was uploaded during the request and there are errors,
+            // delete the uploaded file to avoid orphaned files
             if (req.file && req.file.filename) {
                 try {
                     await fs.rm(sneakersdb.UPLOADS_FOLDER + '/' + req.file.filename);
@@ -142,7 +142,7 @@ router.post('/brand/new', upload.single('brand_image'), async function (req, res
         }
 
 
-        //SI NO HAY ERRORES -> GUARDAR EN MONGO 
+        // IF NO ERRORS -> SAVE TO MONGO 
 
         const brand = {
             name: name.trim(),
@@ -156,7 +156,7 @@ router.post('/brand/new', upload.single('brand_image'), async function (req, res
         const result = await sneakersdb.addPost(brand);
         const insertedId = result.insertedId.toString();
 
-        // Página intermedia de confirmación
+        // Confirmation page
         res.render('message', {
             title: 'Marca creada',
             message: `La marca "${brand.name}" se ha creado correctamente.`,
@@ -175,14 +175,14 @@ router.get('/brand/:id', async (req, res) => {
 
     let brand = await sneakersdb.getPost(req.params.id);
 
-    // Convertir ObjectIds de modelos a strings para que funcione en Mustache
+    // Convert model ObjectIds to strings for Mustache to work
     if (brand && brand.models) {
         for (let i = 0; i < brand.models.length; i++) {
-            // Convertimos el _id del modelo a string
+            // Convert model _id to string
             try {
                 brand.models[i]._id = brand.models[i]._id.toString();
             } catch (e) {
-                // Si no tiene _id o no es ObjectId, lo dejamos como está
+                // If it doesn't have _id or is not an ObjectId, leave it as is
             }
         }
     }
@@ -193,11 +193,11 @@ router.get('/brand/:id', async (req, res) => {
 router.post('/brand/:id/delete', async (req, res) => {
     const brandId = req.params.id;
 
-    // 1. Obtenemos la marca ANTES de borrarla
+    // 1. Get the brand BEFORE deleting it
     const brand = await sneakersdb.getPost(brandId);
 
     if (!brand) {
-        // No se ha encontrado la marca → error 404
+        // Brand not found → error 404
         return res.status(404).render('message', {
             title: 'Marca no encontrada',
             message: 'La marca que intentas borrar no existe.',
@@ -207,19 +207,19 @@ router.post('/brand/:id/delete', async (req, res) => {
         });
     }
 
-    // 2. Borramos la marca (aunque deletePost devuelva lo que quiera)
+    // 2. Delete the brand (regardless of what deletePost returns)
     await sneakersdb.deletePost(brandId);
 
-    // 3. Borramos la imagen asociada si existe
+    // 3. Delete associated image if it exists
     if (brand.imageFilename) {
         await fs.rm(sneakersdb.UPLOADS_FOLDER + '/' + brand.imageFilename);
     }
 
-    // 4. Mostramos página de confirmación genérica
+    // 4. Show generic confirmation page
     return res.render('message', {
         title: 'Marca borrada',
         message: `La marca "${brand.name}" se ha borrado correctamente.`,
-        backUrl: '/index', // o la ruta de listado de marcas si la cambiáis
+        backUrl: '/index', // or the brand listing route if you change it
         backText: 'Volver a la página principal',
         type: 'success'
     });
@@ -236,19 +236,19 @@ router.get('/brand/:id/image', async (req, res) => {
 });
 
 router.get('/brand.models/:id/image', async (req, res) => {
-    // req.params.id is the model _id (p.ej. 'nike_0').
+    // req.params.id is the model _id (e.g. 'nike_0').
     const result = await sneakersdb.getModelById(req.params.id);
 
     if (!result || !result.model || !result.model.imageFilename) {
-        return res.status(404).send('Imagen no encontrada');
+        return res.status(404).send('Image not found');
     }
 
-    // Servir la imagen del modelo desde la carpeta uploads (inline) para que funcione en <img>
+    // Serve model image from uploads folder (inline) to work in <img>
     const imagePath = path.resolve(sneakersdb.UPLOADS_FOLDER, result.model.imageFilename);
     res.sendFile(imagePath, (err) => {
         if (err) {
-            console.error('Error enviando fichero', err);
-            res.status(404).send('Imagen no encontrada');
+            console.error('Error sending file', err);
+            res.status(404).send('Image not found');
         }
     });
 
@@ -257,7 +257,7 @@ router.get('/brand.models/:id/image', async (req, res) => {
 router.get('/detail/:id/', async (req, res) => {
     let brand = await sneakersdb.getPost(req.params.id);
     
-    // Convertir ObjectIds de modelos a strings para que funcione en Mustache
+    // Convert model ObjectIds to strings for Mustache to work
     if (brand && brand.models) {
         for (let i = 0; i < brand.models.length; i++) {
             try {
@@ -277,7 +277,7 @@ router.get('/brand/:id/edit', async (req, res) => {
     const brand = await sneakersdb.getPost(req.params.id);
 
     if (!brand) {
-        // Marca no existe → usamos la vista genérica de mensajes como error
+        // Brand doesn't exist → use generic message view as error
         return res.status(404).render('message', {
             title: 'Marca no encontrada',
             message: 'La marca que intentas editar no existe.',
@@ -287,7 +287,7 @@ router.get('/brand/:id/edit', async (req, res) => {
         });
     }
 
-    // Reutilizamos la vista "new" pero en modo edición
+    // Reuse "new" view but in edit mode
     return res.render('new', {
         formTitle: 'Editar marca',
         formAction: `/brand/${req.params.id}/edit`,
@@ -300,7 +300,7 @@ router.get('/new', (req, res) => {
     res.render('new', {
         formTitle: 'Crear nueva marca',
         formAction: '/brand/new',
-        // Brand vacío para que los campos salgan en blanco
+        // Empty brand so fields are blank
         brand: {}
     });
 });
@@ -309,7 +309,7 @@ router.post('/brand/:id/edit', upload.single('brand_image'), async (req, res) =>
     try {
         const brandId = req.params.id;
 
-        // 1. Obtenemos la marca actual
+        // 1. Get current brand
         const currentBrand = await sneakersdb.getPost(brandId);
 
         if (!currentBrand) {
@@ -322,7 +322,7 @@ router.post('/brand/:id/edit', upload.single('brand_image'), async (req, res) =>
             });
         }
 
-        // VALIDACIONES del formulario de edición (mismas que en creación)
+        // VALIDATIONS for edit form (same as creation)
         const name = req.body.name;
         const country_origin = req.body.country_origin;
         const founded_year = req.body.founded_year;
@@ -346,7 +346,7 @@ router.post('/brand/:id/edit', upload.single('brand_image'), async (req, res) =>
             errors.push("El nombre debe comenzar por una letra mayúscula.");
         }
 
-        // Comprobar nombre único (excluir la propia marca que estamos editando)
+        // Check unique name (exclude the brand we are editing)
         if (name && name.trim()) {
             const existingBrand = await sneakersdb.findBrandName(name.trim());
             if (existingBrand && existingBrand._id && existingBrand._id.toString() !== brandId) {
@@ -374,7 +374,7 @@ router.post('/brand/:id/edit', upload.single('brand_image'), async (req, res) =>
         }
 
         if (errors.length > 0) {
-            // Si se subió un nuevo archivo, eliminarlo para no dejar huérfanos
+            // If a new file was uploaded, delete it to avoid orphaned files
             if (req.file && req.file.filename) {
                 try {
                     await fs.rm(sneakersdb.UPLOADS_FOLDER + '/' + req.file.filename);
@@ -398,7 +398,7 @@ router.post('/brand/:id/edit', upload.single('brand_image'), async (req, res) =>
             });
         }
 
-        // 2. Construimos los nuevos valores
+        // 2. Build new values
         const updatedFields = {
             name: name.trim(),
             country_origin: country_origin.trim(),
@@ -406,7 +406,7 @@ router.post('/brand/:id/edit', upload.single('brand_image'), async (req, res) =>
             description: descTrim
         };
 
-        // 3. Si el usuario ha subido una nueva imagen, la guardamos y borramos la antigua
+        // 3. If user uploaded new image, save it and delete old one
         if (req.file) {
             updatedFields.imageFilename = req.file.filename;
 
@@ -414,14 +414,14 @@ router.post('/brand/:id/edit', upload.single('brand_image'), async (req, res) =>
                 await fs.rm(sneakersdb.UPLOADS_FOLDER + '/' + currentBrand.imageFilename);
             }
         } else {
-            // Si no sube nada, mantenemos la imagen anterior
+            // If no upload, keep previous image
             updatedFields.imageFilename = currentBrand.imageFilename;
         }
 
-        // 4. Actualizamos en la base de datos (no necesitamos el retorno)
+        // 4. Update in database (we don't need the return value)
         await sneakersdb.updatePost(brandId, updatedFields);
 
-        // 5. Mostramos página de confirmación usando message.html
+        // 5. Show confirmation page using message.html
         return res.render('message', {
             title: 'Marca actualizada',
             message: `La marca "${updatedFields.name}" se ha actualizado correctamente.`,
@@ -493,11 +493,11 @@ router.get('/index', async (req, res) => {
 router.post('/brand/:id/model/:modelId/delete', async (req, res) => {
     const brandId = req.params.id;
     const modelId = req.params.modelId;
-    // 1. Obtener la marca
+    // 1. Get the brand
     const brand = await sneakersdb.getPost(brandId);
 
     if (!brand) {
-        // No se ha encontrado la marca → error 404
+        // Brand not found → error 404
         return res.status(404).render('message', {
             title: 'Marca no encontrada',
             message: 'La marca que intentas borrar no existe.',
@@ -507,7 +507,7 @@ router.post('/brand/:id/model/:modelId/delete', async (req, res) => {
         });
 
     }
-    // 2. Buscar el modelo dentro de la marca (proteger si no tiene models)
+    // 2. Find the model inside the brand (protect if it has no models)
     const modelsArray = brand.models || [];
     const modelIndex = modelsArray.findIndex(model => {
         try {
@@ -518,7 +518,7 @@ router.post('/brand/:id/model/:modelId/delete', async (req, res) => {
     });
 
     if (modelIndex === -1) {
-        // No se ha encontrado el modelo → error 404
+        // Model not found → error 404
         return res.status(404).render('message', {
             title: 'Modelo no encontrado',
             message: 'El modelo que intentas borrar no existe en esta marca.',
@@ -529,13 +529,13 @@ router.post('/brand/:id/model/:modelId/delete', async (req, res) => {
 
     }
 
-    // 3. Borrar el modelo del array
-    // Asegurarnos de tener el array en la marca antes de modificar
+    // 3. Delete the model from array
+    // Ensure we have the array in the brand before modifying
     brand.models = modelsArray;
     brand.models.splice(modelIndex, 1);
     await sneakersdb.updatePost(brandId, { models: brand.models });
 
-    // 4. Mostrar página de confirmación
+    // 4. Show confirmation page
     return res.render('message', {
         title: 'Modelo borrado',
         message: `El modelo se ha borrado correctamente.`,
@@ -561,7 +561,7 @@ router.get('/brand/:id/model/:modelId/edit', async (req, res) => {
 
     }
 
-    // Crear objeto para marcar la categoría seleccionada
+    // Create object to mark selected category
     const categories = {};
     if (result.model.category) {
         categories[`categories_${result.model.category}`] = true;
@@ -591,7 +591,7 @@ router.post('/brand/:id/model/new', upload.single('cover_image'), async function
             });
         }
 
-        // Obtener datos del formulario
+        // Get form data
         const name = req.body.name;
         const category = req.body.category;
         const description = req.body.description;
@@ -602,7 +602,7 @@ router.post('/brand/:id/model/new', upload.single('cover_image'), async function
         const size_range = req.body.size_range;
         const errors = [];
 
-        // Validaciones
+        // Validations
         if (!name || !name.trim()) {
             errors.push("El nombre del modelo es obligatorio.");
         }
@@ -619,7 +619,7 @@ router.post('/brand/:id/model/new', upload.single('cover_image'), async function
             errors.push("El precio es obligatorio.");
         }
 
-        // Validar nombre único en la marca (proteger si brand.models no existe)
+        // Validate unique name in brand (protect if brand.models doesn't exist)
         const modelsArray = brand.models || [];
         if (name && name.trim()) {
             const existingModel = modelsArray.find(model => 
@@ -630,7 +630,7 @@ router.post('/brand/:id/model/new', upload.single('cover_image'), async function
             }
         }
 
-        // Validar año numérico y en rango
+        // Validate numeric year and within range
         let year = NaN;
         if (release_year) {
             year = parseInt(release_year, 10);
@@ -645,7 +645,7 @@ router.post('/brand/:id/model/new', upload.single('cover_image'), async function
             }
         }
 
-        // Validar precio numérico y positivo
+        // Validate numeric and positive price
         let priceNum = NaN;
         if (price) {
             priceNum = parseFloat(price);
@@ -654,7 +654,7 @@ router.post('/brand/:id/model/new', upload.single('cover_image'), async function
             }
         }
 
-        // Validar rating
+        // Validate rating
         let rating = NaN;
         if (average_rating && average_rating.trim()) {
             rating = parseFloat(average_rating);
@@ -663,14 +663,14 @@ router.post('/brand/:id/model/new', upload.single('cover_image'), async function
             }
         }
 
-        // Validar descripción longitud
+        // Validate description length
         const descTrim = (description || "").trim();
         if (descTrim.length < 10 || descTrim.length > 500) {
             errors.push("La descripción debe tener entre 10 y 500 caracteres.");
         }
 
         if (errors.length > 0) {
-            // Si se subió un archivo y hay errores, bórralo
+            // If file was uploaded and there are errors, delete it
             if (req.file && req.file.filename) {
                 try {
                     await fs.rm(sneakersdb.UPLOADS_FOLDER + '/' + req.file.filename);
@@ -679,7 +679,7 @@ router.post('/brand/:id/model/new', upload.single('cover_image'), async function
                 }
             }
 
-            // Crear objeto para marcar la categoría seleccionada
+            // Create object to mark selected category
             const categories = {};
             if (category) {
                 categories[`categories_${category}`] = true;
@@ -705,7 +705,7 @@ router.post('/brand/:id/model/new', upload.single('cover_image'), async function
             });
         }
 
-        // Crear el nuevo modelo con ObjectId
+        // Create new model with ObjectId
         const { ObjectId } = await import('mongodb');
         const newModel = {
             _id: new ObjectId(),
@@ -720,13 +720,13 @@ router.post('/brand/:id/model/new', upload.single('cover_image'), async function
             imageFilename: req.file && req.file.filename ? req.file.filename : null
         };
 
-        // Añadir modelo al array de la marca
+        // Add model to brand array
         if (!brand.models) {
             brand.models = [];
         }
         brand.models.push(newModel);
 
-        // Guardar en BD
+        // Save to database
         await sneakersdb.updatePost(brandId, { models: brand.models });
 
         return res.render('message', {
@@ -754,7 +754,7 @@ router.post('/brand/:id/model/:modelId/edit', upload.single('cover_image'), asyn
         const brandId = req.params.id;
         const modelId = req.params.modelId;
 
-        // Obtener la marca
+        // Get the brand
         const brand = await sneakersdb.getPost(brandId);
         if (!brand) {
             return res.status(404).render('message', {
@@ -766,7 +766,7 @@ router.post('/brand/:id/model/:modelId/edit', upload.single('cover_image'), asyn
             });
         }
 
-        // Buscar el modelo (proteger si brand.models no existe)
+        // Find the model (protect if brand.models doesn't exist)
         const modelsArray = brand.models || [];
         const modelIndex = modelsArray.findIndex(model => {
             try {
@@ -786,11 +786,11 @@ router.post('/brand/:id/model/:modelId/edit', upload.single('cover_image'), asyn
             });
         }
 
-        // Asegurar que brand.models existe antes de trabajar con él
+        // Ensure brand.models exists before working with it
         brand.models = modelsArray;
         const currentModel = brand.models[modelIndex];
 
-        // Obtener datos del formulario
+        // Get form data
         const name = req.body.name;
         const category = req.body.category;
         const description = req.body.description;
@@ -801,7 +801,7 @@ router.post('/brand/:id/model/:modelId/edit', upload.single('cover_image'), asyn
         const size_range = req.body.size_range;
         const errors = [];
 
-        // Validaciones (iguales que en creación)
+        // Validations (same as creation)
         if (!name || !name.trim()) {
             errors.push("El nombre del modelo es obligatorio.");
         }
@@ -818,7 +818,7 @@ router.post('/brand/:id/model/:modelId/edit', upload.single('cover_image'), asyn
             errors.push("El precio es obligatorio.");
         }
 
-        // Validar nombre único en la marca (excepto el modelo actual)
+        // Validate unique name in brand (except current model)
         if (name && name.trim()) {
             const existingModel = brand.models.find(model => {
                 try {
@@ -835,7 +835,7 @@ router.post('/brand/:id/model/:modelId/edit', upload.single('cover_image'), asyn
             }
         }
 
-        // Validar año numérico y en rango
+        // Validate numeric year and within range
         let year = NaN;
         if (release_year) {
             year = parseInt(release_year, 10);
@@ -850,7 +850,7 @@ router.post('/brand/:id/model/:modelId/edit', upload.single('cover_image'), asyn
             }
         }
 
-        // Validar precio numérico y positivo
+        // Validate numeric and positive price
         let priceNum = NaN;
         if (price) {
             priceNum = parseFloat(price);
@@ -859,7 +859,7 @@ router.post('/brand/:id/model/:modelId/edit', upload.single('cover_image'), asyn
             }
         }
 
-        // Validar rating
+        // Validate rating
         let rating = NaN;
         if (average_rating && average_rating.trim()) {
             rating = parseFloat(average_rating);
@@ -868,14 +868,14 @@ router.post('/brand/:id/model/:modelId/edit', upload.single('cover_image'), asyn
             }
         }
 
-        // Validar descripción longitud
+        // Validate description length
         const descTrim = (description || "").trim();
         if (descTrim.length < 10 || descTrim.length > 500) {
             errors.push("La descripción debe tener entre 10 y 500 caracteres.");
         }
 
         if (errors.length > 0) {
-            // Si se subió un archivo y hay errores, bórralo
+            // If file was uploaded and there are errors, delete it
             if (req.file && req.file.filename) {
                 try {
                     await fs.rm(sneakersdb.UPLOADS_FOLDER + '/' + req.file.filename);
@@ -884,7 +884,7 @@ router.post('/brand/:id/model/:modelId/edit', upload.single('cover_image'), asyn
                 }
             }
 
-            // Crear objeto para marcar la categoría seleccionada
+            // Create object to mark selected category
             const categories = {};
             if (category) {
                 categories[`categories_${category}`] = true;
@@ -911,7 +911,7 @@ router.post('/brand/:id/model/:modelId/edit', upload.single('cover_image'), asyn
             });
         }
 
-        // Actualizar el modelo
+        // Update the model
         const updatedModel = {
             _id: currentModel._id,
             name: name.trim(),
@@ -925,10 +925,10 @@ router.post('/brand/:id/model/:modelId/edit', upload.single('cover_image'), asyn
             imageFilename: currentModel.imageFilename
         };
 
-        // Si se subió nueva imagen, actualizar
+        // If new image was uploaded, update
         if (req.file && req.file.filename) {
             updatedModel.imageFilename = req.file.filename;
-            // Borrar la imagen antigua si existe
+            // Delete old image if it exists
             if (currentModel.imageFilename) {
                 try {
                     await fs.rm(sneakersdb.UPLOADS_FOLDER + '/' + currentModel.imageFilename);
@@ -938,10 +938,10 @@ router.post('/brand/:id/model/:modelId/edit', upload.single('cover_image'), asyn
             }
         }
 
-        // Reemplazar el modelo en el array
+        // Replace model in array
         brand.models[modelIndex] = updatedModel;
 
-        // Guardar en BD
+        // Save to database
         await sneakersdb.updatePost(brandId, { models: brand.models });
 
         return res.render('message', {
