@@ -166,7 +166,7 @@ De esta forma no es necesario reiniciar manualmente la aplicación durante el de
 
 ### 3. Vídeo demostrativo
 
-📹 [Vídeo demostrativo](https://www.youtube.com)
+📹 [Vídeo demostrativo](https://youtu.be/YGpWECDciBI)
 
 ---
 
