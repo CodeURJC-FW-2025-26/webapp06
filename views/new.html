@@ -3,94 +3,65 @@
 
 {{> header}}
 
-<main class="container section m-5">
+<div class="container my-5">
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h1 class="h4 m-0">{{formTitle}}</h1>
     <a class="btn btn-outline-primary" href="/index">Cancelar</a>
   </div>
 
   {{#hasErrors}}
-  <div class="alert alert-danger">
-    <ul>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>Errores de validación:</strong>
+    <ul class="mb-0 mt-2">
       {{#errors}}
       <li>{{.}}</li>
       {{/errors}}
     </ul>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
   </div>
   {{/hasErrors}}
 
-  <form class="row g-3" action="{{formAction}}" method="POST" enctype="multipart/form-data">
+  <form class="row g-3" action="{{formAction}}" method="POST" enctype="multipart/form-data" novalidate>
     <!-- Brand name -->
     <div class="col-12 col-md-6">
-      <label for="brandName" class="form-label">Nombre de la marca</label>
-      <input
-        type="text"
-        id="brandName"
-        name="name"
-        class="form-control"
-        placeholder="Ej. Nike"
-        value="{{brand.name}}"
-        required
-      >
+      <label for="brandName" class="form-label">Nombre de la marca <span class="text-danger">*</span></label>
+      <input type="text" id="brandName" name="name" class="form-control" placeholder="Ej. Nike" value="{{brand.name}}"
+        required>
+      <div class="invalid-feedback d-none"></div>
     </div>
 
     <!-- Country of origin -->
     <div class="col-12 col-md-6">
-      <label for="country" class="form-label">País de origen</label>
-      <input
-        type="text"
-        id="country"
-        name="country_origin"
-        class="form-control"
-        placeholder="Ej. Estados Unidos"
-        value="{{brand.country_origin}}"
-        required
-      >
+      <label for="country" class="form-label">País de origen <span class="text-danger">*</span></label>
+      <input type="text" id="country" name="country_origin" class="form-control" placeholder="Ej. Estados Unidos"
+        value="{{brand.country_origin}}" required>
+      <div class="invalid-feedback d-none"></div>
     </div>
 
-    
     <!-- Founding date -->
     <div class="col-12 col-md-6">
-      <label for="founded" class="form-label">Año de fundación</label>
-      <input
-        type="number"
-        id="founded"
-        name="founded_year"
-        class="form-control"
-        min="1900"
-        max="2025"
-        step="1"
-        value="{{brand.founded_year}}"
-        required
-      >
+      <label for="founded" class="form-label">Año de fundación <span class="text-danger">*</span></label>
+      <input type="number" id="founded" name="founded_year" class="form-control" min="1900" max="2025" step="1"
+        value="{{brand.founded_year}}" required>
+      <div class="invalid-feedback d-none"></div>
     </div>
 
     <!-- Description -->
     <div class="col-12">
-      <label for="description" class="form-label">Descripción</label>
-      <textarea
-        id="description"
-        name="description"
-        class="form-control"
-        rows="3"
-        placeholder="Breve historia y estilo de la marca"
-        required
-      >{{brand.description}}</textarea>
+      <label for="description" class="form-label">Descripción <span class="text-danger">*</span></label>
+      <textarea id="description" name="description" class="form-control" rows="3"
+        placeholder="Breve historia y estilo de la marca (20-300 caracteres)" required>{{brand.description}}</textarea>
+      <small class="form-text text-muted">Debe tener entre 20 y 300 caracteres</small>
+      <div class="invalid-feedback d-none"></div>
     </div>
 
     <!-- Logo / Image -->
     <div class="col-12">
       <label for="logo" class="form-label">Logo / Imagen</label>
-      <input
-        type="file"
-        id="logo"
-        name="brand_image"
-        class="form-control"
-        accept="image/*"
-      >
+      <input type="file" id="logo" name="brand_image" class="form-control" accept="image/*">
       {{#brand.imageFilename}}
-      <p class="form-text">
-        Imagen actual: {{brand.imageFilename}}
+      <p class="form-text mt-2">
+        <small>Imagen actual: {{brand.imageFilename}}</small>
       </p>
       {{/brand.imageFilename}}
     </div>
@@ -101,6 +72,8 @@
       <a class="btn btn-outline-secondary" href="/index">Cancelar</a>
     </div>
   </form>
-</main>
+</div>
 
 {{> footer}}
+
+<script src="/app.js"></script>

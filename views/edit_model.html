@@ -3,41 +3,37 @@
 
 {{> header}}
 
-<main class="container section m-5">
+<div class="container my-5">
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h1 class="h4 m-0">{{formTitle}}</h1>
     <a class="btn btn-outline-primary" href="/brand/{{brandId}}">Cancelar</a>
   </div>
 
   {{#hasErrors}}
-  <div class="alert alert-danger">
-    <ul>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>Errores de validación:</strong>
+    <ul class="mb-0 mt-2">
       {{#errors}}
       <li>{{.}}</li>
       {{/errors}}
     </ul>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
   </div>
   {{/hasErrors}}
 
-  <form class="row g-3" action="{{formAction}}" method="POST" enctype="multipart/form-data">
-    
+  <form class="row g-3" action="{{formAction}}" method="POST" enctype="multipart/form-data" novalidate>
+
     <!-- Model name -->
     <div class="col-12 col-md-6">
-      <label for="modelName" class="form-label">Nombre del modelo</label>
-      <input
-        type="text"
-        id="modelName"
-        name="name"
-        class="form-control"
-        placeholder="Ej. Air Zoom"
-        value="{{model.name}}"
-        required
-      >
+      <label for="modelName" class="form-label">Nombre del modelo <span class="text-danger">*</span></label>
+      <input type="text" id="modelName" name="name" class="form-control" placeholder="Ej. Air Zoom"
+        value="{{model.name}}" required>
+      <div class="invalid-feedback d-none"></div>
     </div>
 
     <!-- Category -->
     <div class="col-12 col-md-6">
-      <label for="category" class="form-label">Categoría</label>
+      <label for="category" class="form-label">Categoría <span class="text-danger">*</span></label>
       <select id="category" name="category" class="form-select" required>
         <option value="">Selecciona...</option>
         <option value="Running" {{#categories_Running}}selected{{/categories_Running}}>Running</option>
@@ -48,106 +44,64 @@
         <option value="Football" {{#categories_Football}}selected{{/categories_Football}}>Football</option>
         <option value="Training" {{#categories_Training}}selected{{/categories_Training}}>Training</option>
       </select>
+      <div class="invalid-feedback d-none"></div>
     </div>
 
     <!-- Description -->
     <div class="col-12">
-      <label for="description" class="form-label">Descripción</label>
-      <textarea
-        id="description"
-        name="description"
-        class="form-control"
-        rows="3"
-        placeholder="Breve descripción del modelo"
-        required
-      >{{model.description}}</textarea>
+      <label for="description" class="form-label">Descripción <span class="text-danger">*</span></label>
+      <textarea id="description" name="description" class="form-control" rows="3"
+        placeholder="Breve descripción del modelo (10-500 caracteres)" required>{{model.description}}</textarea>
+      <small class="form-text text-muted">Debe tener entre 10 y 500 caracteres</small>
+      <div class="invalid-feedback d-none"></div>
     </div>
 
     <!-- Release Year -->
     <div class="col-6 col-md-4">
-      <label for="releaseYear" class="form-label">Año de lanzamiento</label>
-      <input
-        type="number"
-        id="releaseYear"
-        name="release_year"
-        class="form-control"
-        min="1970"
-        max="2025"
-        step="1"
-        value="{{model.release_year}}"
-        required
-      >
+      <label for="releaseYear" class="form-label">Año de lanzamiento <span class="text-danger">*</span></label>
+      <input type="number" id="releaseYear" name="release_year" class="form-control" min="1970" max="2025" step="1"
+        value="{{model.release_year}}" required>
+      <div class="invalid-feedback d-none"></div>
     </div>
 
     <!-- Prize -->
     <div class="col-6 col-md-4">
-      <label for="price" class="form-label">Precio (€)</label>
-      <input
-        type="number"
-        id="price"
-        name="price"
-        class="form-control"
-        min="0"
-        step="0.01"
-        value="{{model.price}}"
-        required
-      >
+      <label for="price" class="form-label">Precio (€) <span class="text-danger">*</span></label>
+      <input type="number" id="price" name="price" class="form-control" min="0" step="0.01" value="{{model.price}}"
+        required>
+      <div class="invalid-feedback d-none"></div>
     </div>
 
     <!-- Average rating -->
     <div class="col-12 col-md-4">
       <label for="rating" class="form-label">Valoración media</label>
-      <input
-        type="number"
-        id="rating"
-        name="average_rating"
-        class="form-control"
-        min="0"
-        max="5"
-        step="0.1"
-        value="{{model.average_rating}}"
-      >
+      <input type="number" id="rating" name="average_rating" class="form-control" min="0" max="5" step="0.1"
+        value="{{model.average_rating}}">
+      <small class="form-text text-muted">Valores entre 0 y 5</small>
+      <div class="invalid-feedback d-none"></div>
     </div>
 
     <!-- Colorway -->
     <div class="col-12 col-md-6">
       <label for="colorway" class="form-label">Colorway</label>
-      <input
-        type="text"
-        id="colorway"
-        name="colorway"
-        class="form-control"
-        placeholder="Black/White"
-        value="{{model.colorway}}"
-      >
+      <input type="text" id="colorway" name="colorway" class="form-control" placeholder="Black/White"
+        value="{{model.colorway}}">
     </div>
 
     <!-- Size -->
     <div class="col-12 col-md-6">
       <label for="sizeRange" class="form-label">Tallas (EU)</label>
-      <input
-        type="text"
-        id="sizeRange"
-        name="size_range"
-        class="form-control"
-        placeholder="40-45"
-        value="{{model.size_range}}"
-      >
+      <input type="text" id="sizeRange" name="size_range" class="form-control" placeholder="40-45"
+        value="{{model.size_range}}">
     </div>
 
     <!-- Image -->
     <div class="col-12">
       <label for="coverImage" class="form-label">Imagen principal</label>
-      <input
-        type="file"
-        id="coverImage"
-        name="cover_image"
-        class="form-control"
-        accept="image/*"
-      >
+      <input type="file" id="coverImage" name="cover_image" class="form-control" accept="image/*">
       {{#model.imageFilename}}
       <p class="form-text mt-2">
-        Imagen actual: {{model.imageFilename}}
+        <small>Imagen actual: {{model.imageFilename}}</small>
       </p>
       {{/model.imageFilename}}
     </div>
@@ -158,6 +112,8 @@
       <a class="btn btn-outline-secondary" href="/brand/{{brandId}}">Cancelar</a>
     </div>
   </form>
-</main>
+</div>
 
 {{> footer}}
+
+<script src="/app.js"></script>

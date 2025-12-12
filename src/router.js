@@ -57,7 +57,7 @@ router.get('/', async (req, res) => {
 
 router.post('/brand/new', upload.single('brand_image'), async function (req, res, next) {
     try {
-       
+
         const name = req.body.name;
         const country_origin = req.body.country_origin;
         const founded_year = req.body.founded_year;
@@ -127,6 +127,14 @@ router.post('/brand/new', upload.single('brand_image'), async function (req, res
                 }
             }
 
+            // Check if this is an AJAX request
+            if (req.headers['x-requested-with'] === 'XMLHttpRequest') {
+                return res.status(400).json({
+                    success: false,
+                    message: errors.join('\n')
+                });
+            }
+
             return res.status(400).render('new', {
                 formTitle: 'Crear nueva marca',
                 formAction: '/brand/new',
@@ -155,6 +163,15 @@ router.post('/brand/new', upload.single('brand_image'), async function (req, res
 
         const result = await sneakersdb.addPost(brand);
         const insertedId = result.insertedId.toString();
+
+        // Check if this is an AJAX request
+        if (req.headers['x-requested-with'] === 'XMLHttpRequest') {
+            return res.status(200).json({
+                success: true,
+                message: `La marca "${brand.name}" se ha creado correctamente.`,
+                brandId: insertedId
+            });
+        }
 
         // Confirmation page
         res.render('message', {
@@ -256,7 +273,7 @@ router.get('/brand.models/:id/image', async (req, res) => {
 
 router.get('/detail/:id/', async (req, res) => {
     let brand = await sneakersdb.getPost(req.params.id);
-    
+
     // Convert model ObjectIds to strings for Mustache to work
     if (brand && brand.models) {
         for (let i = 0; i < brand.models.length; i++) {
@@ -267,7 +284,7 @@ router.get('/detail/:id/', async (req, res) => {
             }
         }
     }
-    
+
     res.render('detail', { brand });
 });
 
@@ -576,7 +593,7 @@ router.get('/brand/:id/model/:modelId/edit', async (req, res) => {
     });
 });
 
-router.post('/brand/:id/model/new', upload.single('cover_image'), async function(req, res) {
+router.post('/brand/:id/model/new', upload.single('cover_image'), async function (req, res) {
     try {
         const brandId = req.params.id;
         const brand = await sneakersdb.getPost(brandId);
@@ -622,7 +639,7 @@ router.post('/brand/:id/model/new', upload.single('cover_image'), async function
         // Validate unique name in brand (protect if brand.models doesn't exist)
         const modelsArray = brand.models || [];
         if (name && name.trim()) {
-            const existingModel = modelsArray.find(model => 
+            const existingModel = modelsArray.find(model =>
                 model.name && model.name.toLowerCase() === name.trim().toLowerCase()
             );
             if (existingModel) {
@@ -679,6 +696,14 @@ router.post('/brand/:id/model/new', upload.single('cover_image'), async function
                 }
             }
 
+            // Check if this is an AJAX request
+            if (req.headers['x-requested-with'] === 'XMLHttpRequest') {
+                return res.status(400).json({
+                    success: false,
+                    message: errors.join('\n')
+                });
+            }
+
             // Create object to mark selected category
             const categories = {};
             if (category) {
@@ -729,6 +754,16 @@ router.post('/brand/:id/model/new', upload.single('cover_image'), async function
         // Save to database
         await sneakersdb.updatePost(brandId, { models: brand.models });
 
+        // Check if this is an AJAX request
+        if (req.headers['x-requested-with'] === 'XMLHttpRequest') {
+            return res.status(200).json({
+                success: true,
+                message: `El modelo "${newModel.name}" se ha creado correctamente.`,
+                brandId: brandId,
+                modelId: newModel._id.toString()
+            });
+        }
+
         return res.render('message', {
             title: 'Modelo creado',
             message: `El modelo "${newModel.name}" se ha creado correctamente.`,
@@ -749,7 +784,7 @@ router.post('/brand/:id/model/new', upload.single('cover_image'), async function
     }
 });
 
-router.post('/brand/:id/model/:modelId/edit', upload.single('cover_image'), async function(req, res) {
+router.post('/brand/:id/model/:modelId/edit', upload.single('cover_image'), async function (req, res) {
     try {
         const brandId = req.params.id;
         const modelId = req.params.modelId;
@@ -884,6 +919,14 @@ router.post('/brand/:id/model/:modelId/edit', upload.single('cover_image'), asyn
                 }
             }
 
+            // Check if this is an AJAX request
+            if (req.headers['x-requested-with'] === 'XMLHttpRequest') {
+                return res.status(400).json({
+                    success: false,
+                    message: errors.join('\n')
+                });
+            }
+
             // Create object to mark selected category
             const categories = {};
             if (category) {
@@ -944,6 +987,16 @@ router.post('/brand/:id/model/:modelId/edit', upload.single('cover_image'), asyn
         // Save to database
         await sneakersdb.updatePost(brandId, { models: brand.models });
 
+        // Check if this is an AJAX request
+        if (req.headers['x-requested-with'] === 'XMLHttpRequest') {
+            return res.status(200).json({
+                success: true,
+                message: `El modelo "${updatedModel.name}" se ha actualizado correctamente.`,
+                brandId: brandId,
+                modelId: modelId
+            });
+        }
+
         return res.render('message', {
             title: 'Modelo actualizado',
             message: `El modelo "${updatedModel.name}" se ha actualizado correctamente.`,
@@ -963,5 +1016,68 @@ router.post('/brand/:id/model/:modelId/edit', upload.single('cover_image'), asyn
         });
     }
 });
+/**
+ * API endpoint to check if a brand name is available
+ */
+router.post('/api/check-brand-name', async (req, res) => {
+    try {
+        const { name } = req.body;
 
+        if (!name || !name.trim()) {
+            return res.json({ available: false, error: 'El nombre es requerido' });
+        }
 
+        const existingBrand = await sneakersdb.findBrandName(name.trim());
+
+        return res.json({
+            available: !existingBrand,
+            name: name.trim()
+        });
+    } catch (error) {
+        console.error('Error checking brand name:', error);
+        return res.status(500).json({
+            available: true, // Allow submission on error
+            error: 'Error del servidor'
+        });
+    }
+});
+
+/**
+ * API endpoint to check if a model name is available in a brand
+ */
+router.post('/api/check-model-name', async (req, res) => {
+    try {
+        const { name, brandId } = req.body;
+
+        if (!name || !name.trim()) {
+            return res.json({ available: false, error: 'El nombre es requerido' });
+        }
+
+        if (!brandId) {
+            return res.json({ available: false, error: 'El ID de marca es requerido' });
+        }
+
+        const brand = await sneakersdb.getPost(brandId);
+
+        if (!brand) {
+            return res.json({ available: false, error: 'Marca no encontrada' });
+        }
+
+        const modelsArray = brand.models || [];
+        const existingModel = modelsArray.find(model =>
+            model.name && model.name.toLowerCase() === name.trim().toLowerCase()
+        );
+
+        return res.json({
+            available: !existingModel,
+            name: name.trim(),
+            brandId
+        });
+    } catch (error) {
+        console.error('Error checking model name:', error);
+        return res.status(500).json({
+            available: true, // Allow submission on error
+            error: 'Error del servidor'
+        });
+    }
+});
