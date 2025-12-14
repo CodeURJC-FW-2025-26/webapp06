@@ -38,7 +38,7 @@
           <!-- Model -->
           {{#brand}}
           {{#models}}
-          <div class="col-12 col-md-6">
+          <div class="col-12 col-md-6" data-price="{{price}}" data-description="{{description}}" data-average_rating="{{average_rating}}" data-colorway="{{colorway}}" data-size_range="{{size_range}}">
             <div class="card h-100">
               <img src="/brand.models/{{_id}}/image" class="card-img-top" alt="Imagen de la sneaker {{name}}">
               <div class="card-body">
@@ -48,7 +48,7 @@
                 <p class="fw-semibold">{{price}} € <span class="badge badge-soft ms-2">⭐ {{average_rating}}</span></p>
                 <div class="d-flex gap-2">
 
-                  <a class="btn btn-outline-primary btn-sm" href="/brand/{{brand._id}}/model/{{_id}}/edit">
+                  <a class="btn btn-outline-primary btn-sm js-edit-model" href="/brand/{{brand._id}}/model/{{_id}}/edit">
                     Editar
                   </a>
 

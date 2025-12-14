@@ -150,8 +150,22 @@ function initDeleteModelAjax() {
                     throw new Error(msg);
                   }
 
-                  // ✅ Como B luego lo hará “bonito” quitándolo del DOM,
-                  // aquí hacemos fallback simple: recargar la página de la marca
+                  // Eliminar la tarjeta del DOM sin recargar
+                  try {
+                    var cardCol = form.closest('.col-12');
+                    if (!cardCol) {
+                      // try by column classes
+                      cardCol = form.closest('.col-md-6') || form.closest('.col-6');
+                    }
+                    if (cardCol && cardCol.parentNode) {
+                      cardCol.parentNode.removeChild(cardCol);
+                      return;
+                    }
+                  } catch (e) {
+                    // ignore and fallback
+                  }
+
+                  // Fallback: redirect a la página de marca si viene en la respuesta
                   if (data.brandId) {
                     window.location.href = '/brand/' + data.brandId;
                   } else {
@@ -334,4 +348,7 @@ function initModelImageUX() {
     showErrorModal: showErrorModal,
     confirmAction: confirmAction
   };
+  // Exponer inicializadores para que otras partes puedan reusarlos
+  window.UIHelpers.initDeleteModelAjax = initDeleteModelAjax;
+  window.UIHelpers.initDeleteBrandAjax = initDeleteBrandAjax;
 })();
