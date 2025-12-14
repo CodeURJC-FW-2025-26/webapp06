@@ -10,6 +10,12 @@ document.addEventListener('DOMContentLoaded', function () {
     for (var i = 0; i < forms.length; i++) {
         (function (form) {
             form.addEventListener('submit', function (e) {
+
+                // ✅ Dejar que ui.js maneje los formularios de borrado con confirmación
+                if (form.classList.contains('js-delete-brand') || form.classList.contains('js-delete-model')) {
+                    return; // NO interceptar aquí
+                }
+                
                 e.preventDefault();
 
                 // Clear previous errors

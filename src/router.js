@@ -207,39 +207,44 @@ router.get('/brand/:id', async (req, res) => {
     res.render('detail', { brand });
 });
 
+
 router.post('/brand/:id/delete', async (req, res) => {
-    const brandId = req.params.id;
+  const brandId = req.params.id;
+  const isAjax = req.headers['x-requested-with'] === 'XMLHttpRequest';
 
-    // 1. Get the brand BEFORE deleting it
-    const brand = await sneakersdb.getPost(brandId);
+  const brand = await sneakersdb.getPost(brandId);
 
-    if (!brand) {
-        // Brand not found → error 404
-        return res.status(404).render('message', {
-            title: 'Marca no encontrada',
-            message: 'La marca que intentas borrar no existe.',
-            backUrl: '/index',
-            backText: 'Volver a la página principal',
-            type: 'danger'
-        });
+  if (!brand) {
+    if (isAjax) {
+      return res.status(404).json({ success: false, message: 'La marca que intentas borrar no existe.' });
     }
-
-    // 2. Delete the brand (regardless of what deletePost returns)
-    await sneakersdb.deletePost(brandId);
-
-    // 3. Delete associated image if it exists
-    if (brand.imageFilename) {
-        await fs.rm(sneakersdb.UPLOADS_FOLDER + '/' + brand.imageFilename);
-    }
-
-    // 4. Show generic confirmation page
-    return res.render('message', {
-        title: 'Marca borrada',
-        message: `La marca "${brand.name}" se ha borrado correctamente.`,
-        backUrl: '/index', // or the brand listing route if you change it
-        backText: 'Volver a la página principal',
-        type: 'success'
+    return res.status(404).render('message', {
+      title: 'Marca no encontrada',
+      message: 'La marca que intentas borrar no existe.',
+      backUrl: '/index',
+      backText: 'Volver a la página principal',
+      type: 'danger'
     });
+  }
+
+  await sneakersdb.deletePost(brandId);
+
+  if (brand.imageFilename) {
+    await fs.rm(sneakersdb.UPLOADS_FOLDER + '/' + brand.imageFilename);
+  }
+
+  if (isAjax) {
+    return res.status(200).json({ success: true, redirectUrl: '/index' });
+  }
+
+  return res.render('message', {
+    title: 'Marca borrada',
+    message: `La marca "${brand.name}" se ha borrado correctamente.`,
+    backUrl: '/index',
+    backText: 'Volver a la página principal',
+    type: 'success'
+  });
+
 });
 
 
@@ -322,143 +327,113 @@ router.get('/new', (req, res) => {
     });
 });
 
+
 router.post('/brand/:id/edit', upload.single('brand_image'), async (req, res) => {
-    try {
-        const brandId = req.params.id;
+  const brandId = req.params.id;
+  const isAjax = req.headers['x-requested-with'] === 'XMLHttpRequest';
 
-        // 1. Get current brand
-        const currentBrand = await sneakersdb.getPost(brandId);
+  try {
+    const currentBrand = await sneakersdb.getPost(brandId);
 
-        if (!currentBrand) {
-            return res.status(404).render('message', {
-                title: 'Marca no encontrada',
-                message: 'La marca que intentas editar no existe.',
-                backUrl: '/index',
-                backText: 'Volver a la página principal',
-                type: 'danger'
-            });
-        }
-
-        // VALIDATIONS for edit form (same as creation)
-        const name = req.body.name;
-        const country_origin = req.body.country_origin;
-        const founded_year = req.body.founded_year;
-        const description = req.body.description;
-        const errors = [];
-
-        if (!name || !name.trim()) {
-            errors.push("El nombre es obligatorio.");
-        }
-        if (!country_origin || !country_origin.trim()) {
-            errors.push("El país de origen es obligatorio.");
-        }
-        if (!founded_year) {
-            errors.push("El año de fundación es obligatorio.");
-        }
-        if (!description || !description.trim()) {
-            errors.push("La descripción es obligatoria.");
-        }
-
-        if (name && !/^[A-ZÁÉÍÓÚÑ]/.test(name.trim())) {
-            errors.push("El nombre debe comenzar por una letra mayúscula.");
-        }
-
-        // Check unique name (exclude the brand we are editing)
-        if (name && name.trim()) {
-            const existingBrand = await sneakersdb.findBrandName(name.trim());
-            if (existingBrand && existingBrand._id && existingBrand._id.toString() !== brandId) {
-                errors.push("Ya existe una marca con ese nombre.");
-            }
-        }
-
-        let year = NaN;
-        if (founded_year) {
-            year = parseInt(founded_year, 10);
-            if (Number.isNaN(year)) {
-                errors.push("El año de fundación debe ser un número.");
-            } else {
-                const minYear = 1900;
-                const maxYear = 2025;
-                if (year < minYear || year > maxYear) {
-                    errors.push(`El año de fundación debe estar entre ${minYear} y ${maxYear}.`);
-                }
-            }
-        }
-
-        const descTrim = (description || "").trim();
-        if (descTrim.length < 20 || descTrim.length > 300) {
-            errors.push("La descripción debe tener entre 20 y 300 caracteres.");
-        }
-
-        if (errors.length > 0) {
-            // If a new file was uploaded, delete it to avoid orphaned files
-            if (req.file && req.file.filename) {
-                try {
-                    await fs.rm(sneakersdb.UPLOADS_FOLDER + '/' + req.file.filename);
-                } catch (e) {
-                    // ignore
-                }
-            }
-
-            return res.status(400).render('new', {
-                formTitle: 'Editar marca',
-                formAction: `/brand/${brandId}/edit`,
-                hasErrors: true,
-                errors,
-                brand: {
-                    name,
-                    country_origin,
-                    founded_year,
-                    description,
-                    imageFilename: currentBrand.imageFilename
-                }
-            });
-        }
-
-        // 2. Build new values
-        const updatedFields = {
-            name: name.trim(),
-            country_origin: country_origin.trim(),
-            founded_year: year,
-            description: descTrim
-        };
-
-        // 3. If user uploaded new image, save it and delete old one
-        if (req.file) {
-            updatedFields.imageFilename = req.file.filename;
-
-            if (currentBrand.imageFilename) {
-                await fs.rm(sneakersdb.UPLOADS_FOLDER + '/' + currentBrand.imageFilename);
-            }
-        } else {
-            // If no upload, keep previous image
-            updatedFields.imageFilename = currentBrand.imageFilename;
-        }
-
-        // 4. Update in database (we don't need the return value)
-        await sneakersdb.updatePost(brandId, updatedFields);
-
-        // 5. Show confirmation page using message.html
-        return res.render('message', {
-            title: 'Marca actualizada',
-            message: `La marca "${updatedFields.name}" se ha actualizado correctamente.`,
-            backUrl: `/detail/${brandId}`,
-            backText: 'Volver a la página de detalle',
-            type: 'success'
-        });
-
-    } catch (error) {
-        console.error('Error updating brand:', error);
-
-        return res.status(500).render('message', {
-            title: 'Error en el servidor',
-            message: 'Ha ocurrido un error al actualizar la marca. Inténtalo de nuevo más tarde.',
-            backUrl: '/index',
-            backText: 'Volver a la página principal',
-            type: 'danger'
-        });
+    if (!currentBrand) {
+      if (isAjax) {
+        return res.status(404).json({ success: false, message: 'La marca que intentas editar no existe.' });
+      }
+      return res.status(404).render('message', {
+        title: 'Marca no encontrada',
+        message: 'La marca que intentas editar no existe.',
+        backUrl: '/index',
+        backText: 'Volver a la página principal',
+        type: 'danger'
+      });
     }
+
+    // Campos (ajusta solo si tu form usa otros names)
+    const name = (req.body.name || '').trim();
+    const description = (req.body.description || '').trim();
+    const country_origin = (req.body.country_origin || '').trim();
+
+    // Validación mínima server-side (sin inventar reglas nuevas)
+    if (!name || !description || !country_origin) {
+      if (isAjax) {
+        return res.status(400).json({
+          success: false,
+          message: 'Por favor, completa todos los campos obligatorios.'
+        });
+      }
+      return res.status(400).render('message', {
+        title: 'Campos incompletos',
+        message: 'Por favor, completa todos los campos obligatorios.',
+        backUrl: `/brand/${brandId}/edit`,
+        backText: 'Volver al formulario de edición',
+        type: 'danger'
+      });
+    }
+
+    const updatedFields = { name, description, country_origin };
+
+    // ✅ NUEVO: remove_image
+    const wantsRemove = req.body.remove_image === 'true' || req.body.remove_image === 'on';
+
+    // Helper para borrar sin romper si el archivo no existe
+    const safeRemove = async (filename) => {
+      if (!filename) return;
+      const path = sneakersdb.UPLOADS_FOLDER + '/' + filename;
+      await fs.rm(path, { force: true }); // <--- CLAVE para evitar 500 por "no existe"
+    };
+
+    if (req.file) {
+      // Subió nueva imagen: reemplaza y borra la anterior
+      updatedFields.imageFilename = req.file.filename;
+      await safeRemove(currentBrand.imageFilename);
+
+    } else if (wantsRemove) {
+      // No subió nueva y quiere borrar la actual
+      await safeRemove(currentBrand.imageFilename);
+      updatedFields.imageFilename = null;
+
+    } else {
+      // Mantener la actual
+      updatedFields.imageFilename = currentBrand.imageFilename;
+    }
+
+    await sneakersdb.updatePost(brandId, updatedFields);
+
+    if (isAjax) {
+      return res.status(200).json({
+        success: true,
+        redirectUrl: `/detail/${brandId}`
+      });
+    }
+
+    return res.render('message', {
+      title: 'Marca actualizada',
+      message: `La marca "${updatedFields.name}" se ha actualizado correctamente.`,
+      backUrl: `/detail/${brandId}`,
+      backText: 'Volver a la página de detalle',
+      type: 'success'
+    });
+
+  } catch (error) {
+    console.error('Error updating brand:', error);
+
+    if (isAjax) {
+      return res.status(500).json({
+        success: false,
+        message: 'Ha ocurrido un error al guardar. Inténtalo de nuevo.'
+      });
+    }
+
+    return res.status(500).render('message', {
+      title: 'Error en el servidor',
+      message: 'Ha ocurrido un error al actualizar la marca. Inténtalo de nuevo más tarde.',
+      backUrl: '/index',
+      backText: 'Volver a la página principal',
+      type: 'danger'
+    });
+  }
 });
+
 
 
 
@@ -510,11 +485,19 @@ router.get('/index', async (req, res) => {
 router.post('/brand/:id/model/:modelId/delete', async (req, res) => {
     const brandId = req.params.id;
     const modelId = req.params.modelId;
+    const isAjax = req.headers['x-requested-with'] === 'XMLHttpRequest';
+
     // 1. Get the brand
     const brand = await sneakersdb.getPost(brandId);
 
     if (!brand) {
-        // Brand not found → error 404
+        if (isAjax) {
+            return res.status(404).json({
+                success: false,
+                message: 'La marca no existe.'
+            });
+        }
+
         return res.status(404).render('message', {
             title: 'Marca no encontrada',
             message: 'La marca que intentas borrar no existe.',
@@ -522,8 +505,8 @@ router.post('/brand/:id/model/:modelId/delete', async (req, res) => {
             backText: 'Volver a la página principal',
             type: 'danger'
         });
-
     }
+
     // 2. Find the model inside the brand (protect if it has no models)
     const modelsArray = brand.models || [];
     const modelIndex = modelsArray.findIndex(model => {
@@ -535,7 +518,13 @@ router.post('/brand/:id/model/:modelId/delete', async (req, res) => {
     });
 
     if (modelIndex === -1) {
-        // Model not found → error 404
+        if (isAjax) {
+            return res.status(404).json({
+                success: false,
+                message: 'El modelo no existe en esta marca.'
+            });
+        }
+
         return res.status(404).render('message', {
             title: 'Modelo no encontrado',
             message: 'El modelo que intentas borrar no existe en esta marca.',
@@ -543,16 +532,35 @@ router.post('/brand/:id/model/:modelId/delete', async (req, res) => {
             backText: 'Volver a la página de la marca',
             type: 'danger'
         });
-
     }
 
     // 3. Delete the model from array
-    // Ensure we have the array in the brand before modifying
     brand.models = modelsArray;
+
+    // (Opcional pero recomendable) borrar imagen del modelo si existe
+    const modelToDelete = brand.models[modelIndex];
+    if (modelToDelete && modelToDelete.imageFilename) {
+        try {
+            await fs.rm(sneakersdb.UPLOADS_FOLDER + '/' + modelToDelete.imageFilename, { force: true });
+        } catch (e) {
+            // ignore
+        }
+    }
+
     brand.models.splice(modelIndex, 1);
     await sneakersdb.updatePost(brandId, { models: brand.models });
 
-    // 4. Show confirmation page
+    // 4. AJAX => JSON
+    if (isAjax) {
+        return res.status(200).json({
+            success: true,
+            message: 'Modelo borrado correctamente.',
+            brandId: brandId,
+            modelId: modelId
+        });
+    }
+
+    // 5. No-AJAX => message.html (fallback)
     return res.render('message', {
         title: 'Modelo borrado',
         message: `El modelo se ha borrado correctamente.`,
@@ -561,6 +569,7 @@ router.post('/brand/:id/model/:modelId/delete', async (req, res) => {
         type: 'success'
     });
 });
+
 
 router.get('/brand/:id/model/:modelId/edit', async (req, res) => {
     const brandId = req.params.id;
@@ -913,7 +922,7 @@ router.post('/brand/:id/model/:modelId/edit', upload.single('cover_image'), asyn
             // If file was uploaded and there are errors, delete it
             if (req.file && req.file.filename) {
                 try {
-                    await fs.rm(sneakersdb.UPLOADS_FOLDER + '/' + req.file.filename);
+                    await fs.rm(sneakersdb.UPLOADS_FOLDER + '/' + req.file.filename, { force: true });
                 } catch (e) {
                     // ignore
                 }
@@ -968,17 +977,27 @@ router.post('/brand/:id/model/:modelId/edit', upload.single('cover_image'), asyn
             imageFilename: currentModel.imageFilename
         };
 
-        // If new image was uploaded, update
-        if (req.file && req.file.filename) {
-            updatedModel.imageFilename = req.file.filename;
-            // Delete old image if it exists
-            if (currentModel.imageFilename) {
-                try {
-                    await fs.rm(sneakersdb.UPLOADS_FOLDER + '/' + currentModel.imageFilename);
-                } catch (e) {
-                    // ignore
-                }
+        // ✅ NUEVO: soporte eliminar imagen actual
+        const wantsRemove = req.body.remove_image === 'true' || req.body.remove_image === 'on';
+
+        const safeRemove = async (filename) => {
+            if (!filename) return;
+            try {
+                await fs.rm(sneakersdb.UPLOADS_FOLDER + '/' + filename, { force: true });
+            } catch (e) {
+                // ignore
             }
+        };
+
+        // Imagen: nueva subida / eliminar imagen actual / mantener
+        if (req.file && req.file.filename) {
+            await safeRemove(currentModel.imageFilename);
+            updatedModel.imageFilename = req.file.filename;
+        } else if (wantsRemove) {
+            await safeRemove(currentModel.imageFilename);
+            updatedModel.imageFilename = null;
+        } else {
+            updatedModel.imageFilename = currentModel.imageFilename;
         }
 
         // Replace model in array
@@ -1016,6 +1035,7 @@ router.post('/brand/:id/model/:modelId/edit', upload.single('cover_image'), asyn
         });
     }
 });
+
 /**
  * API endpoint to check if a brand name is available
  */

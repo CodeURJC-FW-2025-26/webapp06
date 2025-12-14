@@ -16,7 +16,7 @@
             <p class="mb-3"><strong>Descripción:</strong> {{description}}</p>
             <div class="d-flex gap-2">
 
-              <form action="/brand/{{brand._id}}/delete" method="POST" class="d-inline">
+              <form action="/brand/{{brand._id}}/delete" method="POST" class="d-inline js-delete-brand">
                 <button class="btn btn-outline-danger" type="submit"> Borrar </button>
               </form>
 
@@ -52,7 +52,7 @@
                     Editar
                   </a>
 
-                  <form action="/brand/{{brand._id}}/model/{{_id}}/delete" method="POST" class="d-inline">
+                  <form action="/brand/{{brand._id}}/model/{{_id}}/delete" method="POST" class="js-delete-model">
                     <button class="btn btn-outline-danger btn-sm" type="submit">Borrar</button>
                   </form>
 

@@ -96,15 +96,36 @@
     </div>
 
     <!-- Image -->
-    <div class="col-12">
-      <label for="coverImage" class="form-label">Imagen principal</label>
-      <input type="file" id="coverImage" name="cover_image" class="form-control" accept="image/*">
-      {{#model.imageFilename}}
-      <p class="form-text mt-2">
-        <small>Imagen actual: {{model.imageFilename}}</small>
-      </p>
-      {{/model.imageFilename}}
-    </div>
+<div class="col-12">
+  <label for="coverImage" class="form-label">Imagen principal</label>
+
+  <div id="modelImageDropzone" class="border rounded p-3 mb-2 text-center" style="cursor:pointer;">
+    Arrastra y suelta una imagen aquí o haz clic para seleccionarla
+  </div>
+
+  <input type="file" id="coverImage" name="cover_image" class="form-control" accept="image/*">
+
+  <div class="mt-3 d-flex align-items-center gap-3 flex-wrap">
+    <img id="modelImagePreview" class="d-none rounded border" alt="Previsualización" style="max-height: 120px;">
+    <button id="btnRemoveSelectedModelImage" class="btn btn-outline-secondary btn-sm" type="button">
+      Quitar imagen seleccionada
+    </button>
+  </div>
+
+  {{#model.imageFilename}}
+  <p class="form-text mt-2 mb-1">
+    <small>Imagen actual: {{model.imageFilename}}</small>
+  </p>
+
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" value="true" id="removeModelImage" name="remove_image">
+    <label class="form-check-label" for="removeModelImage">
+      Eliminar imagen actual (si no subes una nueva)
+    </label>
+  </div>
+  {{/model.imageFilename}}
+</div>
+
 
     <!-- Buttons -->
     <div class="col-12">

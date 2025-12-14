@@ -57,14 +57,35 @@
 
     <!-- Logo / Image -->
     <div class="col-12">
-      <label for="logo" class="form-label">Logo / Imagen</label>
-      <input type="file" id="logo" name="brand_image" class="form-control" accept="image/*">
-      {{#brand.imageFilename}}
-      <p class="form-text mt-2">
-        <small>Imagen actual: {{brand.imageFilename}}</small>
-      </p>
-      {{/brand.imageFilename}}
+    <label for="logo" class="form-label">Logo / Imagen</label>
+
+    <div id="brandImageDropzone" class="border rounded p-3 mb-2 text-center" style="cursor:pointer;">
+      Arrastra y suelta una imagen aquí o haz clic para seleccionarla
     </div>
+
+    <input type="file" id="logo" name="brand_image" class="form-control" accept="image/*">
+
+    <div class="mt-3 d-flex align-items-center gap-3 flex-wrap">
+      <img id="brandImagePreview" class="d-none rounded border" alt="Previsualización" style="max-height: 120px;">
+      <button id="btnRemoveSelectedImage" class="btn btn-outline-secondary btn-sm" type="button">
+        Quitar imagen seleccionada
+      </button>
+    </div>
+
+    {{#brand.imageFilename}}
+    <p class="form-text mt-2 mb-1">
+      <small>Imagen actual: {{brand.imageFilename}}</small>
+    </p>
+
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="true" id="removeImage" name="remove_image">
+      <label class="form-check-label" for="removeImage">
+        Eliminar imagen actual (si no subes una nueva)
+      </label>
+    </div>
+    {{/brand.imageFilename}}
+</div>
+
 
     <!-- Buttons -->
     <div class="col-12">
