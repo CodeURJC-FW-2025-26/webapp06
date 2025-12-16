@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (form.classList.contains('js-delete-brand') || form.classList.contains('js-delete-model')) {
                     return; // NO interceptar aquí
                 }
-                
+
                 e.preventDefault();
 
                 // Clear previous errors
@@ -598,6 +598,7 @@ function submitFormAjax(form) {
                             _id: response.modelId || ('m_' + Date.now()),
                             name: form.querySelector('#name') ? form.querySelector('#name').value : '',
                             category: form.querySelector('#category') ? form.querySelector('#category').value : '',
+                            description: form.querySelector('#description') ? form.querySelector('#description').value : '',
                             release_year: form.querySelector('#release_year') ? form.querySelector('#release_year').value : '',
                             price: form.querySelector('#price') ? form.querySelector('#price').value : '',
                             average_rating: form.querySelector('#average_rating') ? form.querySelector('#average_rating').value : '',
@@ -608,7 +609,7 @@ function submitFormAjax(form) {
 
                     // Append to list and clear form
                     appendModelToList(model, brandId);
-                    try { form.reset(); } catch (e) {}
+                    try { form.reset(); } catch (e) { }
                     // Remove file input preview if exists
                     var cover = form.querySelector('#cover_image');
                     if (cover) { cover.value = ''; }
@@ -640,9 +641,9 @@ function submitFormAjax(form) {
                             size_range: form.querySelector('#size_range') ? form.querySelector('#size_range').value : ''
                         };
                         var bId = null;
-                        try { var actMatch = action.match(/\/brand\/([^/]+)/); if (actMatch) bId = actMatch[1]; } catch(_){}
+                        try { var actMatch = action.match(/\/brand\/([^/]+)/); if (actMatch) bId = actMatch[1]; } catch (_) { }
                         appendModelToList(model, bId);
-                        try { form.reset(); } catch (e) {}
+                        try { form.reset(); } catch (e) { }
                         return;
                     } catch (e) {
                         // fallthrough to redirect fallback
@@ -656,7 +657,7 @@ function submitFormAjax(form) {
                         window.location.href = respUrl;
                         return;
                     }
-                } catch (_) {}
+                } catch (_) { }
 
                 // Fallback: redirect based on form action
                 if (action.includes('/model/')) {
@@ -676,7 +677,7 @@ function submitFormAjax(form) {
                 showErrorDialog(errorMessage, form);
             } catch (e) {
                 showErrorDialog('Error al guardar. Intenta nuevamente.', form);
-                
+
             }
         }
     };
@@ -835,7 +836,7 @@ function appendModelToList(model, brandId) {
 
     // Re-init delete listeners for this new element (UIHelpers is in ui.js)
     if (window.UIHelpers && typeof window.UIHelpers.initDeleteModelAjax === 'function') {
-        try { window.UIHelpers.initDeleteModelAjax(); } catch (e) {}
+        try { window.UIHelpers.initDeleteModelAjax(); } catch (e) { }
     } else {
         // As a fallback, re-run delete init from ui.js by dispatching DOMContentLoaded may be heavy; instead, attach simple handler
         var forms = col.querySelectorAll('form.js-delete-model');
@@ -863,7 +864,7 @@ function initInlineModelEdit() {
         // edit link clicked
 
         // Prevent default navigation and stop propagation immediately
-        try { e.preventDefault(); e.stopImmediatePropagation(); e.stopPropagation(); } catch (ex) {}
+        try { e.preventDefault(); e.stopImmediatePropagation(); e.stopPropagation(); } catch (ex) { }
 
         var card = link.closest('.card');
         // found card?
@@ -877,7 +878,7 @@ function initInlineModelEdit() {
         // building inline form...
 
         // Helper: set the price text while preserving an existing badge <span>
-        var setPricePreserveBadge = function(el, priceVal) {
+        var setPricePreserveBadge = function (el, priceVal) {
             if (!el) return;
             try {
                 var badge = el.querySelector && el.querySelector('.badge');
@@ -897,9 +898,9 @@ function initInlineModelEdit() {
                 // ensure badge text updated separately
                 if (badge) {
                     // keep badge classes; update only its text content
-                    badge.textContent = badge.textContent.replace(/^\s*⭐.*$/,'');
+                    badge.textContent = badge.textContent.replace(/^\s*⭐.*$/, '');
                 }
-            } catch (e) {}
+            } catch (e) { }
         };
 
         if (cardBody.querySelector('form.inline-edit')) return; // already editing
@@ -913,14 +914,14 @@ function initInlineModelEdit() {
         var category = '';
         var release_year = '';
         if (metaEls && metaEls[0]) {
-            var parts = metaEls[0].textContent.split('·').map(function(s){ return s.trim(); });
+            var parts = metaEls[0].textContent.split('·').map(function (s) { return s.trim(); });
             category = parts[0] || '';
             release_year = parts[1] || '';
         }
         var colorway = '';
         var size_range = '';
         if (metaEls && metaEls[1]) {
-            var parts2 = metaEls[1].textContent.split('·').map(function(s){ return s.trim(); });
+            var parts2 = metaEls[1].textContent.split('·').map(function (s) { return s.trim(); });
             if (parts2.length >= 2) {
                 colorway = parts2[0].replace('Colorway:', '').trim();
                 size_range = parts2[1].replace('Tallas:', '').trim();
@@ -954,7 +955,7 @@ function initInlineModelEdit() {
             while (cur && cur !== document.documentElement) {
                 try {
                     if (cur.getAttribute && cur.getAttribute('data-' + attr) != null) return cur.getAttribute('data-' + attr);
-                } catch (e) {}
+                } catch (e) { }
                 cur = cur.parentElement;
             }
             return null;
@@ -968,7 +969,7 @@ function initInlineModelEdit() {
                     if (m && m[0]) price = m[0].replace(',', '.');
                     else price = dp;
                 }
-            } catch (e) {}
+            } catch (e) { }
         }
         var badge = cardBody.querySelector('.badge');
         var average_rating = badge ? badge.textContent.replace('⭐', '').trim() : '';
@@ -992,20 +993,20 @@ function initInlineModelEdit() {
 
         // Row: category / year
         var row1 = document.createElement('div'); row1.className = 'row g-2 mb-2';
-        var colCat = document.createElement('div'); colCat.className = 'col-6'; var catInput = document.createElement('input'); catInput.name='category'; catInput.className='form-control form-control-sm'; catInput.placeholder='Categoría'; catInput.value=category; colCat.appendChild(catInput);
-        var colYear = document.createElement('div'); colYear.className='col-6'; var yearInput = document.createElement('input'); yearInput.name='release_year'; yearInput.type='number'; yearInput.min=1970; yearInput.max=2025; yearInput.className='form-control form-control-sm'; yearInput.placeholder='Año'; yearInput.value=release_year; colYear.appendChild(yearInput);
+        var colCat = document.createElement('div'); colCat.className = 'col-6'; var catInput = document.createElement('input'); catInput.name = 'category'; catInput.className = 'form-control form-control-sm'; catInput.placeholder = 'Categoría'; catInput.value = category; colCat.appendChild(catInput);
+        var colYear = document.createElement('div'); colYear.className = 'col-6'; var yearInput = document.createElement('input'); yearInput.name = 'release_year'; yearInput.type = 'number'; yearInput.min = 1970; yearInput.max = 2025; yearInput.className = 'form-control form-control-sm'; yearInput.placeholder = 'Año'; yearInput.value = release_year; colYear.appendChild(yearInput);
         row1.appendChild(colCat); row1.appendChild(colYear);
 
         // Row: price / rating
-        var row2 = document.createElement('div'); row2.className='row g-2 mb-2';
-        var colPrice = document.createElement('div'); colPrice.className='col-6'; var priceInput = document.createElement('input'); priceInput.name='price'; priceInput.type='number'; priceInput.step='0.01'; priceInput.min='0'; priceInput.className='form-control form-control-sm'; priceInput.placeholder='Precio'; priceInput.value=price; colPrice.appendChild(priceInput);
-        var colRating = document.createElement('div'); colRating.className='col-6'; var ratingInput = document.createElement('input'); ratingInput.name='average_rating'; ratingInput.type='number'; ratingInput.step='0.1'; ratingInput.min='0'; ratingInput.max='5'; ratingInput.className='form-control form-control-sm'; ratingInput.placeholder='Valoración'; ratingInput.value=average_rating; colRating.appendChild(ratingInput);
+        var row2 = document.createElement('div'); row2.className = 'row g-2 mb-2';
+        var colPrice = document.createElement('div'); colPrice.className = 'col-6'; var priceInput = document.createElement('input'); priceInput.name = 'price'; priceInput.type = 'number'; priceInput.step = '0.01'; priceInput.min = '0'; priceInput.className = 'form-control form-control-sm'; priceInput.placeholder = 'Precio'; priceInput.value = price; colPrice.appendChild(priceInput);
+        var colRating = document.createElement('div'); colRating.className = 'col-6'; var ratingInput = document.createElement('input'); ratingInput.name = 'average_rating'; ratingInput.type = 'number'; ratingInput.step = '0.1'; ratingInput.min = '0'; ratingInput.max = '5'; ratingInput.className = 'form-control form-control-sm'; ratingInput.placeholder = 'Valoración'; ratingInput.value = average_rating; colRating.appendChild(ratingInput);
         row2.appendChild(colPrice); row2.appendChild(colRating);
 
         // Row: colorway / size
-        var row3 = document.createElement('div'); row3.className='row g-2 mb-2';
-        var colColor = document.createElement('div'); colColor.className='col-6'; var colorInput = document.createElement('input'); colorInput.name='colorway'; colorInput.className='form-control form-control-sm'; colorInput.placeholder='Colorway'; colorInput.value=colorway; colColor.appendChild(colorInput);
-        var colSize = document.createElement('div'); colSize.className='col-6'; var sizeInput = document.createElement('input'); sizeInput.name='size_range'; sizeInput.className='form-control form-control-sm'; sizeInput.placeholder='Tallas'; sizeInput.value=size_range; colSize.appendChild(sizeInput);
+        var row3 = document.createElement('div'); row3.className = 'row g-2 mb-2';
+        var colColor = document.createElement('div'); colColor.className = 'col-6'; var colorInput = document.createElement('input'); colorInput.name = 'colorway'; colorInput.className = 'form-control form-control-sm'; colorInput.placeholder = 'Colorway'; colorInput.value = colorway; colColor.appendChild(colorInput);
+        var colSize = document.createElement('div'); colSize.className = 'col-6'; var sizeInput = document.createElement('input'); sizeInput.name = 'size_range'; sizeInput.className = 'form-control form-control-sm'; sizeInput.placeholder = 'Tallas'; sizeInput.value = size_range; colSize.appendChild(sizeInput);
         row3.appendChild(colColor); row3.appendChild(colSize);
 
         // Fallback: try to read data-* attributes from ancestor containers (price, description)
@@ -1014,14 +1015,14 @@ function initInlineModelEdit() {
             while (cur && cur !== document.documentElement) {
                 try {
                     if (cur.getAttribute && cur.getAttribute('data-' + attr) != null) return cur.getAttribute('data-' + attr);
-                } catch (e) {}
+                } catch (e) { }
                 cur = cur.parentElement;
             }
             return null;
         };
 
         // If price empty, try data-price
-        if ((!price || price === '') ) {
+        if ((!price || price === '')) {
             var dp = findAncestorData(card, 'price');
             if (dp) {
                 var m = dp.match(/[0-9]+[\.,]?[0-9]*/);
@@ -1031,15 +1032,15 @@ function initInlineModelEdit() {
         }
 
         // Image input + preview
-        var imgRow = document.createElement('div'); imgRow.className='mb-2 d-flex gap-2 align-items-center';
-        var fileInput = document.createElement('input'); fileInput.type='file'; fileInput.name='cover_image'; fileInput.accept='image/*'; fileInput.className='form-control form-control-sm';
-        var preview = document.createElement('img'); preview.className='d-none rounded'; preview.style.maxHeight='80px'; preview.alt='Preview';
+        var imgRow = document.createElement('div'); imgRow.className = 'mb-2 d-flex gap-2 align-items-center';
+        var fileInput = document.createElement('input'); fileInput.type = 'file'; fileInput.name = 'cover_image'; fileInput.accept = 'image/*'; fileInput.className = 'form-control form-control-sm';
+        var preview = document.createElement('img'); preview.className = 'd-none rounded'; preview.style.maxHeight = '80px'; preview.alt = 'Preview';
         imgRow.appendChild(fileInput); imgRow.appendChild(preview);
 
         // Actions
-        var actions = document.createElement('div'); actions.className='d-flex gap-2';
-        var btnSave = document.createElement('button'); btnSave.type='submit'; btnSave.className='btn btn-primary btn-sm'; btnSave.textContent='Guardar';
-        var btnCancel = document.createElement('button'); btnCancel.type='button'; btnCancel.className='btn btn-secondary btn-sm js-cancel-inline'; btnCancel.textContent='Cancelar';
+        var actions = document.createElement('div'); actions.className = 'd-flex gap-2';
+        var btnSave = document.createElement('button'); btnSave.type = 'submit'; btnSave.className = 'btn btn-primary btn-sm'; btnSave.textContent = 'Guardar';
+        var btnCancel = document.createElement('button'); btnCancel.type = 'button'; btnCancel.className = 'btn btn-secondary btn-sm js-cancel-inline'; btnCancel.textContent = 'Cancelar';
         actions.appendChild(btnSave); actions.appendChild(btnCancel);
 
         // Assemble form
@@ -1049,18 +1050,18 @@ function initInlineModelEdit() {
         try {
             var dd = findAncestorData(card, 'description');
             if (dd) descInput.value = dd;
-        } catch (e) {}
+        } catch (e) { }
 
         // Also set the price input value from computed price (after fallback)
-        try { priceInput.value = (price || ''); priceInput.setAttribute('value', (price || '')); } catch (e) {}
+        try { priceInput.value = (price || ''); priceInput.setAttribute('value', (price || '')); } catch (e) { }
 
         // Insert form
-        cardBody.innerHTML=''; cardBody.appendChild(form);
+        cardBody.innerHTML = ''; cardBody.appendChild(form);
 
         // File preview handler
         fileInput.addEventListener('change', function () {
             var f = fileInput.files && fileInput.files[0];
-            if (!f) { preview.src=''; preview.classList.add('d-none'); return; }
+            if (!f) { preview.src = ''; preview.classList.add('d-none'); return; }
             var reader = new FileReader();
             reader.onload = function (ev) { preview.src = ev.target.result; preview.classList.remove('d-none'); };
             reader.readAsDataURL(f);
@@ -1077,13 +1078,13 @@ function initInlineModelEdit() {
             if (!nameInput.value.trim()) { showErrorDialog('El nombre es obligatorio.'); return; }
             if (!catInput.value.trim()) { showErrorDialog('La categoría es obligatoria.'); return; }
             if (descInput.value && (descInput.value.trim().length < 10)) { showErrorDialog('La descripción debe tener al menos 10 caracteres.'); return; }
-            if (yearInput.value) { var y = parseInt(yearInput.value,10); if (Number.isNaN(y) || y<1970 || y>2025) { showErrorDialog('El año debe estar entre 1970 y 2025.'); return; } }
-            if (priceInput.value) { var p = parseFloat(priceInput.value); if (Number.isNaN(p) || p<0) { showErrorDialog('El precio debe ser un número positivo.'); return; } }
-            if (ratingInput.value) { var r = parseFloat(ratingInput.value); if (Number.isNaN(r) || r<0 || r>5) { showErrorDialog('La valoración debe estar entre 0 y 5.'); return; } }
+            if (yearInput.value) { var y = parseInt(yearInput.value, 10); if (Number.isNaN(y) || y < 1970 || y > 2025) { showErrorDialog('El año debe estar entre 1970 y 2025.'); return; } }
+            if (priceInput.value) { var p = parseFloat(priceInput.value); if (Number.isNaN(p) || p < 0) { showErrorDialog('El precio debe ser un número positivo.'); return; } }
+            if (ratingInput.value) { var r = parseFloat(ratingInput.value); if (Number.isNaN(r) || r < 0 || r > 5) { showErrorDialog('La valoración debe estar entre 0 y 5.'); return; } }
 
             var fd = new FormData(form);
 
-            var xhr = new XMLHttpRequest(); xhr.open('POST', form.action, true); xhr.setRequestHeader('X-Requested-With','XMLHttpRequest');
+            var xhr = new XMLHttpRequest(); xhr.open('POST', form.action, true); xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 
             // show small spinner on save button
             btnSave.disabled = true; var oldText = btnSave.textContent; btnSave.textContent = 'Guardando...';
@@ -1096,45 +1097,45 @@ function initInlineModelEdit() {
                         var updated = res.model || null;
                         // Update DOM values
                         var titleEl = card.querySelector('.card-title'); if (titleEl) titleEl.textContent = (updated && updated.name) ? updated.name : nameInput.value;
-                var price = getText('.fw-semibold').replace('€', '').trim();        
-                // Robustly search ancestors for data-price / data-description
-                var findAncestorData = function (el, attr) {
-                    var cur = el;
-                    while (cur && cur !== document.documentElement) {
-                        try {
-                            if (cur.getAttribute && cur.getAttribute('data-' + attr) != null) return cur.getAttribute('data-' + attr);
-                        } catch (e) {}
-                        cur = cur.parentElement;
-                    }
-                    return null;
-                };
+                        var price = getText('.fw-semibold').replace('€', '').trim();
+                        // Robustly search ancestors for data-price / data-description
+                        var findAncestorData = function (el, attr) {
+                            var cur = el;
+                            while (cur && cur !== document.documentElement) {
+                                try {
+                                    if (cur.getAttribute && cur.getAttribute('data-' + attr) != null) return cur.getAttribute('data-' + attr);
+                                } catch (e) { }
+                                cur = cur.parentElement;
+                            }
+                            return null;
+                        };
 
-                var dp = findAncestorData(card, 'price');
-                var dd = findAncestorData(card, 'description');
-                // Inline edit - found data-price / data-description
+                        var dp = findAncestorData(card, 'price');
+                        var dd = findAncestorData(card, 'description');
+                        // Inline edit - found data-price / data-description
 
-                if ((!price || price === '') && dp) price = dp;
-                var descriptionFromData = dd || '';
+                        if ((!price || price === '') && dp) price = dp;
+                        var descriptionFromData = dd || '';
 
-                // Normalize price to numeric string (remove currency and non-digit except , and .)
-                if (price && typeof price === 'string') {
-                    var m = price.match(/[0-9]+[\.,]?[0-9]*/);
-                    if (m && m[0]) {
-                        price = m[0].replace(',', '.');
-                    } else {
-                        price = '';
-                    }
-                }
-                        if (metaEls && metaEls.length>0) metaEls[0].textContent = (catInput.value||'') + ' · ' + (yearInput.value||'');
-                        if (metaEls && metaEls.length>1) metaEls[1].textContent = 'Colorway: ' + (colorInput.value||'') + ' · Tallas: ' + (sizeInput.value||'');
-                // Prefill description from data attribute if available
-                if (descriptionFromData) descInput.value = descriptionFromData;
+                        // Normalize price to numeric string (remove currency and non-digit except , and .)
+                        if (price && typeof price === 'string') {
+                            var m = price.match(/[0-9]+[\.,]?[0-9]*/);
+                            if (m && m[0]) {
+                                price = m[0].replace(',', '.');
+                            } else {
+                                price = '';
+                            }
+                        }
+                        if (metaEls && metaEls.length > 0) metaEls[0].textContent = (catInput.value || '') + ' · ' + (yearInput.value || '');
+                        if (metaEls && metaEls.length > 1) metaEls[1].textContent = 'Colorway: ' + (colorInput.value || '') + ' · Tallas: ' + (sizeInput.value || '');
+                        // Prefill description from data attribute if available
+                        if (descriptionFromData) descInput.value = descriptionFromData;
                         var priceEl = card.querySelector('.fw-semibold');
                         if (priceEl) {
-                            var shownPrice = (updated && (updated.price || updated.price === 0)) ? String(updated.price) : (priceInput.value||'');
+                            var shownPrice = (updated && (updated.price || updated.price === 0)) ? String(updated.price) : (priceInput.value || '');
                             setPricePreserveBadge(priceEl, shownPrice);
                         }
-                        var badge2 = card.querySelector('.badge'); if (badge2) badge2.textContent = '⭐ ' + ((updated && updated.average_rating) ? String(updated.average_rating) : (ratingInput.value||''));
+                        var badge2 = card.querySelector('.badge'); if (badge2) badge2.textContent = '⭐ ' + ((updated && updated.average_rating) ? String(updated.average_rating) : (ratingInput.value || ''));
 
                         // Update container data-* attributes so future inline edits use fresh values
                         try {
@@ -1149,7 +1150,7 @@ function initInlineModelEdit() {
                                 if (updated && updated.description) containerWithData.setAttribute('data-description', updated.description);
                                 else if (descInput && descInput.value) containerWithData.setAttribute('data-description', descInput.value);
                             }
-                        } catch (e) {}
+                        } catch (e) { }
                         // Update image if server returned url
                         if (updated && updated._id) {
                             var imgEl = card.querySelector('img.card-img-top');
@@ -1160,66 +1161,66 @@ function initInlineModelEdit() {
                         cardBody.innerHTML = originalHTML;
                         var newTitle = cardBody.querySelector('.card-title'); if (newTitle) newTitle.textContent = titleEl ? titleEl.textContent : nameInput.value;
                         var newMeta = cardBody.querySelectorAll('.mb-1.small.text-muted');
-                        if (newMeta && newMeta.length>0) newMeta[0].textContent = (catInput.value||'') + ' · ' + (yearInput.value||'');
-                        if (newMeta && newMeta.length>1) newMeta[1].textContent = 'Colorway: ' + (colorInput.value||'') + ' · Tallas: ' + (sizeInput.value||'');
+                        if (newMeta && newMeta.length > 0) newMeta[0].textContent = (catInput.value || '') + ' · ' + (yearInput.value || '');
+                        if (newMeta && newMeta.length > 1) newMeta[1].textContent = 'Colorway: ' + (colorInput.value || '') + ' · Tallas: ' + (sizeInput.value || '');
 
                         // Update price and badge in restored HTML
                         try {
                             var newPriceEl = cardBody.querySelector('.fw-semibold');
                             if (newPriceEl) {
-                                var shownPrice = (updated && (updated.price || updated.price === 0)) ? String(updated.price) : (priceInput.value||'');
+                                var shownPrice = (updated && (updated.price || updated.price === 0)) ? String(updated.price) : (priceInput.value || '');
                                 setPricePreserveBadge(newPriceEl, shownPrice);
                             }
-                            var newBadge = cardBody.querySelector('.badge'); if (newBadge) newBadge.textContent = '⭐ ' + ((updated && updated.average_rating) ? String(updated.average_rating) : (ratingInput.value||''));
-                        } catch (e) {}
+                            var newBadge = cardBody.querySelector('.badge'); if (newBadge) newBadge.textContent = '⭐ ' + ((updated && updated.average_rating) ? String(updated.average_rating) : (ratingInput.value || ''));
+                        } catch (e) { }
 
                         // re-init delete handlers if needed
-                        if (window.UIHelpers && typeof window.UIHelpers.initDeleteModelAjax === 'function') { try { window.UIHelpers.initDeleteModelAjax(); } catch (e) {} }
+                        if (window.UIHelpers && typeof window.UIHelpers.initDeleteModelAjax === 'function') { try { window.UIHelpers.initDeleteModelAjax(); } catch (e) { } }
                     } catch (e) {
                         // Not JSON — fallback: assume success (200/201) and update card from form values.
-                        try { if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); } catch(_) {}
+                        try { if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); } catch (_) { }
                         try {
                             // Update title
                             var titleEl2 = card.querySelector('.card-title'); if (titleEl2) titleEl2.textContent = nameInput.value;
                             // Update price shown
-                            var priceStr2 = (priceInput.value||''); if (priceStr2) priceStr2 = priceStr2 + ' € ';
-                            var priceEl2 = card.querySelector('.fw-semibold'); if (priceEl2) setPricePreserveBadge(priceEl2, (priceInput.value||''));
+                            var priceStr2 = (priceInput.value || ''); if (priceStr2) priceStr2 = priceStr2 + ' € ';
+                            var priceEl2 = card.querySelector('.fw-semibold'); if (priceEl2) setPricePreserveBadge(priceEl2, (priceInput.value || ''));
                             // Update rating
-                            var badge2 = card.querySelector('.badge'); if (badge2) badge2.textContent = '⭐ ' + (ratingInput.value||'');
+                            var badge2 = card.querySelector('.badge'); if (badge2) badge2.textContent = '⭐ ' + (ratingInput.value || '');
                             // Update meta lines
                             var metaElsFallback = card.querySelectorAll('.mb-1.small.text-muted');
-                            if (metaElsFallback && metaElsFallback.length>0) metaElsFallback[0].textContent = (catInput.value||'') + ' · ' + (yearInput.value||'');
-                            if (metaElsFallback && metaElsFallback.length>1) metaElsFallback[1].textContent = 'Colorway: ' + (colorInput.value||'') + ' · Tallas: ' + (sizeInput.value||'');
+                            if (metaElsFallback && metaElsFallback.length > 0) metaElsFallback[0].textContent = (catInput.value || '') + ' · ' + (yearInput.value || '');
+                            if (metaElsFallback && metaElsFallback.length > 1) metaElsFallback[1].textContent = 'Colorway: ' + (colorInput.value || '') + ' · Tallas: ' + (sizeInput.value || '');
 
                             // restore originalHTML then patch text nodes to ensure layout same
                             cardBody.innerHTML = originalHTML;
                             var newTitle2 = cardBody.querySelector('.card-title'); if (newTitle2) newTitle2.textContent = nameInput.value;
                             var newMeta2 = cardBody.querySelectorAll('.mb-1.small.text-muted');
-                            if (newMeta2 && newMeta2.length>0) newMeta2[0].textContent = (catInput.value||'') + ' · ' + (yearInput.value||'');
-                            if (newMeta2 && newMeta2.length>1) newMeta2[1].textContent = 'Colorway: ' + (colorInput.value||'') + ' · Tallas: ' + (sizeInput.value||'');
+                            if (newMeta2 && newMeta2.length > 0) newMeta2[0].textContent = (catInput.value || '') + ' · ' + (yearInput.value || '');
+                            if (newMeta2 && newMeta2.length > 1) newMeta2[1].textContent = 'Colorway: ' + (colorInput.value || '') + ' · Tallas: ' + (sizeInput.value || '');
 
                             // Update price and badge in restored HTML (fallback)
                             try {
-                                var newPriceEl2 = cardBody.querySelector('.fw-semibold'); if (newPriceEl2) newPriceEl2.textContent = ((priceInput.value||'') ? (priceInput.value + ' € ') : '');
-                                var newBadge2 = cardBody.querySelector('.badge'); if (newBadge2) newBadge2.textContent = '⭐ ' + (ratingInput.value||'');
-                            } catch (e) {}
+                                var newPriceEl2 = cardBody.querySelector('.fw-semibold'); if (newPriceEl2) newPriceEl2.textContent = ((priceInput.value || '') ? (priceInput.value + ' € ') : '');
+                                var newBadge2 = cardBody.querySelector('.badge'); if (newBadge2) newBadge2.textContent = '⭐ ' + (ratingInput.value || '');
+                            } catch (e) { }
 
                             // re-init delete handlers if needed
-                            if (window.UIHelpers && typeof window.UIHelpers.initDeleteModelAjax === 'function') { try { window.UIHelpers.initDeleteModelAjax(); } catch (e) {} }
+                            if (window.UIHelpers && typeof window.UIHelpers.initDeleteModelAjax === 'function') { try { window.UIHelpers.initDeleteModelAjax(); } catch (e) { } }
                         } catch (inner) {
                             // If anything fails, show generic error and restore form
-                            try { if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); } catch(_) {}
+                            try { if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); } catch (_) { }
                             showErrorDialog('Respuesta inesperada del servidor. No se pudo guardar.');
                             cardBody.innerHTML = originalHTML;
                         }
                     }
                 } else {
-                    try { var err = JSON.parse(xhr.responseText); try { if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); } catch(_) {} showErrorDialog(err.message || 'Error al guardar'); }
-                    catch (_) { try { if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); } catch(_) {} showErrorDialog('Error al guardar'); }
+                    try { var err = JSON.parse(xhr.responseText); try { if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); } catch (_) { } showErrorDialog(err.message || 'Error al guardar'); }
+                    catch (_) { try { if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); } catch (_) { } showErrorDialog('Error al guardar'); }
                 }
             };
 
-            xhr.onerror = function () { btnSave.disabled=false; btnSave.textContent=oldText; try { if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); } catch(_) {} showErrorDialog('Error de conexión. Intenta nuevamente.'); };
+            xhr.onerror = function () { btnSave.disabled = false; btnSave.textContent = oldText; try { if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); } catch (_) { } showErrorDialog('Error de conexión. Intenta nuevamente.'); };
 
             xhr.send(fd);
         });
@@ -1233,6 +1234,131 @@ function initInlineModelEdit() {
             e.preventDefault(); e.stopImmediatePropagation(); e.stopPropagation();
             // Simulate normal click handling
             link.click();
-        } catch (_) {}
+        } catch (_) { }
     }, true);
 }
+
+// --- Infinite scroll for the main brands list ---
+(function () {
+    function appendBrandToListEnd(brand) {
+        if (!brand) return;
+        var container = document.querySelector('main .row.grid-gap');
+        if (!container) {
+            container = document.querySelector('.row.grid-gap');
+        }
+        if (!container) return;
+
+        var col = document.createElement('div');
+        col.className = 'col-12 col-sm-6 col-lg-4';
+
+        var link = document.createElement('a');
+        link.href = '/detail/' + (brand._id || '');
+        link.className = 'text-decoration-none text-reset';
+
+        var card = document.createElement('div');
+        card.className = 'card h-100';
+
+        var img = document.createElement('img');
+        img.src = '/brand/' + (brand._id || '') + '/image';
+        img.alt = 'Logo de ' + (brand.name || '');
+        img.className = 'card-img-top';
+
+        var body = document.createElement('div');
+        body.className = 'card-body';
+
+        var h5 = document.createElement('h5');
+        h5.className = 'card-title';
+        h5.textContent = brand.name || '';
+
+        var p = document.createElement('p');
+        p.className = 'card-text small text-muted';
+        p.textContent = (brand.country_origin || '') + ' • Fundada en ' + (brand.founded_year || '');
+
+        body.appendChild(h5);
+        body.appendChild(p);
+        card.appendChild(img);
+        card.appendChild(body);
+        link.appendChild(card);
+        col.appendChild(link);
+
+        container.appendChild(col);
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        try {
+            if (!document.getElementById('marcas')) return;
+            var currentPage, totalPages, q, category;
+            var cfg = (typeof window !== 'undefined' && window.INFINITE_SCROLL) ? window.INFINITE_SCROLL : null;
+            if (cfg) {
+                currentPage = parseInt(cfg.currentPage, 10) || 1;
+                totalPages = parseInt(cfg.totalPages, 10) || 1;
+                q = cfg.q || '';
+                category = cfg.category || '';
+            } else {
+                var main = document.getElementById('marcas');
+                if (!main) return;
+                currentPage = parseInt(main.getAttribute('data-current-page') || '1', 10) || 1;
+                totalPages = parseInt(main.getAttribute('data-total-pages') || '1', 10) || 1;
+                q = main.getAttribute('data-q') || '';
+                category = main.getAttribute('data-category') || '';
+            }
+
+            var loading = false;
+            var sentinel = document.getElementById('infinite-scroll-sentinel');
+            var loadingEl = document.getElementById('infinite-loading');
+
+            if (!sentinel) return;
+
+            function sentinelVisible() {
+                var rect = sentinel.getBoundingClientRect();
+                var vh = (window.innerHeight || document.documentElement.clientHeight);
+                return (rect.top <= vh && rect.bottom >= 0);
+            }
+
+            function fetchNextPage() {
+                if (loading) return;
+                var next = currentPage + 1;
+                loading = true;
+                if (loadingEl) loadingEl.classList.remove('d-none');
+
+                var url = '/api/brands?page=' + next + '&q=' + encodeURIComponent(q) + '&category=' + encodeURIComponent(category);
+                var gotItems = false;
+
+                setTimeout(function () {
+                    fetch(url, { credentials: 'same-origin' })
+                        .then(function (r) { return r.json(); })
+                        .then(function (data) {
+                            if (data && Array.isArray(data.items) && data.items.length) {
+                                data.items.forEach(function (b) { appendBrandToListEnd(b); });
+                                gotItems = true;
+                                currentPage = data.page || next;
+                            }
+                            if (data && data.totalPages) totalPages = data.totalPages;
+                        })
+                        .catch(function (err) { console.error('Error fetching next page:', err); })
+                        .finally(function () {
+                            loading = false;
+                            if (loadingEl) loadingEl.classList.add('d-none');
+                            // If sentinel is still visible after appending, try to load again (chain)
+                            if (sentinelVisible()) {
+                                // small delay to allow layout
+                                setTimeout(function () {
+                                    // if we got items or there are more pages, attempt another load
+                                    if (gotItems || currentPage < totalPages) fetchNextPage();
+                                }, 100);
+                            }
+                        });
+                }, 1500);
+            }
+
+            var observer = new IntersectionObserver(function (entries) {
+                if (!entries || !entries[0]) return;
+                if (entries[0].isIntersecting) {
+                    fetchNextPage();
+                }
+            }, { rootMargin: '300px' });
+
+            observer.observe(sentinel);
+        } catch (e) { console.error('Infinite scroll init error:', e); }
+    });
+})();

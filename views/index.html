@@ -3,96 +3,88 @@
 
 {{> header}}
 
-  <!-- HERO -->
-  <section class="hero d-flex align-items-center justify-content-center text-center">
-    <h1 class="brand-title display-1 fw-bold">SNEAKERS <span class="registered-brand">®</span></h1>
-  </section>
+<!-- HERO -->
+<section class="hero d-flex align-items-center justify-content-center text-center">
+  <h1 class="brand-title display-1 fw-bold">SNEAKERS <span class="registered-brand">®</span></h1>
+</section>
 
-  <!-- BRAND TICKER -->
-  <div class="ticker" aria-label="Marcas">
-    <div class="ticker__track">
-      <div class="ticker__group">
-        <span>Nike</span><span>Adidas</span><span>New Balance</span><span>Vans</span>
-        <span>Converse</span><span>Jordan</span><span>Puma</span><span>Reebok</span>
-      </div>
-      <div class="ticker__group" aria-hidden="true">
-        <span>Nike</span><span>Adidas</span><span>New Balance</span><span>Vans</span>
-        <span>Converse</span><span>Jordan</span><span>Puma</span><span>Reebok</span>
-      </div>
-      <div class="ticker__group" aria-hidden="true">
-        <span>Nike</span><span>Adidas</span><span>New Balance</span><span>Vans</span>
-        <span>Converse</span><span>Jordan</span><span>Puma</span><span>Reebok</span>
+<!-- BRAND TICKER -->
+<div class="ticker" aria-label="Marcas">
+  <div class="ticker__track">
+    <div class="ticker__group">
+      <span>Nike</span><span>Adidas</span><span>New Balance</span><span>Vans</span>
+      <span>Converse</span><span>Jordan</span><span>Puma</span><span>Reebok</span>
+    </div>
+    <div class="ticker__group" aria-hidden="true">
+      <span>Nike</span><span>Adidas</span><span>New Balance</span><span>Vans</span>
+      <span>Converse</span><span>Jordan</span><span>Puma</span><span>Reebok</span>
+    </div>
+    <div class="ticker__group" aria-hidden="true">
+      <span>Nike</span><span>Adidas</span><span>New Balance</span><span>Vans</span>
+      <span>Converse</span><span>Jordan</span><span>Puma</span><span>Reebok</span>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<main class="container section" id="marcas" data-current-page="{{currentPage}}" data-total-pages="{{totalPages}}"
+  data-q="{{q}}" data-category="{{category}}">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 m-0">Marcas</h1>
+    <a class="btn btn-primary" href="/new">Crear nueva marca</a>
+  </div>
+
+  <!-- Search and filter -->
+  <form class="row g-2 align-items-center mb-4" method="GET" action="/index">
+    <div class="col-auto">
+      <input type="text" name="q" class="form-control" placeholder="Buscar por nombre..." value="{{q}}">
+    </div>
+    <div class="col-auto">
+      <select name="category" class="form-select">
+        <option value="">Todas las categorías</option>
+        <option value="Running" {{#categories_Running}}selected{{/categories_Running}}>Running</option>
+        <option value="Lifestyle" {{#categories_Lifestyle}}selected{{/categories_Lifestyle}}>Lifestyle</option>
+        <option value="Basketball" {{#categories_Basketball}}selected{{/categories_Basketball}}>Basketball</option>
+        <option value="Skate" {{#categories_Skate}}selected{{/categories_Skate}}>Skate</option>
+        <option value="Tenis" {{#categories_Tenis}}selected{{/categories_Tenis}}>Tenis</option>
+        <option value="Football" {{#categories_Football}}selected{{/categories_Football}}>Football</option>
+        <option value="Training" {{#categories_Training}}selected{{/categories_Training}}>Training</option>
+      </select>
+    </div>
+    <div class="col-auto">
+      <button class="btn btn-outline-primary" type="submit">Buscar</button>
+    </div>
+  </form>
+
+  <div class="row grid-gap">
+
+    {{#brands}}
+    <!-- Brands -->
+    <div class="col-12 col-sm-6 col-lg-4">
+      <a href="/detail/{{_id}}" class="text-decoration-none text-reset">
+        <div class="card h-100">
+          <img src="/brand/{{_id}}/image" class="card-img-top" alt="Logo de {{name}}">
+          <div class="card-body">
+            <h5 class="card-title">{{name}}</h5>
+            <p class="card-text small text-muted">{{country_origin}} • Fundada en {{founded_year}}</p>
+          </div>
+        </div>
+      </a>
+    </div>
+    {{/brands}}
+  </div>
+
+  <!-- Infinite scroll: sentinel + loading indicator -->
+  <div class="row">
+    <div class="col-12 d-flex justify-content-center mt-4">
+      <div id="infinite-loading" class="d-none d-flex align-items-center">
+        <div class="spinner" aria-hidden="true"></div>
+        <span class="ms-2">Cargando...</span>
       </div>
     </div>
   </div>
 
-  <!-- MAIN CONTENT -->
-  <main class="container section" id="marcas">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h1 class="h3 m-0">Marcas</h1>
-      <a class="btn btn-primary" href="/new">Crear nueva marca</a>
-    </div>
-
-    <!-- Search and filter -->
-    <form class="row g-2 align-items-center mb-4" method="GET" action="/index">
-      <div class="col-auto">
-        <input type="text" name="q" class="form-control" placeholder="Buscar por nombre..." value="{{q}}">
-      </div>
-      <div class="col-auto">
-        <select name="category" class="form-select">
-          <option value="">Todas las categorías</option>
-          <option value="Running" {{#categories_Running}}selected{{/categories_Running}}>Running</option>
-          <option value="Lifestyle" {{#categories_Lifestyle}}selected{{/categories_Lifestyle}}>Lifestyle</option>
-          <option value="Basketball" {{#categories_Basketball}}selected{{/categories_Basketball}}>Basketball</option>
-          <option value="Skate" {{#categories_Skate}}selected{{/categories_Skate}}>Skate</option>
-          <option value="Tenis" {{#categories_Tenis}}selected{{/categories_Tenis}}>Tenis</option>
-          <option value="Football" {{#categories_Football}}selected{{/categories_Football}}>Football</option>
-          <option value="Training" {{#categories_Training}}selected{{/categories_Training}}>Training</option>
-        </select>
-      </div>
-      <div class="col-auto">
-        <button class="btn btn-outline-primary" type="submit">Buscar</button>
-      </div>
-    </form>
-
-    <div class="row grid-gap">
-
-      {{#brands}}
-      <!-- Brands -->
-      <div class="col-12 col-sm-6 col-lg-4">
-        <a href="/detail/{{_id}}" class="text-decoration-none text-reset">
-          <div class="card h-100">
-            <img src="/brand/{{_id}}/image" class="card-img-top" alt="Logo de {{name}}">
-            <div class="card-body">
-              <h5 class="card-title">{{name}}</h5>
-              <p class="card-text small text-muted">{{country_origin}} • Fundada en {{founded_year}}</p>
-            </div>
-          </div>
-        </a>
-      </div>
-      {{/brands}}
-    </div>
-    
-    <!-- Pagination -->
-    <div class="row">
-      <div class="col-12 d-flex justify-content-center mt-4">
-        <nav aria-label="Page navigation">
-          <ul class="pagination">
-            <li class="page-item {{#prevDisabled}}disabled{{/prevDisabled}}">
-              <a class="page-link btn-pagination" href="/index?page={{prevPage}}&q={{q}}&category={{category}}">Anterior</a>
-            </li>
-            {{#pages}}
-            <li class="page-item {{#active}}active{{/active}}">
-              <a class="page-link btn-pagination" href="/index?page={{n}}&q={{q}}&category={{category}}">{{n}}</a>
-            </li>
-            {{/pages}}
-            <li class="page-item {{#nextDisabled}}disabled{{/nextDisabled}}">
-              <a class="page-link btn-pagination" href="/index?page={{nextPage}}&q={{q}}&category={{category}}">Siguiente</a>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-  </main>
+  <div id="infinite-scroll-sentinel"></div>
+</main>
 
 {{> footer}}

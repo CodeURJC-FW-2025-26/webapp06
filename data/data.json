@@ -658,7 +658,1357 @@
                 "size_range": "39-47 EU",
                 "price": 189.99,
                 "average_rating": 4.8,
-                "imageFilename": "aj3_black_cement.png",
+                "imageFilename": "aj3_black_cement.webp",
+                "description": "Diseño clásico con la primera aparición del elefante en la suela y amortiguación visible."
+            },
+            {
+                "name": "Air Jordan 5",
+                "category": "Basketball",
+                "release_year": 1990,
+                "colorway": "Fire Red/Black",
+                "size_range": "40-47 EU",
+                "price": 179.99,
+                "average_rating": 4.7,
+                "imageFilename": "aj5_fire_red.png",
+                "description": "Silueta deportiva con detalles reflectantes y ventilación lateral; un clásico de los 90s."
+            }
+        ]
+    },
+    {
+        "name": "Artengo",
+        "country_origin": "Originaria de Estados Unidos",
+        "founded_year": "1964",
+        "imageFilename": "nike.webp",
+        "description": "Marca estadounidense líder en calzado deportivo, conocida por innovación y zapatillas icónicas como Air Max y Air Jordan.",
+        "models": [
+            {
+                "name": "Air Zoom",
+                "category": "Lifestyle",
+                "release_year": 2019,
+                "colorway": "Black/White",
+                "size_range": "39-43 EU",
+                "price": 99.99,
+                "average_rating": 4.6,
+                "imageFilename": "air_zoom.webp",
+                "description": "Modelo lifestyle cómodo y versátil, ideal para uso diario."
+            },
+            {
+                "name": "Air Force 1",
+                "category": "Running",
+                "release_year": 2022,
+                "colorway": "White",
+                "size_range": "41-44 EU",
+                "price": 119.99,
+                "average_rating": 4.6,
+                "imageFilename": "air_force_one.webp",
+                "description": "Clásico renovado, mezcla de estilo urbano y comodidad."
+            },
+            {
+                "name": "Air Max Plus Tuned",
+                "category": "Running",
+                "release_year": 2024,
+                "colorway": "Black/Pink",
+                "size_range": "38-46 EU",
+                "price": 115.99,
+                "average_rating": 4.6,
+                "imageFilename": "air_max_tuned.jpg",
+                "description": "Versión ajustada de Air Max con estética llamativa y amortiguación visible."
+            },
+            {
+                "name": "Air Max 97",
+                "category": "Running",
+                "release_year": 2020,
+                "colorway": "Grey",
+                "size_range": "39-43 EU",
+                "price": 100.99,
+                "average_rating": 4.6,
+                "imageFilename": "air_max_97.png",
+                "description": "Diseño retro con líneas onduladas y gran reconocimiento en moda urbana."
+            },
+            {
+                "name": "Zoom Vapor Pro 3",
+                "category": "Tenis",
+                "release_year": 2025,
+                "colorway": "Orange",
+                "size_range": "41-45 EU",
+                "price": 109.99,
+                "average_rating": 4.6,
+                "imageFilename": "zoom_vapor_pro_3.png",
+                "description": "Zapatilla técnica orientada a tenis, con diseño ligero y buen agarre."
+            },
+            {
+                "name": "Air Max 270",
+                "category": "Lifestyle",
+                "release_year": 2018,
+                "colorway": "Red/White",
+                "size_range": "39-46 EU",
+                "price": 129.99,
+                "average_rating": 4.5,
+                "imageFilename": "air_max_270.webp",
+                "description": "Zapatilla con gran unidad Air visible en el talón, pensada para confort urbano y estilo."
+            }
+        ]
+    },
+    {
+        "name": "Ketchua",
+        "country_origin": "Originaria de Estados Unidos",
+        "founded_year": "1949",
+        "imageFilename": "adidas.webp",
+        "description": "Empresa alemana famosa por sus tres franjas; destaca en fútbol, running y lifestyle con colaboraciones de diseño.",
+        "models": [
+            {
+                "name": "Superstar",
+                "category": "Lifestyle",
+                "release_year": 1970,
+                "colorway": "White/Black",
+                "size_range": "38-46 EU",
+                "price": 89.99,
+                "average_rating": 4.4,
+                "imageFilename": "superstar.webp",
+                "description": "Silhouette clásica con puntera de concha, icono del estilo urbano desde los 70s."
+            },
+            {
+                "name": "Ultraboost",
+                "category": "Running",
+                "release_year": 2015,
+                "colorway": "Core Black",
+                "size_range": "39-46 EU",
+                "price": 179.99,
+                "average_rating": 4.7,
+                "imageFilename": "ultraboost.webp",
+                "description": "Zapatilla de running con amortiguación BOOST, muy apreciada por su comodidad."
+            },
+            {
+                "name": "Stan Smith",
+                "category": "Lifestyle",
+                "release_year": 1971,
+                "colorway": "White/Green",
+                "size_range": "36-45 EU",
+                "price": 79.99,
+                "average_rating": 4.5,
+                "imageFilename": "stan_smith.webp",
+                "description": "Tenis minimalista y elegante, un básico atemporal en moda casual."
+            },
+            {
+                "name": "NMD_R1",
+                "category": "Lifestyle",
+                "release_year": 2015,
+                "colorway": "Core White/Red",
+                "size_range": "38-46 EU",
+                "price": 129.99,
+                "average_rating": 4.4,
+                "imageFilename": "nmd_r1.webp",
+                "description": "Silueta moderna con amortiguación Boost y estética urbana minimalista."
+            },
+            {
+                "name": "Gazelle",
+                "category": "Lifestyle",
+                "release_year": 1968,
+                "colorway": "Suede Blue",
+                "size_range": "36-45 EU",
+                "price": 69.99,
+                "average_rating": 4.3,
+                "imageFilename": "gazelle.png",
+                "description": "Clásico de ante popular en moda retro y streetwear."
+            },
+            {
+                "name": "Copa Mundial",
+                "category": "Football",
+                "release_year": 1978,
+                "colorway": "Black/White",
+                "size_range": "39-48 EU",
+                "price": 119.99,
+                "average_rating": 4.5,
+                "imageFilename": "copa_mundial.webp",
+                "description": "Botas de fútbol históricas, muy apreciadas por su ajuste y durabilidad."
+            }
+        ]
+    },
+    {
+        "name": "Sketcher",
+        "country_origin": "Originaria de Estados Unidos",
+        "founded_year": "1906",
+        "imageFilename": "new_balance.webp",
+        "description": "Marca estadounidense conocida por la comodidad y la fabricación en EE. UU./Reino Unido; especialista en zapatillas de running.",
+        "models": [
+            {
+                "name": "990v5",
+                "category": "Running",
+                "release_year": 2019,
+                "colorway": "Grey",
+                "size_range": "39-46 EU",
+                "price": 189.99,
+                "average_rating": 4.6,
+                "imageFilename": "990v5.png",
+                "description": "Modelo premium con enfoque en estabilidad y confort, fabricado parcialmente en EE. UU."
+            },
+            {
+                "name": "574",
+                "category": "Lifestyle",
+                "release_year": 1988,
+                "colorway": "Navy",
+                "size_range": "37-46 EU",
+                "price": 79.99,
+                "average_rating": 4.3,
+                "imageFilename": "574.webp",
+                "description": "Clásico retro de New Balance, conocido por su versatilidad y durabilidad."
+            },
+            {
+                "name": "Fresh Foam 1080",
+                "category": "Running",
+                "release_year": 2018,
+                "colorway": "Black/White",
+                "size_range": "38-46 EU",
+                "price": 149.99,
+                "average_rating": 4.5,
+                "imageFilename": "fresh_foam_1080.webp",
+                "description": "Zapatilla de running con amortiguación Fresh Foam para largas distancias."
+            },
+            {
+                "name": "327",
+                "category": "Lifestyle",
+                "release_year": 2020,
+                "colorway": "Grey/White",
+                "size_range": "37-46 EU",
+                "price": 89.99,
+                "average_rating": 4.3,
+                "imageFilename": "327.png",
+                "description": "Modelo retro-futurista inspirado en zapatillas de los 70s con diseño estilizado."
+            },
+            {
+                "name": "860v11",
+                "category": "Running",
+                "release_year": 2021,
+                "colorway": "Blue/White",
+                "size_range": "38-46 EU",
+                "price": 129.99,
+                "average_rating": 4.5,
+                "imageFilename": "860v11.webp",
+                "description": "Zapatilla de estabilidad para corredores que necesitan soporte y amortiguación."
+            },
+            {
+                "name": "1500",
+                "category": "Lifestyle",
+                "release_year": 1994,
+                "colorway": "White/Black",
+                "size_range": "39-47 EU",
+                "price": 179.99,
+                "average_rating": 4.6,
+                "imageFilename": "1500.png",
+                "description": "Modelo premium y clásico de New Balance, apreciado por su confort y construcción."
+            }
+        ]
+    },
+    {
+        "name": "Timberland",
+        "country_origin": "Originaria de Alemania",
+        "founded_year": "1948",
+        "imageFilename": "puma.webp",
+        "description": "Marca deportiva alemana reconocida por diseño audaz y presencia en fútbol y moda urbana.",
+        "models": [
+            {
+                "name": "Suede Classic",
+                "category": "Lifestyle",
+                "release_year": 1968,
+                "colorway": "Black",
+                "size_range": "36-45 EU",
+                "price": 69.99,
+                "average_rating": 4.2,
+                "imageFilename": "suede_classic.webp",
+                "description": "Modelo icónico del skate y la moda urbana, con superficie de ante."
+            },
+            {
+                "name": "RS-X",
+                "category": "Running",
+                "release_year": 2018,
+                "colorway": "Multicolor",
+                "size_range": "38-46 EU",
+                "price": 109.99,
+                "average_rating": 4.4,
+                "imageFilename": "rs_x.png",
+                "description": "Diseño contemporáneo con bloques de color y buena amortiguación."
+            },
+            {
+                "name": "Future Rider",
+                "category": "Lifestyle",
+                "release_year": 2019,
+                "colorway": "White/Red",
+                "size_range": "37-46 EU",
+                "price": 74.99,
+                "average_rating": 4.3,
+                "imageFilename": "future_rider.png",
+                "description": "Silueta retro con suela ligera inspirada en modelos de los 80s."
+            },
+            {
+                "name": "Clyde",
+                "category": "Lifestyle",
+                "release_year": 1973,
+                "colorway": "Suede Black",
+                "size_range": "36-45 EU",
+                "price": 79.99,
+                "average_rating": 4.4,
+                "imageFilename": "clyde.webp",
+                "description": "Clásico de Puma en ante, popular en baloncesto retro y streetwear."
+            },
+            {
+                "name": "Cali",
+                "category": "Lifestyle",
+                "release_year": 2018,
+                "colorway": "White",
+                "size_range": "36-46 EU",
+                "price": 84.99,
+                "average_rating": 4.2,
+                "imageFilename": "cali.webp",
+                "description": "Modelo inspirado en las zapatillas de los 80s con suela ancha y estética veraniega."
+            },
+            {
+                "name": "MB.01",
+                "category": "Basketball",
+                "release_year": 2020,
+                "colorway": "Green/Red",
+                "size_range": "40-48 EU",
+                "price": 139.99,
+                "average_rating": 4.5,
+                "imageFilename": "mb_01.png",
+                "description": "Modelo de baloncesto moderno con tecnología de rendimiento y diseño robusto."
+            }
+        ]
+    },
+    {
+        "name": "Dior",
+        "country_origin": "Originaria de Reino Unido",
+        "founded_year": "1958",
+        "imageFilename": "reebok.webp",
+        "description": "Marca británica con enfoque en fitness y entrenamiento; popularizó zapatillas clásicas y colecciones retro.",
+        "models": [
+            {
+                "name": "Classic Leather",
+                "category": "Lifestyle",
+                "release_year": 1983,
+                "colorway": "Black",
+                "size_range": "37-46 EU",
+                "price": 89.99,
+                "average_rating": 4.4,
+                "imageFilename": "classic_leather.webp",
+                "description": "Diseño atemporal, cómodo y versátil para uso diario."
+            },
+            {
+                "name": "Nano X",
+                "category": "Training",
+                "release_year": 2017,
+                "colorway": "Black",
+                "size_range": "39-46 EU",
+                "price": 129.99,
+                "average_rating": 4.2,
+                "imageFilename": "nano_x.webp",
+                "description": "Zapatilla orientada a entrenamiento funcional y crossfit."
+            },
+            {
+                "name": "Club C 85",
+                "category": "Lifestyle",
+                "release_year": 1985,
+                "colorway": "White/Green",
+                "size_range": "36-45 EU",
+                "price": 74.99,
+                "average_rating": 4.1,
+                "imageFilename": "club_c_85.webp",
+                "description": "Retro-tenis elegante y minimalista, popular en moda casual."
+            },
+            {
+                "name": "Instapump Fury",
+                "category": "Lifestyle",
+                "release_year": 1994,
+                "colorway": "Black",
+                "size_range": "38-46 EU",
+                "price": 129.99,
+                "average_rating": 4.4,
+                "imageFilename": "instapump_fury.webp",
+                "description": "Diseño audaz sin cordones con tecnología Pump, icono de los 90s."
+            },
+            {
+                "name": "DMX Series",
+                "category": "Running",
+                "release_year": 2000,
+                "colorway": "White/Black",
+                "size_range": "39-46 EU",
+                "price": 109.99,
+                "average_rating": 4.2,
+                "imageFilename": "dmx_series.webp",
+                "description": "Tecnología DMX para amortiguación dinámica; cómodo para entrenamientos y uso diario."
+            },
+            {
+                "name": "Club C Revenge",
+                "category": "Lifestyle",
+                "release_year": 1984,
+                "colorway": "White/Navy",
+                "size_range": "36-45 EU",
+                "price": 79.99,
+                "average_rating": 4.3,
+                "imageFilename": "club_c_revenge.webp",
+                "description": "Evolución del clásico Club C con detalles modernos y mayor comodidad."
+            }
+        ]
+    },
+    {
+        "name": "Gucci",
+        "country_origin": "Originaria de Japón",
+        "founded_year": "1949",
+        "imageFilename": "asics.webp",
+        "description": "Marca japonesa especializada en running; conocida por su tecnología GEL y soporte para corredores.",
+        "models": [
+            {
+                "name": "Gel-Kayano",
+                "category": "Running",
+                "release_year": 1993,
+                "colorway": "Grey/White",
+                "size_range": "38-46 EU",
+                "price": 159.99,
+                "average_rating": 4.6,
+                "imageFilename": "gel_kayano.webp",
+                "description": "Zapatilla de estabilidad para corredores que buscan soporte en largas distancias."
+            },
+            {
+                "name": "Gel-Nimbus",
+                "category": "Running",
+                "release_year": 2006,
+                "colorway": "Green/White",
+                "size_range": "39-46 EU",
+                "price": 149.99,
+                "average_rating": 4.5,
+                "imageFilename": "gel_nimbus.png",
+                "description": "Modelo enfocado en amortiguación suave y confort para corredores neutros."
+            },
+            {
+                "name": "GT-2000",
+                "category": "Running",
+                "release_year": 2000,
+                "colorway": "Black/Orange",
+                "size_range": "38-46 EU",
+                "price": 129.99,
+                "average_rating": 4.4,
+                "imageFilename": "gt_2000.png",
+                "description": "Zapatilla de soporte con buena relación calidad-precio para entrenamientos diarios."
+            },
+            {
+                "name": "GEL-Quantum 360",
+                "category": "Running",
+                "release_year": 2018,
+                "colorway": "Grey/Black",
+                "size_range": "39-46 EU",
+                "price": 159.99,
+                "average_rating": 4.4,
+                "imageFilename": "gel_quantum_360.webp",
+                "description": "Amortiguación 360º con unidades GEL para máxima absorción de impactos y ajuste envolvente."
+            },
+            {
+                "name": "Novablast",
+                "category": "Running",
+                "release_year": 2020,
+                "colorway": "Blue/White",
+                "size_range": "38-46 EU",
+                "price": 139.99,
+                "average_rating": 4.5,
+                "imageFilename": "novablast.png",
+                "description": "Zapatilla ligera y reactiva diseñada para entrenamiento diario y carreras de ritmo medio."
+            },
+            {
+                "name": "MetaRide",
+                "category": "Running",
+                "release_year": 2019,
+                "colorway": "Black/Red",
+                "size_range": "39-47 EU",
+                "price": 179.99,
+                "average_rating": 4.3,
+                "imageFilename": "metaride.png",
+                "description": "Diseñada para eficiencia en largas distancias, con placa y geometría innovadoras."
+            }
+        ]
+    },
+    {
+        "name": "Balenciaga",
+        "country_origin": "Originaria de Estados Unidos",
+        "founded_year": "1908",
+        "imageFilename": "converse.webp",
+        "description": "Icono del calzado casual; creadora de las clásicas Chuck Taylor All Star, presente en cultura y moda.",
+        "models": [
+            {
+                "name": "Chuck Taylor All Star",
+                "category": "Lifestyle",
+                "release_year": 1917,
+                "colorway": "White",
+                "size_range": "36-46 EU",
+                "price": 54.99,
+                "average_rating": 4.5,
+                "imageFilename": "chuck_taylor.png",
+                "description": "Zapatilla clásica de lona, presente en la cultura desde hace décadas."
+            },
+            {
+                "name": "One Star",
+                "category": "Lifestyle",
+                "release_year": 1974,
+                "colorway": "Black",
+                "size_range": "37-45 EU",
+                "price": 64.99,
+                "average_rating": 4.2,
+                "imageFilename": "one_star.webp",
+                "description": "Modelo con diseño sobrio, inicialmente popular en skate y moda alternativa."
+            },
+            {
+                "name": "Run Star Hike",
+                "category": "Lifestyle",
+                "release_year": 2018,
+                "colorway": "White/Black",
+                "size_range": "36-46 EU",
+                "price": 99.99,
+                "average_rating": 4.1,
+                "imageFilename": "run_star_hike.webp",
+                "description": "Versión moderna con suela elevada y estética rompedor­a sobre la clásica silueta."
+            },
+            {
+                "name": "Chuck 70",
+                "category": "Lifestyle",
+                "release_year": 2013,
+                "colorway": "Canvas White",
+                "size_range": "36-46 EU",
+                "price": 79.99,
+                "average_rating": 4.5,
+                "imageFilename": "chuck_70.webp",
+                "description": "Reinterpretación premium del clásico Chuck Taylor con materiales mejorados y mayor amortiguación."
+            },
+            {
+                "name": "Pro Leather",
+                "category": "Basketball",
+                "release_year": 1976,
+                "colorway": "White",
+                "size_range": "39-47 EU",
+                "price": 89.99,
+                "average_rating": 4.3,
+                "imageFilename": "pro_leather.png",
+                "description": "Clásico de baloncesto con corte en piel, conocido por su diseño limpio y suela resistente."
+            },
+            {
+                "name": "Jack Purcell",
+                "category": "Lifestyle",
+                "release_year": 1935,
+                "colorway": "White/Navy",
+                "size_range": "36-46 EU",
+                "price": 69.99,
+                "average_rating": 4.2,
+                "imageFilename": "jack_purcell.png",
+                "description": "Modelo elegante y sencillo con la característica puntera 'smile', popular en moda casual."
+            }
+        ]
+    },
+    {
+        "name": "Numeris",
+        "country_origin": "Originaria de Estados Unidos",
+        "founded_year": "1966",
+        "imageFilename": "vans.webp",
+        "description": "Marca vinculada al skate y la cultura juvenil; famosa por sus estampados y zapatillas vulcanizadas.",
+        "models": [
+            {
+                "name": "Authentic",
+                "category": "Lifestyle",
+                "release_year": 1966,
+                "colorway": "Black",
+                "size_range": "36-46 EU",
+                "price": 59.99,
+                "average_rating": 4.2,
+                "imageFilename": "authentic.webp",
+                "description": "Primera silueta de Vans, simple y resistente, asociada al skate clásico."
+            },
+            {
+                "name": "Old Skool",
+                "category": "Lifestyle",
+                "release_year": 1977,
+                "colorway": "Black/White",
+                "size_range": "36-46 EU",
+                "price": 69.99,
+                "average_rating": 4.4,
+                "imageFilename": "old_skool.png",
+                "description": "Con la característica franja lateral, muy popular en skate y streetwear."
+            },
+            {
+                "name": "Sk8-Hi",
+                "category": "Lifestyle",
+                "release_year": 1978,
+                "colorway": "Black",
+                "size_range": "36-46 EU",
+                "price": 74.99,
+                "average_rating": 4.3,
+                "imageFilename": "sk8_hi.webp",
+                "description": "Bota alta con soporte para el tobillo, clásica del mundo del skate."
+            },
+            {
+                "name": "Slip-On",
+                "category": "Lifestyle",
+                "release_year": 1977,
+                "colorway": "Black/White",
+                "size_range": "36-46 EU",
+                "price": 54.99,
+                "average_rating": 4.3,
+                "imageFilename": "slip_on.png",
+                "description": "Clásico sin cordones, cómodo y fácil de poner, icono del skate y la cultura urbana."
+            },
+            {
+                "name": "Era",
+                "category": "Lifestyle",
+                "release_year": 1976,
+                "colorway": "Canvas White",
+                "size_range": "36-46 EU",
+                "price": 59.99,
+                "average_rating": 4.2,
+                "imageFilename": "era.webp",
+                "description": "Modelo clásico de corte bajo con amplia paleta de colores; popular en skate y moda casual."
+            },
+            {
+                "name": "Anaheim Factory",
+                "category": "Lifestyle",
+                "release_year": 2018,
+                "colorway": "White/Black",
+                "size_range": "36-46 EU",
+                "price": 69.99,
+                "average_rating": 4.4,
+                "imageFilename": "anaheim_factory.webp",
+                "description": "Edición inspirada en los primeros modelos de Vans con detalles vintage y construcción premium."
+            }
+        ]
+    },
+    {
+        "name": "Rick Owens",
+        "country_origin": "Originaria de Estados Unidos",
+        "founded_year": "1984",
+        "imageFilename": "jordan.webp",
+        "description": "Línea creada por y para Michael Jordan; símbolo de estilo deportivo con zapatillas icónicas y alto coleccionismo.",
+        "models": [
+            {
+                "name": "Precission 7",
+                "category": "Basketball",
+                "release_year": 2023,
+                "colorway": "White/Black",
+                "size_range": "43-47 EU",
+                "price": 139.99,
+                "average_rating": 4.6,
+                "imageFilename": "precision_7.png",
+                "description": "Zapatilla de baloncesto con buen soporte y amortiguación pensada para rendimiento en pista."
+            },
+            {
+                "name": "Air Jordan 1",
+                "category": "Lifestyle",
+                "release_year": 1985,
+                "colorway": "Chicago",
+                "size_range": "39-47 EU",
+                "price": 159.99,
+                "average_rating": 4.9,
+                "imageFilename": "aj1_chicago.webp",
+                "description": "La silueta que lo empezó todo; icono histórico tanto en baloncesto como en moda."
+            },
+            {
+                "name": "Air Jordan 4",
+                "category": "Basketball",
+                "release_year": 1989,
+                "colorway": "White/Red",
+                "size_range": "40-47 EU",
+                "price": 179.99,
+                "average_rating": 4.8,
+                "imageFilename": "aj4_white_red.webp",
+                "description": "Modelo clásico con detalles técnicos y gran impacto en la cultura sneaker."
+            },
+            {
+                "name": "Air Jordan 11",
+                "category": "Basketball",
+                "release_year": 1995,
+                "colorway": "Concord/Black",
+                "size_range": "40-47 EU",
+                "price": 219.99,
+                "average_rating": 4.9,
+                "imageFilename": "aj11_concord.webp",
+                "description": "Diseño icónico con paneles de charol y gran aceptación tanto en pista como en la calle."
+            },
+            {
+                "name": "Air Jordan 3",
+                "category": "Basketball",
+                "release_year": 1988,
+                "colorway": "White/Black/Cement",
+                "size_range": "39-47 EU",
+                "price": 189.99,
+                "average_rating": 4.8,
+                "imageFilename": "aj3_black_cement.webp",
+                "description": "Diseño clásico con la primera aparición del elefante en la suela y amortiguación visible."
+            },
+            {
+                "name": "Air Jordan 5",
+                "category": "Basketball",
+                "release_year": 1990,
+                "colorway": "Fire Red/Black",
+                "size_range": "40-47 EU",
+                "price": 179.99,
+                "average_rating": 4.7,
+                "imageFilename": "aj5_fire_red.png",
+                "description": "Silueta deportiva con detalles reflectantes y ventilación lateral; un clásico de los 90s."
+            }
+        ]
+    },
+    {
+        "name": "Golden Goose",
+        "country_origin": "Originaria de Estados Unidos",
+        "founded_year": "1964",
+        "imageFilename": "nike.webp",
+        "description": "Marca estadounidense líder en calzado deportivo, conocida por innovación y zapatillas icónicas como Air Max y Air Jordan.",
+        "models": [
+            {
+                "name": "Air Zoom",
+                "category": "Lifestyle",
+                "release_year": 2019,
+                "colorway": "Black/White",
+                "size_range": "39-43 EU",
+                "price": 99.99,
+                "average_rating": 4.6,
+                "imageFilename": "air_zoom.webp",
+                "description": "Modelo lifestyle cómodo y versátil, ideal para uso diario."
+            },
+            {
+                "name": "Air Force 1",
+                "category": "Running",
+                "release_year": 2022,
+                "colorway": "White",
+                "size_range": "41-44 EU",
+                "price": 119.99,
+                "average_rating": 4.6,
+                "imageFilename": "air_force_one.webp",
+                "description": "Clásico renovado, mezcla de estilo urbano y comodidad."
+            },
+            {
+                "name": "Air Max Plus Tuned",
+                "category": "Running",
+                "release_year": 2024,
+                "colorway": "Black/Pink",
+                "size_range": "38-46 EU",
+                "price": 115.99,
+                "average_rating": 4.6,
+                "imageFilename": "air_max_tuned.jpg",
+                "description": "Versión ajustada de Air Max con estética llamativa y amortiguación visible."
+            },
+            {
+                "name": "Air Max 97",
+                "category": "Running",
+                "release_year": 2020,
+                "colorway": "Grey",
+                "size_range": "39-43 EU",
+                "price": 100.99,
+                "average_rating": 4.6,
+                "imageFilename": "air_max_97.png",
+                "description": "Diseño retro con líneas onduladas y gran reconocimiento en moda urbana."
+            },
+            {
+                "name": "Zoom Vapor Pro 3",
+                "category": "Tenis",
+                "release_year": 2025,
+                "colorway": "Orange",
+                "size_range": "41-45 EU",
+                "price": 109.99,
+                "average_rating": 4.6,
+                "imageFilename": "zoom_vapor_pro_3.png",
+                "description": "Zapatilla técnica orientada a tenis, con diseño ligero y buen agarre."
+            },
+            {
+                "name": "Air Max 270",
+                "category": "Lifestyle",
+                "release_year": 2018,
+                "colorway": "Red/White",
+                "size_range": "39-46 EU",
+                "price": 129.99,
+                "average_rating": 4.5,
+                "imageFilename": "air_max_270.webp",
+                "description": "Zapatilla con gran unidad Air visible en el talón, pensada para confort urbano y estilo."
+            }
+        ]
+    },
+    {
+        "name": "UGG",
+        "country_origin": "Originaria de Estados Unidos",
+        "founded_year": "1949",
+        "imageFilename": "adidas.webp",
+        "description": "Empresa alemana famosa por sus tres franjas; destaca en fútbol, running y lifestyle con colaboraciones de diseño.",
+        "models": [
+            {
+                "name": "Superstar",
+                "category": "Lifestyle",
+                "release_year": 1970,
+                "colorway": "White/Black",
+                "size_range": "38-46 EU",
+                "price": 89.99,
+                "average_rating": 4.4,
+                "imageFilename": "superstar.webp",
+                "description": "Silhouette clásica con puntera de concha, icono del estilo urbano desde los 70s."
+            },
+            {
+                "name": "Ultraboost",
+                "category": "Running",
+                "release_year": 2015,
+                "colorway": "Core Black",
+                "size_range": "39-46 EU",
+                "price": 179.99,
+                "average_rating": 4.7,
+                "imageFilename": "ultraboost.webp",
+                "description": "Zapatilla de running con amortiguación BOOST, muy apreciada por su comodidad."
+            },
+            {
+                "name": "Stan Smith",
+                "category": "Lifestyle",
+                "release_year": 1971,
+                "colorway": "White/Green",
+                "size_range": "36-45 EU",
+                "price": 79.99,
+                "average_rating": 4.5,
+                "imageFilename": "stan_smith.webp",
+                "description": "Tenis minimalista y elegante, un básico atemporal en moda casual."
+            },
+            {
+                "name": "NMD_R1",
+                "category": "Lifestyle",
+                "release_year": 2015,
+                "colorway": "Core White/Red",
+                "size_range": "38-46 EU",
+                "price": 129.99,
+                "average_rating": 4.4,
+                "imageFilename": "nmd_r1.webp",
+                "description": "Silueta moderna con amortiguación Boost y estética urbana minimalista."
+            },
+            {
+                "name": "Gazelle",
+                "category": "Lifestyle",
+                "release_year": 1968,
+                "colorway": "Suede Blue",
+                "size_range": "36-45 EU",
+                "price": 69.99,
+                "average_rating": 4.3,
+                "imageFilename": "gazelle.png",
+                "description": "Clásico de ante popular en moda retro y streetwear."
+            },
+            {
+                "name": "Copa Mundial",
+                "category": "Football",
+                "release_year": 1978,
+                "colorway": "Black/White",
+                "size_range": "39-48 EU",
+                "price": 119.99,
+                "average_rating": 4.5,
+                "imageFilename": "copa_mundial.webp",
+                "description": "Botas de fútbol históricas, muy apreciadas por su ajuste y durabilidad."
+            }
+        ]
+    },
+    {
+        "name": "Champions",
+        "country_origin": "Originaria de Estados Unidos",
+        "founded_year": "1906",
+        "imageFilename": "new_balance.webp",
+        "description": "Marca estadounidense conocida por la comodidad y la fabricación en EE. UU./Reino Unido; especialista en zapatillas de running.",
+        "models": [
+            {
+                "name": "990v5",
+                "category": "Running",
+                "release_year": 2019,
+                "colorway": "Grey",
+                "size_range": "39-46 EU",
+                "price": 189.99,
+                "average_rating": 4.6,
+                "imageFilename": "990v5.png",
+                "description": "Modelo premium con enfoque en estabilidad y confort, fabricado parcialmente en EE. UU."
+            },
+            {
+                "name": "574",
+                "category": "Lifestyle",
+                "release_year": 1988,
+                "colorway": "Navy",
+                "size_range": "37-46 EU",
+                "price": 79.99,
+                "average_rating": 4.3,
+                "imageFilename": "574.webp",
+                "description": "Clásico retro de New Balance, conocido por su versatilidad y durabilidad."
+            },
+            {
+                "name": "Fresh Foam 1080",
+                "category": "Running",
+                "release_year": 2018,
+                "colorway": "Black/White",
+                "size_range": "38-46 EU",
+                "price": 149.99,
+                "average_rating": 4.5,
+                "imageFilename": "fresh_foam_1080.webp",
+                "description": "Zapatilla de running con amortiguación Fresh Foam para largas distancias."
+            },
+            {
+                "name": "327",
+                "category": "Lifestyle",
+                "release_year": 2020,
+                "colorway": "Grey/White",
+                "size_range": "37-46 EU",
+                "price": 89.99,
+                "average_rating": 4.3,
+                "imageFilename": "327.png",
+                "description": "Modelo retro-futurista inspirado en zapatillas de los 70s con diseño estilizado."
+            },
+            {
+                "name": "860v11",
+                "category": "Running",
+                "release_year": 2021,
+                "colorway": "Blue/White",
+                "size_range": "38-46 EU",
+                "price": 129.99,
+                "average_rating": 4.5,
+                "imageFilename": "860v11.webp",
+                "description": "Zapatilla de estabilidad para corredores que necesitan soporte y amortiguación."
+            },
+            {
+                "name": "1500",
+                "category": "Lifestyle",
+                "release_year": 1994,
+                "colorway": "White/Black",
+                "size_range": "39-47 EU",
+                "price": 179.99,
+                "average_rating": 4.6,
+                "imageFilename": "1500.png",
+                "description": "Modelo premium y clásico de New Balance, apreciado por su confort y construcción."
+            }
+        ]
+    },
+    {
+        "name": "Ralph Lauren",
+        "country_origin": "Originaria de Alemania",
+        "founded_year": "1948",
+        "imageFilename": "puma.webp",
+        "description": "Marca deportiva alemana reconocida por diseño audaz y presencia en fútbol y moda urbana.",
+        "models": [
+            {
+                "name": "Suede Classic",
+                "category": "Lifestyle",
+                "release_year": 1968,
+                "colorway": "Black",
+                "size_range": "36-45 EU",
+                "price": 69.99,
+                "average_rating": 4.2,
+                "imageFilename": "suede_classic.webp",
+                "description": "Modelo icónico del skate y la moda urbana, con superficie de ante."
+            },
+            {
+                "name": "RS-X",
+                "category": "Running",
+                "release_year": 2018,
+                "colorway": "Multicolor",
+                "size_range": "38-46 EU",
+                "price": 109.99,
+                "average_rating": 4.4,
+                "imageFilename": "rs_x.png",
+                "description": "Diseño contemporáneo con bloques de color y buena amortiguación."
+            },
+            {
+                "name": "Future Rider",
+                "category": "Lifestyle",
+                "release_year": 2019,
+                "colorway": "White/Red",
+                "size_range": "37-46 EU",
+                "price": 74.99,
+                "average_rating": 4.3,
+                "imageFilename": "future_rider.png",
+                "description": "Silueta retro con suela ligera inspirada en modelos de los 80s."
+            },
+            {
+                "name": "Clyde",
+                "category": "Lifestyle",
+                "release_year": 1973,
+                "colorway": "Suede Black",
+                "size_range": "36-45 EU",
+                "price": 79.99,
+                "average_rating": 4.4,
+                "imageFilename": "clyde.webp",
+                "description": "Clásico de Puma en ante, popular en baloncesto retro y streetwear."
+            },
+            {
+                "name": "Cali",
+                "category": "Lifestyle",
+                "release_year": 2018,
+                "colorway": "White",
+                "size_range": "36-46 EU",
+                "price": 84.99,
+                "average_rating": 4.2,
+                "imageFilename": "cali.webp",
+                "description": "Modelo inspirado en las zapatillas de los 80s con suela ancha y estética veraniega."
+            },
+            {
+                "name": "MB.01",
+                "category": "Basketball",
+                "release_year": 2020,
+                "colorway": "Green/Red",
+                "size_range": "40-48 EU",
+                "price": 139.99,
+                "average_rating": 4.5,
+                "imageFilename": "mb_01.png",
+                "description": "Modelo de baloncesto moderno con tecnología de rendimiento y diseño robusto."
+            }
+        ]
+    },
+    {
+        "name": "Lacoste",
+        "country_origin": "Originaria de Reino Unido",
+        "founded_year": "1958",
+        "imageFilename": "reebok.webp",
+        "description": "Marca británica con enfoque en fitness y entrenamiento; popularizó zapatillas clásicas y colecciones retro.",
+        "models": [
+            {
+                "name": "Classic Leather",
+                "category": "Lifestyle",
+                "release_year": 1983,
+                "colorway": "Black",
+                "size_range": "37-46 EU",
+                "price": 89.99,
+                "average_rating": 4.4,
+                "imageFilename": "classic_leather.webp",
+                "description": "Diseño atemporal, cómodo y versátil para uso diario."
+            },
+            {
+                "name": "Nano X",
+                "category": "Training",
+                "release_year": 2017,
+                "colorway": "Black",
+                "size_range": "39-46 EU",
+                "price": 129.99,
+                "average_rating": 4.2,
+                "imageFilename": "nano_x.webp",
+                "description": "Zapatilla orientada a entrenamiento funcional y crossfit."
+            },
+            {
+                "name": "Club C 85",
+                "category": "Lifestyle",
+                "release_year": 1985,
+                "colorway": "White/Green",
+                "size_range": "36-45 EU",
+                "price": 74.99,
+                "average_rating": 4.1,
+                "imageFilename": "club_c_85.webp",
+                "description": "Retro-tenis elegante y minimalista, popular en moda casual."
+            },
+            {
+                "name": "Instapump Fury",
+                "category": "Lifestyle",
+                "release_year": 1994,
+                "colorway": "Black",
+                "size_range": "38-46 EU",
+                "price": 129.99,
+                "average_rating": 4.4,
+                "imageFilename": "instapump_fury.webp",
+                "description": "Diseño audaz sin cordones con tecnología Pump, icono de los 90s."
+            },
+            {
+                "name": "DMX Series",
+                "category": "Running",
+                "release_year": 2000,
+                "colorway": "White/Black",
+                "size_range": "39-46 EU",
+                "price": 109.99,
+                "average_rating": 4.2,
+                "imageFilename": "dmx_series.webp",
+                "description": "Tecnología DMX para amortiguación dinámica; cómodo para entrenamientos y uso diario."
+            },
+            {
+                "name": "Club C Revenge",
+                "category": "Lifestyle",
+                "release_year": 1984,
+                "colorway": "White/Navy",
+                "size_range": "36-45 EU",
+                "price": 79.99,
+                "average_rating": 4.3,
+                "imageFilename": "club_c_revenge.webp",
+                "description": "Evolución del clásico Club C con detalles modernos y mayor comodidad."
+            }
+        ]
+    },
+    {
+        "name": "Under Armor",
+        "country_origin": "Originaria de Japón",
+        "founded_year": "1949",
+        "imageFilename": "asics.webp",
+        "description": "Marca japonesa especializada en running; conocida por su tecnología GEL y soporte para corredores.",
+        "models": [
+            {
+                "name": "Gel-Kayano",
+                "category": "Running",
+                "release_year": 1993,
+                "colorway": "Grey/White",
+                "size_range": "38-46 EU",
+                "price": 159.99,
+                "average_rating": 4.6,
+                "imageFilename": "gel_kayano.webp",
+                "description": "Zapatilla de estabilidad para corredores que buscan soporte en largas distancias."
+            },
+            {
+                "name": "Gel-Nimbus",
+                "category": "Running",
+                "release_year": 2006,
+                "colorway": "Green/White",
+                "size_range": "39-46 EU",
+                "price": 149.99,
+                "average_rating": 4.5,
+                "imageFilename": "gel_nimbus.png",
+                "description": "Modelo enfocado en amortiguación suave y confort para corredores neutros."
+            },
+            {
+                "name": "GT-2000",
+                "category": "Running",
+                "release_year": 2000,
+                "colorway": "Black/Orange",
+                "size_range": "38-46 EU",
+                "price": 129.99,
+                "average_rating": 4.4,
+                "imageFilename": "gt_2000.png",
+                "description": "Zapatilla de soporte con buena relación calidad-precio para entrenamientos diarios."
+            },
+            {
+                "name": "GEL-Quantum 360",
+                "category": "Running",
+                "release_year": 2018,
+                "colorway": "Grey/Black",
+                "size_range": "39-46 EU",
+                "price": 159.99,
+                "average_rating": 4.4,
+                "imageFilename": "gel_quantum_360.webp",
+                "description": "Amortiguación 360º con unidades GEL para máxima absorción de impactos y ajuste envolvente."
+            },
+            {
+                "name": "Novablast",
+                "category": "Running",
+                "release_year": 2020,
+                "colorway": "Blue/White",
+                "size_range": "38-46 EU",
+                "price": 139.99,
+                "average_rating": 4.5,
+                "imageFilename": "novablast.png",
+                "description": "Zapatilla ligera y reactiva diseñada para entrenamiento diario y carreras de ritmo medio."
+            },
+            {
+                "name": "MetaRide",
+                "category": "Running",
+                "release_year": 2019,
+                "colorway": "Black/Red",
+                "size_range": "39-47 EU",
+                "price": 179.99,
+                "average_rating": 4.3,
+                "imageFilename": "metaride.png",
+                "description": "Diseñada para eficiencia en largas distancias, con placa y geometría innovadoras."
+            }
+        ]
+    },
+    {
+        "name": "Saucone",
+        "country_origin": "Originaria de Estados Unidos",
+        "founded_year": "1908",
+        "imageFilename": "converse.webp",
+        "description": "Icono del calzado casual; creadora de las clásicas Chuck Taylor All Star, presente en cultura y moda.",
+        "models": [
+            {
+                "name": "Chuck Taylor All Star",
+                "category": "Lifestyle",
+                "release_year": 1917,
+                "colorway": "White",
+                "size_range": "36-46 EU",
+                "price": 54.99,
+                "average_rating": 4.5,
+                "imageFilename": "chuck_taylor.png",
+                "description": "Zapatilla clásica de lona, presente en la cultura desde hace décadas."
+            },
+            {
+                "name": "One Star",
+                "category": "Lifestyle",
+                "release_year": 1974,
+                "colorway": "Black",
+                "size_range": "37-45 EU",
+                "price": 64.99,
+                "average_rating": 4.2,
+                "imageFilename": "one_star.webp",
+                "description": "Modelo con diseño sobrio, inicialmente popular en skate y moda alternativa."
+            },
+            {
+                "name": "Run Star Hike",
+                "category": "Lifestyle",
+                "release_year": 2018,
+                "colorway": "White/Black",
+                "size_range": "36-46 EU",
+                "price": 99.99,
+                "average_rating": 4.1,
+                "imageFilename": "run_star_hike.webp",
+                "description": "Versión moderna con suela elevada y estética rompedor­a sobre la clásica silueta."
+            },
+            {
+                "name": "Chuck 70",
+                "category": "Lifestyle",
+                "release_year": 2013,
+                "colorway": "Canvas White",
+                "size_range": "36-46 EU",
+                "price": 79.99,
+                "average_rating": 4.5,
+                "imageFilename": "chuck_70.webp",
+                "description": "Reinterpretación premium del clásico Chuck Taylor con materiales mejorados y mayor amortiguación."
+            },
+            {
+                "name": "Pro Leather",
+                "category": "Basketball",
+                "release_year": 1976,
+                "colorway": "White",
+                "size_range": "39-47 EU",
+                "price": 89.99,
+                "average_rating": 4.3,
+                "imageFilename": "pro_leather.png",
+                "description": "Clásico de baloncesto con corte en piel, conocido por su diseño limpio y suela resistente."
+            },
+            {
+                "name": "Jack Purcell",
+                "category": "Lifestyle",
+                "release_year": 1935,
+                "colorway": "White/Navy",
+                "size_range": "36-46 EU",
+                "price": 69.99,
+                "average_rating": 4.2,
+                "imageFilename": "jack_purcell.png",
+                "description": "Modelo elegante y sencillo con la característica puntera 'smile', popular en moda casual."
+            }
+        ]
+    },
+    {
+        "name": "Zara",
+        "country_origin": "Originaria de Estados Unidos",
+        "founded_year": "1966",
+        "imageFilename": "vans.webp",
+        "description": "Marca vinculada al skate y la cultura juvenil; famosa por sus estampados y zapatillas vulcanizadas.",
+        "models": [
+            {
+                "name": "Authentic",
+                "category": "Lifestyle",
+                "release_year": 1966,
+                "colorway": "Black",
+                "size_range": "36-46 EU",
+                "price": 59.99,
+                "average_rating": 4.2,
+                "imageFilename": "authentic.webp",
+                "description": "Primera silueta de Vans, simple y resistente, asociada al skate clásico."
+            },
+            {
+                "name": "Old Skool",
+                "category": "Lifestyle",
+                "release_year": 1977,
+                "colorway": "Black/White",
+                "size_range": "36-46 EU",
+                "price": 69.99,
+                "average_rating": 4.4,
+                "imageFilename": "old_skool.png",
+                "description": "Con la característica franja lateral, muy popular en skate y streetwear."
+            },
+            {
+                "name": "Sk8-Hi",
+                "category": "Lifestyle",
+                "release_year": 1978,
+                "colorway": "Black",
+                "size_range": "36-46 EU",
+                "price": 74.99,
+                "average_rating": 4.3,
+                "imageFilename": "sk8_hi.webp",
+                "description": "Bota alta con soporte para el tobillo, clásica del mundo del skate."
+            },
+            {
+                "name": "Slip-On",
+                "category": "Lifestyle",
+                "release_year": 1977,
+                "colorway": "Black/White",
+                "size_range": "36-46 EU",
+                "price": 54.99,
+                "average_rating": 4.3,
+                "imageFilename": "slip_on.png",
+                "description": "Clásico sin cordones, cómodo y fácil de poner, icono del skate y la cultura urbana."
+            },
+            {
+                "name": "Era",
+                "category": "Lifestyle",
+                "release_year": 1976,
+                "colorway": "Canvas White",
+                "size_range": "36-46 EU",
+                "price": 59.99,
+                "average_rating": 4.2,
+                "imageFilename": "era.webp",
+                "description": "Modelo clásico de corte bajo con amplia paleta de colores; popular en skate y moda casual."
+            },
+            {
+                "name": "Anaheim Factory",
+                "category": "Lifestyle",
+                "release_year": 2018,
+                "colorway": "White/Black",
+                "size_range": "36-46 EU",
+                "price": 69.99,
+                "average_rating": 4.4,
+                "imageFilename": "anaheim_factory.webp",
+                "description": "Edición inspirada en los primeros modelos de Vans con detalles vintage y construcción premium."
+            }
+        ]
+    },
+    {
+        "name": "Jordan",
+        "country_origin": "Originaria de Estados Unidos",
+        "founded_year": "1984",
+        "imageFilename": "jordan.webp",
+        "description": "Línea creada por y para Michael Jordan; símbolo de estilo deportivo con zapatillas icónicas y alto coleccionismo.",
+        "models": [
+            {
+                "name": "Precission 7",
+                "category": "Basketball",
+                "release_year": 2023,
+                "colorway": "White/Black",
+                "size_range": "43-47 EU",
+                "price": 139.99,
+                "average_rating": 4.6,
+                "imageFilename": "precision_7.png",
+                "description": "Zapatilla de baloncesto con buen soporte y amortiguación pensada para rendimiento en pista."
+            },
+            {
+                "name": "Air Jordan 1",
+                "category": "Lifestyle",
+                "release_year": 1985,
+                "colorway": "Chicago",
+                "size_range": "39-47 EU",
+                "price": 159.99,
+                "average_rating": 4.9,
+                "imageFilename": "aj1_chicago.webp",
+                "description": "La silueta que lo empezó todo; icono histórico tanto en baloncesto como en moda."
+            },
+            {
+                "name": "Air Jordan 4",
+                "category": "Basketball",
+                "release_year": 1989,
+                "colorway": "White/Red",
+                "size_range": "40-47 EU",
+                "price": 179.99,
+                "average_rating": 4.8,
+                "imageFilename": "aj4_white_red.webp",
+                "description": "Modelo clásico con detalles técnicos y gran impacto en la cultura sneaker."
+            },
+            {
+                "name": "Air Jordan 11",
+                "category": "Basketball",
+                "release_year": 1995,
+                "colorway": "Concord/Black",
+                "size_range": "40-47 EU",
+                "price": 219.99,
+                "average_rating": 4.9,
+                "imageFilename": "aj11_concord.webp",
+                "description": "Diseño icónico con paneles de charol y gran aceptación tanto en pista como en la calle."
+            },
+            {
+                "name": "Air Jordan 3",
+                "category": "Basketball",
+                "release_year": 1988,
+                "colorway": "White/Black/Cement",
+                "size_range": "39-47 EU",
+                "price": 189.99,
+                "average_rating": 4.8,
+                "imageFilename": "aj3_black_cement.webp",
                 "description": "Diseño clásico con la primera aparición del elefante en la suela y amortiguación visible."
             },
             {

@@ -55,6 +55,25 @@ router.get('/', async (req, res) => {
     }
 });
 
+// API endpoint for infinite scroll / AJAX pagination
+router.get('/api/brands', async (req, res) => {
+    try {
+        const q = req.query.q || '';
+        const category = req.query.category || '';
+        let page = parseInt(req.query.page, 10) || 1;
+        if (page < 1) page = 1;
+        const pageSize = 6;
+
+        const { items, total } = await sneakersdb.getPostsPaged({ q, category }, page, pageSize);
+        const totalPages = Math.max(1, Math.ceil(total / pageSize));
+
+        return res.json({ items, total, page, totalPages });
+    } catch (err) {
+        console.error('Error listing brands (API):', err);
+        return res.status(500).json({ message: 'Error en el servidor' });
+    }
+});
+
 router.post('/brand/new', upload.single('brand_image'), async function (req, res, next) {
     try {
 
@@ -209,41 +228,41 @@ router.get('/brand/:id', async (req, res) => {
 
 
 router.post('/brand/:id/delete', async (req, res) => {
-  const brandId = req.params.id;
-  const isAjax = req.headers['x-requested-with'] === 'XMLHttpRequest';
+    const brandId = req.params.id;
+    const isAjax = req.headers['x-requested-with'] === 'XMLHttpRequest';
 
-  const brand = await sneakersdb.getPost(brandId);
+    const brand = await sneakersdb.getPost(brandId);
 
-  if (!brand) {
-    if (isAjax) {
-      return res.status(404).json({ success: false, message: 'La marca que intentas borrar no existe.' });
+    if (!brand) {
+        if (isAjax) {
+            return res.status(404).json({ success: false, message: 'La marca que intentas borrar no existe.' });
+        }
+        return res.status(404).render('message', {
+            title: 'Marca no encontrada',
+            message: 'La marca que intentas borrar no existe.',
+            backUrl: '/index',
+            backText: 'Volver a la página principal',
+            type: 'danger'
+        });
     }
-    return res.status(404).render('message', {
-      title: 'Marca no encontrada',
-      message: 'La marca que intentas borrar no existe.',
-      backUrl: '/index',
-      backText: 'Volver a la página principal',
-      type: 'danger'
+
+    await sneakersdb.deletePost(brandId);
+
+    if (brand.imageFilename) {
+        await fs.rm(sneakersdb.UPLOADS_FOLDER + '/' + brand.imageFilename);
+    }
+
+    if (isAjax) {
+        return res.status(200).json({ success: true, redirectUrl: '/index' });
+    }
+
+    return res.render('message', {
+        title: 'Marca borrada',
+        message: `La marca "${brand.name}" se ha borrado correctamente.`,
+        backUrl: '/index',
+        backText: 'Volver a la página principal',
+        type: 'success'
     });
-  }
-
-  await sneakersdb.deletePost(brandId);
-
-  if (brand.imageFilename) {
-    await fs.rm(sneakersdb.UPLOADS_FOLDER + '/' + brand.imageFilename);
-  }
-
-  if (isAjax) {
-    return res.status(200).json({ success: true, redirectUrl: '/index' });
-  }
-
-  return res.render('message', {
-    title: 'Marca borrada',
-    message: `La marca "${brand.name}" se ha borrado correctamente.`,
-    backUrl: '/index',
-    backText: 'Volver a la página principal',
-    type: 'success'
-  });
 
 });
 
@@ -329,109 +348,109 @@ router.get('/new', (req, res) => {
 
 
 router.post('/brand/:id/edit', upload.single('brand_image'), async (req, res) => {
-  const brandId = req.params.id;
-  const isAjax = req.headers['x-requested-with'] === 'XMLHttpRequest';
+    const brandId = req.params.id;
+    const isAjax = req.headers['x-requested-with'] === 'XMLHttpRequest';
 
-  try {
-    const currentBrand = await sneakersdb.getPost(brandId);
+    try {
+        const currentBrand = await sneakersdb.getPost(brandId);
 
-    if (!currentBrand) {
-      if (isAjax) {
-        return res.status(404).json({ success: false, message: 'La marca que intentas editar no existe.' });
-      }
-      return res.status(404).render('message', {
-        title: 'Marca no encontrada',
-        message: 'La marca que intentas editar no existe.',
-        backUrl: '/index',
-        backText: 'Volver a la página principal',
-        type: 'danger'
-      });
-    }
+        if (!currentBrand) {
+            if (isAjax) {
+                return res.status(404).json({ success: false, message: 'La marca que intentas editar no existe.' });
+            }
+            return res.status(404).render('message', {
+                title: 'Marca no encontrada',
+                message: 'La marca que intentas editar no existe.',
+                backUrl: '/index',
+                backText: 'Volver a la página principal',
+                type: 'danger'
+            });
+        }
 
-    // Campos (ajusta solo si tu form usa otros names)
-    const name = (req.body.name || '').trim();
-    const description = (req.body.description || '').trim();
-    const country_origin = (req.body.country_origin || '').trim();
+        // Campos (ajusta solo si tu form usa otros names)
+        const name = (req.body.name || '').trim();
+        const description = (req.body.description || '').trim();
+        const country_origin = (req.body.country_origin || '').trim();
 
-    // Validación mínima server-side (sin inventar reglas nuevas)
-    if (!name || !description || !country_origin) {
-      if (isAjax) {
-        return res.status(400).json({
-          success: false,
-          message: 'Por favor, completa todos los campos obligatorios.'
+        // Validación mínima server-side (sin inventar reglas nuevas)
+        if (!name || !description || !country_origin) {
+            if (isAjax) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Por favor, completa todos los campos obligatorios.'
+                });
+            }
+            return res.status(400).render('message', {
+                title: 'Campos incompletos',
+                message: 'Por favor, completa todos los campos obligatorios.',
+                backUrl: `/brand/${brandId}/edit`,
+                backText: 'Volver al formulario de edición',
+                type: 'danger'
+            });
+        }
+
+        const updatedFields = { name, description, country_origin };
+
+        // ✅ NUEVO: remove_image
+        const wantsRemove = req.body.remove_image === 'true' || req.body.remove_image === 'on';
+
+        // Helper para borrar sin romper si el archivo no existe
+        const safeRemove = async (filename) => {
+            if (!filename) return;
+            const path = sneakersdb.UPLOADS_FOLDER + '/' + filename;
+            await fs.rm(path, { force: true }); // <--- CLAVE para evitar 500 por "no existe"
+        };
+
+        if (req.file) {
+            // Subió nueva imagen: reemplaza y borra la anterior
+            updatedFields.imageFilename = req.file.filename;
+            await safeRemove(currentBrand.imageFilename);
+
+        } else if (wantsRemove) {
+            // No subió nueva y quiere borrar la actual
+            await safeRemove(currentBrand.imageFilename);
+            updatedFields.imageFilename = null;
+
+        } else {
+            // Mantener la actual
+            updatedFields.imageFilename = currentBrand.imageFilename;
+        }
+
+        await sneakersdb.updatePost(brandId, updatedFields);
+
+        if (isAjax) {
+            return res.status(200).json({
+                success: true,
+                redirectUrl: `/detail/${brandId}`
+            });
+        }
+
+        return res.render('message', {
+            title: 'Marca actualizada',
+            message: `La marca "${updatedFields.name}" se ha actualizado correctamente.`,
+            backUrl: `/detail/${brandId}`,
+            backText: 'Volver a la página de detalle',
+            type: 'success'
         });
-      }
-      return res.status(400).render('message', {
-        title: 'Campos incompletos',
-        message: 'Por favor, completa todos los campos obligatorios.',
-        backUrl: `/brand/${brandId}/edit`,
-        backText: 'Volver al formulario de edición',
-        type: 'danger'
-      });
+
+    } catch (error) {
+        console.error('Error updating brand:', error);
+
+        if (isAjax) {
+            return res.status(500).json({
+                success: false,
+                message: 'Ha ocurrido un error al guardar. Inténtalo de nuevo.'
+            });
+        }
+
+        return res.status(500).render('message', {
+            title: 'Error en el servidor',
+            message: 'Ha ocurrido un error al actualizar la marca. Inténtalo de nuevo más tarde.',
+            backUrl: '/index',
+            backText: 'Volver a la página principal',
+            type: 'danger'
+        });
     }
-
-    const updatedFields = { name, description, country_origin };
-
-    // ✅ NUEVO: remove_image
-    const wantsRemove = req.body.remove_image === 'true' || req.body.remove_image === 'on';
-
-    // Helper para borrar sin romper si el archivo no existe
-    const safeRemove = async (filename) => {
-      if (!filename) return;
-      const path = sneakersdb.UPLOADS_FOLDER + '/' + filename;
-      await fs.rm(path, { force: true }); // <--- CLAVE para evitar 500 por "no existe"
-    };
-
-    if (req.file) {
-      // Subió nueva imagen: reemplaza y borra la anterior
-      updatedFields.imageFilename = req.file.filename;
-      await safeRemove(currentBrand.imageFilename);
-
-    } else if (wantsRemove) {
-      // No subió nueva y quiere borrar la actual
-      await safeRemove(currentBrand.imageFilename);
-      updatedFields.imageFilename = null;
-
-    } else {
-      // Mantener la actual
-      updatedFields.imageFilename = currentBrand.imageFilename;
-    }
-
-    await sneakersdb.updatePost(brandId, updatedFields);
-
-    if (isAjax) {
-      return res.status(200).json({
-        success: true,
-        redirectUrl: `/detail/${brandId}`
-      });
-    }
-
-    return res.render('message', {
-      title: 'Marca actualizada',
-      message: `La marca "${updatedFields.name}" se ha actualizado correctamente.`,
-      backUrl: `/detail/${brandId}`,
-      backText: 'Volver a la página de detalle',
-      type: 'success'
-    });
-
-  } catch (error) {
-    console.error('Error updating brand:', error);
-
-    if (isAjax) {
-      return res.status(500).json({
-        success: false,
-        message: 'Ha ocurrido un error al guardar. Inténtalo de nuevo.'
-      });
-    }
-
-    return res.status(500).render('message', {
-      title: 'Error en el servidor',
-      message: 'Ha ocurrido un error al actualizar la marca. Inténtalo de nuevo más tarde.',
-      backUrl: '/index',
-      backText: 'Volver a la página principal',
-      type: 'danger'
-    });
-  }
 });
 
 
