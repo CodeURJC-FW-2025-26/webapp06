@@ -1,16 +1,16 @@
 // public/ui.js
-// UI helpers (modales + borrado marca AJAX + drag&drop/preview imagen)
-// Diseñado para NO interferir con app.js (validación / AJAX de A).
+// UI helpers (modals + AJAX brand deletion + drag&drop/image preview)
+// Designed to NOT interfere with app.js (validation / other AJAX).
 
 (function () {
   function qs(sel, root) { return (root || document).querySelector(sel); }
   function qsa(sel, root) { return Array.from((root || document).querySelectorAll(sel)); }
 
-  // ---------- Modal genérico de error ----------
+  // ---------- Generic error modal ----------
   function showErrorModal(title, messages) {
     var modalEl = document.getElementById('genericErrorModal');
     if (!modalEl || typeof bootstrap === 'undefined') {
-      // Fallback: si por lo que sea no existe modal/bootstrap
+      // Fallback: if modal/bootstrap is not available for any reason
       alert((title ? title + "\n\n" : "") + (Array.isArray(messages) ? messages.join("\n") : messages));
       return;
     }
@@ -39,7 +39,7 @@
     modal.show();
   }
 
-  // ---------- Modal de confirmación ----------
+  // ---------- Confirmation modal ----------
   function confirmAction(opts, onConfirm) {
     var modalEl = document.getElementById('confirmActionModal');
     if (!modalEl || typeof bootstrap === 'undefined') {
@@ -56,7 +56,7 @@
     bodyEl.textContent = (opts && opts.body) || '¿Confirmas la acción?';
     btnConfirm.textContent = (opts && opts.confirmText) || 'Sí, continuar';
 
-    // Evitar acumular listeners
+    // Avoid accumulating listeners
     var newBtn = btnConfirm.cloneNode(true);
     btnConfirm.parentNode.replaceChild(newBtn, btnConfirm);
 
@@ -66,7 +66,7 @@
       onConfirm(true);
     });
 
-    // Cancelar / cerrar => false
+    // Cancel/close => false
     modalEl.addEventListener('hidden.bs.modal', function handler() {
       modalEl.removeEventListener('hidden.bs.modal', handler);
       onConfirm(false);
@@ -76,7 +76,36 @@
     modal.show();
   }
 
-  // ---------- Borrado Marca (Entidad principal) por AJAX ----------
+  // Simple POST helper using XMLHttpRequest (callback style)
+  function postAjax(url, cbSuccess, cbError) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url);
+    if ('withCredentials' in xhr) xhr.withCredentials = true;
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState !== 4) return;
+      if (xhr.status >= 200 && xhr.status < 300) {
+        var data = null;
+        var ct = (xhr.getResponseHeader && xhr.getResponseHeader('Content-Type')) || '';
+        if (ct.indexOf('application/json') !== -1 && xhr.responseText) {
+          data = JSON.parse(xhr.responseText);
+        }
+        if (cbSuccess) cbSuccess(data, xhr);
+      } else {
+        var msg = 'Error en la petición (' + xhr.status + ')';
+        var ct2 = (xhr.getResponseHeader && xhr.getResponseHeader('Content-Type')) || '';
+        if (ct2.indexOf('application/json') !== -1 && xhr.responseText) {
+          var d = JSON.parse(xhr.responseText);
+          msg = (d && (d.message || d.error)) || msg;
+        }
+        if (cbError) cbError(new Error(msg));
+      }
+    };
+    xhr.onerror = function () { if (cbError) cbError(new Error('Error de red.')); };
+    xhr.send();
+  }
+
+  // ---------- Delete Brand (main entity) via AJAX ----------
   function initDeleteBrandAjax() {
     var form = qs('form.js-delete-brand');
     if (!form) return;
@@ -93,99 +122,78 @@
         function (confirmed) {
           if (!confirmed) return;
 
-          fetch(form.action, {
-            method: 'POST',
-            headers: { 'X-Requested-With': 'XMLHttpRequest' }
-          })
-            .then(function (r) {
-              return r.json().catch(function () {
-                // Si el servidor no devuelve JSON, lo tratamos como error
-                throw new Error('Respuesta inesperada del servidor.');
-              }).then(function (data) {
-                if (!r.ok || !data || data.success !== true) {
-                  var msg = (data && (data.message || data.error)) || 'No se pudo borrar la marca.';
-                  throw new Error(msg);
-                }
-                // Redirect
-                window.location.href = data.redirectUrl || '/index';
-              });
-            })
-            .catch(function (err) {
-              showErrorModal('Error al borrar', err && err.message ? err.message : 'Error inesperado.');
-            });
+          postAjax(form.action, function (data) {
+            if (!data || data.success !== true) {
+              var msg = (data && (data.message || data.error)) || 'No se pudo borrar la marca.';
+              showErrorModal('Error al borrar', msg);
+              return;
+            }
+            // Redirect
+            window.location.href = data.redirectUrl || '/index';
+          }, function (err) {
+            showErrorModal('Error al borrar', err && err.message ? err.message : 'Error inesperado.');
+          });
         }
       );
     });
   }
-  
-// ---------- Borrado Modelo (Entidad secundaria) por AJAX + confirmación ----------
-function initDeleteModelAjax() {
-  var forms = document.querySelectorAll('form.js-delete-model');
-  if (!forms || !forms.length) return;
 
-  for (var i = 0; i < forms.length; i++) {
-    (function (form) {
-      form.addEventListener('submit', function (e) {
-        e.preventDefault();
+  // ---------- Delete Model (secondary entity) via AJAX + confirmation ----------
+  function initDeleteModelAjax() {
+    var forms = document.querySelectorAll('form.js-delete-model');
+    if (!forms || !forms.length) return;
 
-        confirmAction(
-          {
-            title: 'Confirmar acción',
-            body: '¿Seguro que quieres borrar este modelo? Esta acción no se puede deshacer.',
-            confirmText: 'Sí, borrar'
-          },
-          function (confirmed) {
-            if (!confirmed) return;
+    for (var i = 0; i < forms.length; i++) {
+      (function (form) {
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
 
-            fetch(form.action, {
-              method: 'POST',
-              headers: { 'X-Requested-With': 'XMLHttpRequest' }
-            })
-              .then(function (r) {
-                return r.json().catch(function () {
-                  throw new Error('Respuesta inesperada del servidor.');
-                }).then(function (data) {
-                  if (!r.ok || !data || data.success !== true) {
-                    var msg = (data && (data.message || data.error)) || 'No se pudo borrar el modelo.';
-                    throw new Error(msg);
-                  }
+          confirmAction(
+            {
+              title: 'Confirmar acción',
+              body: '¿Seguro que quieres borrar este modelo? Esta acción no se puede deshacer.',
+              confirmText: 'Sí, borrar'
+            },
+            function (confirmed) {
+              if (!confirmed) return;
 
-                  // Eliminar la tarjeta del DOM sin recargar
-                  try {
-                    var cardCol = form.closest('.col-12');
-                    if (!cardCol) {
-                      // try by column classes
-                      cardCol = form.closest('.col-md-6') || form.closest('.col-6');
-                    }
-                    if (cardCol && cardCol.parentNode) {
-                      cardCol.parentNode.removeChild(cardCol);
-                      return;
-                    }
-                  } catch (e) {
-                    // ignore and fallback
-                  }
+              postAjax(form.action, function (data) {
+                if (!data || data.success !== true) {
+                  var msg = (data && (data.message || data.error)) || 'No se pudo borrar el modelo.';
+                  showErrorModal('Error al borrar modelo', msg);
+                  return;
+                }
 
-                  // Fallback: redirect a la página de marca si viene en la respuesta
-                  if (data.brandId) {
-                    window.location.href = '/brand/' + data.brandId;
-                  } else {
-                    window.location.reload();
-                  }
-                });
-              })
-              .catch(function (err) {
+                // Remove the card from the DOM without reloading
+                var cardCol = form.closest && form.closest('.col-12');
+                if (!cardCol && form.closest) {
+                  // try by column classes
+                  cardCol = form.closest('.col-md-6') || form.closest('.col-6');
+                }
+                if (cardCol && cardCol.parentNode) {
+                  cardCol.parentNode.removeChild(cardCol);
+                  return;
+                }
+
+                // Fallback: redirect to the brand page if present in the response
+                if (data.brandId) {
+                  window.location.href = '/brand/' + data.brandId;
+                } else {
+                  window.location.reload();
+                }
+              }, function (err) {
                 showErrorModal('Error al borrar modelo', err && err.message ? err.message : 'Error inesperado.');
               });
-          }
-        );
-      });
-    })(forms[i]);
+            }
+          );
+        });
+      })(forms[i]);
+    }
   }
-}
 
-  // ---------- Imágenes: preview + drag&drop + quitar ----------
+  // ---------- Images: preview + drag&drop + remove ----------
   function initBrandImageUX() {
-    var input = document.getElementById('logo'); // en new.html es id="logo"
+    var input = document.getElementById('logo'); // in new.html the id is "logo"
     if (!input) return;
 
     var drop = document.getElementById('brandImageDropzone');
@@ -223,7 +231,7 @@ function initDeleteModelAjax() {
     }
 
     if (drop) {
-      // Click en dropzone abre el selector
+      // Click on dropzone opens the file selector
       drop.addEventListener('click', function () { input.click(); });
 
       ['dragenter', 'dragover'].forEach(function (evName) {
@@ -247,108 +255,104 @@ function initDeleteModelAjax() {
         if (!dt || !dt.files || !dt.files.length) return;
 
         var file = dt.files[0];
-        // Asignar al input (DataTransfer)
-        try {
+        // Assign to the input (DataTransfer) if supported
+        if (typeof DataTransfer === 'function') {
           var transfer = new DataTransfer();
           transfer.items.add(file);
           input.files = transfer.files;
-        } catch (_) {
-          // Si el navegador no lo soporta, al menos preview
         }
         setPreviewFromFile(file);
       });
     }
   }
 
-// ---------- Imágenes Modelo: preview + drag&drop + quitar ----------
-function initModelImageUX() {
-  var input = document.getElementById('coverImage'); // en edit_model.html
-  if (!input) return;
+  // ---------- Model Images: preview + drag&drop + remove ----------
+  function initModelImageUX() {
+    var input = document.getElementById('coverImage'); // in edit_model.html
+    if (!input) return;
 
-  var drop = document.getElementById('modelImageDropzone');
-  var preview = document.getElementById('modelImagePreview');
-  var btnClear = document.getElementById('btnRemoveSelectedModelImage');
+    var drop = document.getElementById('modelImageDropzone');
+    var preview = document.getElementById('modelImagePreview');
+    var btnClear = document.getElementById('btnRemoveSelectedModelImage');
 
-  function clearImage() {
-    input.value = '';
-    if (preview) {
-      preview.src = '';
-      preview.classList.add('d-none');
+    function clearImage() {
+      input.value = '';
+      if (preview) {
+        preview.src = '';
+        preview.classList.add('d-none');
+      }
+    }
+
+    function setPreviewFromFile(file) {
+      if (!file || !preview) return;
+      var reader = new FileReader();
+      reader.onload = function (ev) {
+        preview.src = ev.target.result;
+        preview.classList.remove('d-none');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    input.addEventListener('change', function () {
+      var file = input.files && input.files[0];
+      if (file) setPreviewFromFile(file);
+    });
+
+    if (btnClear) {
+      btnClear.addEventListener('click', function (e) {
+        e.preventDefault();
+        clearImage();
+      });
+    }
+
+    if (drop) {
+      drop.addEventListener('click', function () { input.click(); });
+
+      ['dragenter', 'dragover'].forEach(function (evName) {
+        drop.addEventListener(evName, function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          drop.classList.add('border-primary');
+        });
+      });
+
+      ['dragleave', 'drop'].forEach(function (evName) {
+        drop.addEventListener(evName, function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          drop.classList.remove('border-primary');
+        });
+      });
+
+      drop.addEventListener('drop', function (e) {
+        var dt = e.dataTransfer;
+        if (!dt || !dt.files || !dt.files.length) return;
+
+        var file = dt.files[0];
+        if (typeof DataTransfer === 'function') {
+          var transfer = new DataTransfer();
+          transfer.items.add(file);
+          input.files = transfer.files;
+        }
+        setPreviewFromFile(file);
+      });
     }
   }
 
-  function setPreviewFromFile(file) {
-    if (!file || !preview) return;
-    var reader = new FileReader();
-    reader.onload = function (ev) {
-      preview.src = ev.target.result;
-      preview.classList.remove('d-none');
-    };
-    reader.readAsDataURL(file);
-  }
-
-  input.addEventListener('change', function () {
-    var file = input.files && input.files[0];
-    if (file) setPreviewFromFile(file);
-  });
-
-  if (btnClear) {
-    btnClear.addEventListener('click', function (e) {
-      e.preventDefault();
-      clearImage();
-    });
-  }
-
-  if (drop) {
-    drop.addEventListener('click', function () { input.click(); });
-
-    ['dragenter', 'dragover'].forEach(function (evName) {
-      drop.addEventListener(evName, function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        drop.classList.add('border-primary');
-      });
-    });
-
-    ['dragleave', 'drop'].forEach(function (evName) {
-      drop.addEventListener(evName, function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        drop.classList.remove('border-primary');
-      });
-    });
-
-    drop.addEventListener('drop', function (e) {
-      var dt = e.dataTransfer;
-      if (!dt || !dt.files || !dt.files.length) return;
-
-      var file = dt.files[0];
-      try {
-        var transfer = new DataTransfer();
-        transfer.items.add(file);
-        input.files = transfer.files;
-      } catch (_) {
-        // ignore
-      }
-      setPreviewFromFile(file);
-    });
-  }
-}
-
 
   document.addEventListener('DOMContentLoaded', function () {
-  initDeleteBrandAjax();
-  initDeleteModelAjax();
-  initBrandImageUX();
-  initModelImageUX();
-});
+    initDeleteBrandAjax();
+    initDeleteModelAjax();
+    initBrandImageUX();
+    initModelImageUX();
+  });
 
-  // Exponer por si A/B quieren reutilizar
+  // Expose in case A/B want to reuse
   window.UIHelpers = {
     showErrorModal: showErrorModal,
     confirmAction: confirmAction
   };
-  // Exponer inicializadores para que otras partes puedan reusarlos
+  // Expose initializers so other parts can reuse them
   window.UIHelpers.initDeleteModelAjax = initDeleteModelAjax;
   window.UIHelpers.initDeleteBrandAjax = initDeleteBrandAjax;
 })();

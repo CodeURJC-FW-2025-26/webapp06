@@ -11,9 +11,9 @@ document.addEventListener('DOMContentLoaded', function () {
         (function (form) {
             form.addEventListener('submit', function (e) {
 
-                // ✅ Dejar que ui.js maneje los formularios de borrado con confirmación
+                // Let ui.js handle delete forms with confirmation
                 if (form.classList.contains('js-delete-brand') || form.classList.contains('js-delete-model')) {
-                    return; // NO interceptar aquí
+                    return; // DO NOT intercept here
                 }
 
                 e.preventDefault();
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Add real-time validation listeners
     setupRealtimeValidation();
-    // Inicializar edición inline de modelos
+    // Initialize inline model editing
     if (typeof initInlineModelEdit === 'function') {
         initInlineModelEdit();
     }
@@ -292,7 +292,8 @@ function validateBrandName(name, callback) {
 
     xhr.onload = function () {
         if (xhr.status === 200) {
-            try {
+            var ct = (xhr.getResponseHeader && xhr.getResponseHeader('Content-Type')) || '';
+            if (ct.indexOf('application/json') !== -1 && xhr.responseText) {
                 var data = JSON.parse(xhr.responseText);
                 if (!data.available) {
                     showFieldError('brandName', 'Ya existe una marca con ese nombre.');
@@ -300,8 +301,7 @@ function validateBrandName(name, callback) {
                 } else {
                     callback(true);
                 }
-            } catch (e) {
-                console.error('Error parsing response:', e);
+            } else {
                 callback(true);
             }
         } else {
@@ -315,12 +315,7 @@ function validateBrandName(name, callback) {
         callback(true);
     };
 
-    try {
-        xhr.send(JSON.stringify({ name: name }));
-    } catch (e) {
-        console.error('Error sending request:', e);
-        callback(true);
-    }
+    xhr.send(JSON.stringify({ name: name }));
 }
 
 /**
@@ -351,7 +346,8 @@ function validateModelName(name, callback) {
 
     xhr.onload = function () {
         if (xhr.status === 200) {
-            try {
+            var ct = (xhr.getResponseHeader && xhr.getResponseHeader('Content-Type')) || '';
+            if (ct.indexOf('application/json') !== -1 && xhr.responseText) {
                 var data = JSON.parse(xhr.responseText);
                 if (!data.available) {
                     showFieldError('modelName', 'Ya existe un modelo con ese nombre en esta marca.');
@@ -359,8 +355,7 @@ function validateModelName(name, callback) {
                 } else {
                     callback(true);
                 }
-            } catch (e) {
-                console.error('Error parsing response:', e);
+            } else {
                 callback(true);
             }
         } else {
@@ -374,12 +369,7 @@ function validateModelName(name, callback) {
         callback(true);
     };
 
-    try {
-        xhr.send(JSON.stringify({ name: name, brandId: brandId }));
-    } catch (e) {
-        console.error('Error sending request:', e);
-        callback(true);
-    }
+    xhr.send(JSON.stringify({ name: name, brandId: brandId }));
 }
 
 /**
@@ -571,7 +561,8 @@ function submitFormAjax(form) {
             // Success - try to handle AJAX-friendly responses
             // determine if this was the model new form before parsing response
             var isModelNew = /\/model\/(new)?$/.test(action) || !!form.querySelector('#modelName');
-            try {
+            var ct = (xhr.getResponseHeader && xhr.getResponseHeader('Content-Type')) || '';
+            if (ct.indexOf('application/json') !== -1 && xhr.responseText) {
                 var response = JSON.parse(xhr.responseText);
 
                 // If server returned a model for edit/create, prefer redirecting to its detail
@@ -609,7 +600,7 @@ function submitFormAjax(form) {
 
                     // Append to list and clear form
                     appendModelToList(model, brandId);
-                    try { form.reset(); } catch (e) { }
+                    if (form && typeof form.reset === 'function') form.reset();
                     // Remove file input preview if exists
                     var cover = form.querySelector('#cover_image');
                     if (cover) { cover.value = ''; }
@@ -625,42 +616,36 @@ function submitFormAjax(form) {
                 } else {
                     window.location.href = '/';
                 }
-            } catch (e) {
-                // If response is not JSON
+            } else {
+                // Response is not JSON
                 if (isModelNew) {
                     // Build minimal model from form fields and append to list
-                    try {
-                        var model = {
-                            _id: ('m_' + Date.now()),
-                            name: form.querySelector('#name') ? form.querySelector('#name').value : '',
-                            category: form.querySelector('#category') ? form.querySelector('#category').value : '',
-                            release_year: form.querySelector('#release_year') ? form.querySelector('#release_year').value : '',
-                            price: form.querySelector('#price') ? form.querySelector('#price').value : '',
-                            average_rating: form.querySelector('#average_rating') ? form.querySelector('#average_rating').value : '',
-                            colorway: form.querySelector('#colorway') ? form.querySelector('#colorway').value : '',
-                            size_range: form.querySelector('#size_range') ? form.querySelector('#size_range').value : ''
-                        };
-                        var bId = null;
-                        try { var actMatch = action.match(/\/brand\/([^/]+)/); if (actMatch) bId = actMatch[1]; } catch (_) { }
-                        appendModelToList(model, bId);
-                        try { form.reset(); } catch (e) { }
-                        return;
-                    } catch (e) {
-                        // fallthrough to redirect fallback
-                    }
+                    var model = {
+                        _id: ('m_' + Date.now()),
+                        name: form.querySelector('#name') ? form.querySelector('#name').value : '',
+                        category: form.querySelector('#category') ? form.querySelector('#category').value : '',
+                        release_year: form.querySelector('#release_year') ? form.querySelector('#release_year').value : '',
+                        price: form.querySelector('#price') ? form.querySelector('#price').value : '',
+                        average_rating: form.querySelector('#average_rating') ? form.querySelector('#average_rating').value : '',
+                        colorway: form.querySelector('#colorway') ? form.querySelector('#colorway').value : '',
+                        size_range: form.querySelector('#size_range') ? form.querySelector('#size_range').value : ''
+                    };
+                    var bId = null;
+                    if (action && action.match) { var actMatch = action.match(/\/brand\/([^/]+)/); if (actMatch) bId = actMatch[1]; }
+                    appendModelToList(model, bId);
+                    if (form && typeof form.reset === 'function') form.reset();
+                    return;
                 }
 
                 // Try to follow server redirect (responseURL) if present
-                try {
-                    var respUrl = xhr.responseURL || '';
-                    if (respUrl && (/\/brand\//.test(respUrl) || /\/model\//.test(respUrl))) {
-                        window.location.href = respUrl;
-                        return;
-                    }
-                } catch (_) { }
+                var respUrl = xhr.responseURL || '';
+                if (respUrl && (/\/brand\//.test(respUrl) || /\/model\//.test(respUrl))) {
+                    window.location.href = respUrl;
+                    return;
+                }
 
                 // Fallback: redirect based on form action
-                if (action.includes('/model/')) {
+                if (action && action.includes && action.includes('/model/')) {
                     var brandMatch = action.match(/\/brand\/([^/]+)/);
                     if (brandMatch) {
                         window.location.href = '/brand/' + brandMatch[1];
@@ -671,13 +656,13 @@ function submitFormAjax(form) {
             }
         } else {
             // Error - show error dialog
-            try {
+            var ctErr = (xhr.getResponseHeader && xhr.getResponseHeader('Content-Type')) || '';
+            if (ctErr.indexOf('application/json') !== -1 && xhr.responseText) {
                 var errorResponse = JSON.parse(xhr.responseText);
-                var errorMessage = errorResponse.message || 'Error al guardar. Intenta nuevamente.';
+                var errorMessage = errorResponse && errorResponse.message ? errorResponse.message : 'Error al guardar. Intenta nuevamente.';
                 showErrorDialog(errorMessage, form);
-            } catch (e) {
+            } else {
                 showErrorDialog('Error al guardar. Intenta nuevamente.', form);
-
             }
         }
     };
@@ -693,16 +678,7 @@ function submitFormAjax(form) {
 
     // Delay 1.5 seconds before sending to show spinner
     setTimeout(function () {
-        try {
-            xhr.send(formData);
-        } catch (e) {
-            // Hide spinner
-            var spinner = document.getElementById('loadingSpinner');
-            if (spinner) {
-                spinner.remove();
-            }
-            showErrorDialog('Error al enviar el formulario.', form);
-        }
+        xhr.send(formData);
     }, 1500);
 }
 
@@ -836,7 +812,7 @@ function appendModelToList(model, brandId) {
 
     // Re-init delete listeners for this new element (UIHelpers is in ui.js)
     if (window.UIHelpers && typeof window.UIHelpers.initDeleteModelAjax === 'function') {
-        try { window.UIHelpers.initDeleteModelAjax(); } catch (e) { }
+        if (window.UIHelpers && typeof window.UIHelpers.initDeleteModelAjax === 'function') window.UIHelpers.initDeleteModelAjax();
     } else {
         // As a fallback, re-run delete init from ui.js by dispatching DOMContentLoaded may be heavy; instead, attach simple handler
         var forms = col.querySelectorAll('form.js-delete-model');
@@ -864,7 +840,7 @@ function initInlineModelEdit() {
         // edit link clicked
 
         // Prevent default navigation and stop propagation immediately
-        try { e.preventDefault(); e.stopImmediatePropagation(); e.stopPropagation(); } catch (ex) { }
+        if (e && e.preventDefault) { e.preventDefault(); if (e.stopImmediatePropagation) e.stopImmediatePropagation(); if (e.stopPropagation) e.stopPropagation(); }
 
         var card = link.closest('.card');
         // found card?
@@ -873,34 +849,31 @@ function initInlineModelEdit() {
         // found cardBody?
         if (!cardBody) return;
 
-        try { if (cardBody.querySelector('form.inline-edit')) { /* already editing, abort */ return; } } catch (e) { console.error(e); }
+        if (cardBody && cardBody.querySelector && cardBody.querySelector('form.inline-edit')) { /* already editing, abort */ return; }
 
         // building inline form...
 
         // Helper: set the price text while preserving an existing badge <span>
         var setPricePreserveBadge = function (el, priceVal) {
             if (!el) return;
-            try {
-                var badge = el.querySelector && el.querySelector('.badge');
-                var text = (priceVal ? (String(priceVal) + ' € ') : '');
-                // find first text node
-                var tn = null;
-                for (var i = 0; i < el.childNodes.length; i++) {
-                    if (el.childNodes[i].nodeType === 3) { tn = el.childNodes[i]; break; }
-                }
-                if (tn) {
-                    tn.nodeValue = text;
-                } else {
-                    // insert text node before badge if exists, else set as textContent
-                    if (badge) el.insertBefore(document.createTextNode(text), badge);
-                    else el.textContent = text;
-                }
-                // ensure badge text updated separately
-                if (badge) {
-                    // keep badge classes; update only its text content
-                    badge.textContent = badge.textContent.replace(/^\s*⭐.*$/, '');
-                }
-            } catch (e) { }
+            var badge = (el.querySelector && el.querySelector('.badge')) || null;
+            var text = (priceVal ? (String(priceVal) + ' € ') : '');
+            // find first text node
+            var tn = null;
+            for (var i = 0; i < el.childNodes.length; i++) {
+                if (el.childNodes[i].nodeType === 3) { tn = el.childNodes[i]; break; }
+            }
+            if (tn) {
+                tn.nodeValue = text;
+            } else {
+                // insert text node before badge if exists, else set as textContent
+                if (badge && badge.parentNode) badge.parentNode.insertBefore(document.createTextNode(text), badge);
+                else el.textContent = text;
+            }
+            // ensure badge text updated separately
+            if (badge) {
+                badge.textContent = (badge.textContent || '').replace(/^\s*⭐.*$/, '');
+            }
         };
 
         if (cardBody.querySelector('form.inline-edit')) return; // already editing
@@ -930,46 +903,41 @@ function initInlineModelEdit() {
         // Extract numeric price robustly (ignore any badge text that may be inside)
         var rawPrice = getText('.fw-semibold').replace('€', '').trim();
         var price = '';
-        try {
-            var m0 = rawPrice.match(/[0-9]+[\.,]?[0-9]*/);
-            if (m0 && m0[0]) price = m0[0].replace(',', '.');
-        } catch (e) { price = ''; }
+        var m0 = null;
+        if (rawPrice && rawPrice.match) m0 = rawPrice.match(/[0-9]+[\.,]?[0-9]*/);
+        if (m0 && m0[0]) price = m0[0].replace(',', '.'); else price = '';
         // If no numeric price found, try reading data-price from card or ancestors
         if (!price) {
-            try {
-                var curA = card;
-                while (curA && curA !== document.documentElement) {
-                    if (curA.getAttribute && curA.getAttribute('data-price') != null) {
-                        var dpv = curA.getAttribute('data-price') || '';
-                        var m1 = dpv.match(/[0-9]+[\.,]?[0-9]*/);
-                        if (m1 && m1[0]) { price = m1[0].replace(',', '.'); break; }
-                        price = dpv; break;
-                    }
-                    curA = curA.parentElement;
+            var curA = card;
+            while (curA && curA !== document.documentElement) {
+                if (curA.getAttribute && curA.getAttribute('data-price') != null) {
+                    var dpv = curA.getAttribute('data-price') || '';
+                    var m1 = null;
+                    if (dpv && dpv.match) m1 = dpv.match(/[0-9]+[\.,]?[0-9]*/);
+                    if (m1 && m1[0]) { price = m1[0].replace(',', '.'); break; }
+                    price = dpv; break;
                 }
-            } catch (e) { /* ignore */ }
+                curA = curA.parentElement;
+            }
         }
         // helper to read data-* from ancestor elements
         var findAncestorData = function (el, attr) {
             var cur = el;
             while (cur && cur !== document.documentElement) {
-                try {
-                    if (cur.getAttribute && cur.getAttribute('data-' + attr) != null) return cur.getAttribute('data-' + attr);
-                } catch (e) { }
+                if (cur.getAttribute && cur.getAttribute('data-' + attr) != null) return cur.getAttribute('data-' + attr);
                 cur = cur.parentElement;
             }
             return null;
         };
         // If visible price is empty, try data-price on card or ancestors
         if ((!price || price === '')) {
-            try {
-                var dp = findAncestorData(card, 'price');
-                if (dp) {
-                    var m = dp.match(/[0-9]+[\.,]?[0-9]*/);
-                    if (m && m[0]) price = m[0].replace(',', '.');
-                    else price = dp;
-                }
-            } catch (e) { }
+            var dp = findAncestorData(card, 'price');
+            if (dp) {
+                var m = null;
+                if (dp.match) m = dp.match(/[0-9]+[\.,]?[0-9]*/);
+                if (m && m[0]) price = m[0].replace(',', '.');
+                else price = dp;
+            }
         }
         var badge = cardBody.querySelector('.badge');
         var average_rating = badge ? badge.textContent.replace('⭐', '').trim() : '';
@@ -1009,13 +977,11 @@ function initInlineModelEdit() {
         var colSize = document.createElement('div'); colSize.className = 'col-6'; var sizeInput = document.createElement('input'); sizeInput.name = 'size_range'; sizeInput.className = 'form-control form-control-sm'; sizeInput.placeholder = 'Tallas'; sizeInput.value = size_range; colSize.appendChild(sizeInput);
         row3.appendChild(colColor); row3.appendChild(colSize);
 
-        // Fallback: try to read data-* attributes from ancestor containers (price, description)
+        // Fallback: read data-* attributes from ancestor containers (price, description)
         var findAncestorData = function (el, attr) {
             var cur = el;
             while (cur && cur !== document.documentElement) {
-                try {
-                    if (cur.getAttribute && cur.getAttribute('data-' + attr) != null) return cur.getAttribute('data-' + attr);
-                } catch (e) { }
+                if (cur.getAttribute && cur.getAttribute('data-' + attr) != null) return cur.getAttribute('data-' + attr);
                 cur = cur.parentElement;
             }
             return null;
@@ -1047,13 +1013,11 @@ function initInlineModelEdit() {
         form.appendChild(nameWrap); form.appendChild(descWrap); form.appendChild(row1); form.appendChild(row2); form.appendChild(row3); form.appendChild(imgRow); form.appendChild(actions);
 
         // Prefill description from data-description if present
-        try {
-            var dd = findAncestorData(card, 'description');
-            if (dd) descInput.value = dd;
-        } catch (e) { }
+        var dd = findAncestorData(card, 'description');
+        if (dd) descInput.value = dd;
 
         // Also set the price input value from computed price (after fallback)
-        try { priceInput.value = (price || ''); priceInput.setAttribute('value', (price || '')); } catch (e) { }
+        if (priceInput) { priceInput.value = (price || ''); if (priceInput.setAttribute) priceInput.setAttribute('value', (price || '')); }
 
         // Insert form
         cardBody.innerHTML = ''; cardBody.appendChild(form);
@@ -1092,149 +1056,112 @@ function initInlineModelEdit() {
             xhr.onload = function () {
                 btnSave.disabled = false; btnSave.textContent = oldText;
                 if (xhr.status === 200 || xhr.status === 201) {
-                    try {
-                        var res = JSON.parse(xhr.responseText);
-                        var updated = res.model || null;
-                        // Update DOM values
-                        var titleEl = card.querySelector('.card-title'); if (titleEl) titleEl.textContent = (updated && updated.name) ? updated.name : nameInput.value;
-                        var price = getText('.fw-semibold').replace('€', '').trim();
-                        // Robustly search ancestors for data-price / data-description
-                        var findAncestorData = function (el, attr) {
-                            var cur = el;
-                            while (cur && cur !== document.documentElement) {
-                                try {
-                                    if (cur.getAttribute && cur.getAttribute('data-' + attr) != null) return cur.getAttribute('data-' + attr);
-                                } catch (e) { }
-                                cur = cur.parentElement;
-                            }
-                            return null;
-                        };
+                    var ct = (xhr.getResponseHeader && xhr.getResponseHeader('Content-Type')) || '';
+                    var res = null;
+                    if (ct.indexOf('application/json') !== -1 && xhr.responseText) {
+                        res = JSON.parse(xhr.responseText);
+                    }
+                    var updated = res && res.model ? res.model : null;
 
-                        var dp = findAncestorData(card, 'price');
-                        var dd = findAncestorData(card, 'description');
-                        // Inline edit - found data-price / data-description
-
-                        if ((!price || price === '') && dp) price = dp;
-                        var descriptionFromData = dd || '';
-
-                        // Normalize price to numeric string (remove currency and non-digit except , and .)
-                        if (price && typeof price === 'string') {
-                            var m = price.match(/[0-9]+[\.,]?[0-9]*/);
-                            if (m && m[0]) {
-                                price = m[0].replace(',', '.');
-                            } else {
-                                price = '';
-                            }
+                    // Update DOM values
+                    var titleEl = card.querySelector('.card-title'); if (titleEl) titleEl.textContent = (updated && updated.name) ? updated.name : nameInput.value;
+                    var price = getText('.fw-semibold').replace('€', '').trim();
+                    // Robustly search ancestors for data-price / data-description
+                    var findAncestorDataLocal = function (el, attr) {
+                        var cur = el;
+                        while (cur && cur !== document.documentElement) {
+                            if (cur.getAttribute && cur.getAttribute('data-' + attr) != null) return cur.getAttribute('data-' + attr);
+                            cur = cur.parentElement;
                         }
-                        if (metaEls && metaEls.length > 0) metaEls[0].textContent = (catInput.value || '') + ' · ' + (yearInput.value || '');
-                        if (metaEls && metaEls.length > 1) metaEls[1].textContent = 'Colorway: ' + (colorInput.value || '') + ' · Tallas: ' + (sizeInput.value || '');
-                        // Prefill description from data attribute if available
-                        if (descriptionFromData) descInput.value = descriptionFromData;
-                        var priceEl = card.querySelector('.fw-semibold');
-                        if (priceEl) {
-                            var shownPrice = (updated && (updated.price || updated.price === 0)) ? String(updated.price) : (priceInput.value || '');
-                            setPricePreserveBadge(priceEl, shownPrice);
-                        }
-                        var badge2 = card.querySelector('.badge'); if (badge2) badge2.textContent = '⭐ ' + ((updated && updated.average_rating) ? String(updated.average_rating) : (ratingInput.value || ''));
+                        return null;
+                    };
 
-                        // Update container data-* attributes so future inline edits use fresh values
-                        try {
-                            var containerWithData = card.closest('[data-price], [data-average_rating]');
-                            if (!containerWithData) containerWithData = card.closest('.col-12, .col-md-6') || card.parentElement;
-                            if (containerWithData) {
-                                if (updated && (updated.price || updated.price === 0)) containerWithData.setAttribute('data-price', String(updated.price));
-                                else if (priceInput && priceInput.value) containerWithData.setAttribute('data-price', String(priceInput.value));
-                                if (updated && updated.average_rating) containerWithData.setAttribute('data-average_rating', String(updated.average_rating));
-                                else if (ratingInput && ratingInput.value) containerWithData.setAttribute('data-average_rating', String(ratingInput.value));
-                                // description
-                                if (updated && updated.description) containerWithData.setAttribute('data-description', updated.description);
-                                else if (descInput && descInput.value) containerWithData.setAttribute('data-description', descInput.value);
-                            }
-                        } catch (e) { }
-                        // Update image if server returned url
-                        if (updated && updated._id) {
-                            var imgEl = card.querySelector('img.card-img-top');
-                            if (imgEl && updated._id) imgEl.src = '/brand.models/' + updated._id + '/image';
-                        }
+                    var dp = findAncestorDataLocal(card, 'price');
+                    var dd = findAncestorDataLocal(card, 'description');
 
-                        // restore originalHTML then patch text nodes to ensure layout same
-                        cardBody.innerHTML = originalHTML;
-                        var newTitle = cardBody.querySelector('.card-title'); if (newTitle) newTitle.textContent = titleEl ? titleEl.textContent : nameInput.value;
-                        var newMeta = cardBody.querySelectorAll('.mb-1.small.text-muted');
-                        if (newMeta && newMeta.length > 0) newMeta[0].textContent = (catInput.value || '') + ' · ' + (yearInput.value || '');
-                        if (newMeta && newMeta.length > 1) newMeta[1].textContent = 'Colorway: ' + (colorInput.value || '') + ' · Tallas: ' + (sizeInput.value || '');
+                    if ((!price || price === '') && dp) price = dp;
+                    var descriptionFromData = dd || '';
 
-                        // Update price and badge in restored HTML
-                        try {
-                            var newPriceEl = cardBody.querySelector('.fw-semibold');
-                            if (newPriceEl) {
-                                var shownPrice = (updated && (updated.price || updated.price === 0)) ? String(updated.price) : (priceInput.value || '');
-                                setPricePreserveBadge(newPriceEl, shownPrice);
-                            }
-                            var newBadge = cardBody.querySelector('.badge'); if (newBadge) newBadge.textContent = '⭐ ' + ((updated && updated.average_rating) ? String(updated.average_rating) : (ratingInput.value || ''));
-                        } catch (e) { }
-
-                        // re-init delete handlers if needed
-                        if (window.UIHelpers && typeof window.UIHelpers.initDeleteModelAjax === 'function') { try { window.UIHelpers.initDeleteModelAjax(); } catch (e) { } }
-                    } catch (e) {
-                        // Not JSON — fallback: assume success (200/201) and update card from form values.
-                        try { if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); } catch (_) { }
-                        try {
-                            // Update title
-                            var titleEl2 = card.querySelector('.card-title'); if (titleEl2) titleEl2.textContent = nameInput.value;
-                            // Update price shown
-                            var priceStr2 = (priceInput.value || ''); if (priceStr2) priceStr2 = priceStr2 + ' € ';
-                            var priceEl2 = card.querySelector('.fw-semibold'); if (priceEl2) setPricePreserveBadge(priceEl2, (priceInput.value || ''));
-                            // Update rating
-                            var badge2 = card.querySelector('.badge'); if (badge2) badge2.textContent = '⭐ ' + (ratingInput.value || '');
-                            // Update meta lines
-                            var metaElsFallback = card.querySelectorAll('.mb-1.small.text-muted');
-                            if (metaElsFallback && metaElsFallback.length > 0) metaElsFallback[0].textContent = (catInput.value || '') + ' · ' + (yearInput.value || '');
-                            if (metaElsFallback && metaElsFallback.length > 1) metaElsFallback[1].textContent = 'Colorway: ' + (colorInput.value || '') + ' · Tallas: ' + (sizeInput.value || '');
-
-                            // restore originalHTML then patch text nodes to ensure layout same
-                            cardBody.innerHTML = originalHTML;
-                            var newTitle2 = cardBody.querySelector('.card-title'); if (newTitle2) newTitle2.textContent = nameInput.value;
-                            var newMeta2 = cardBody.querySelectorAll('.mb-1.small.text-muted');
-                            if (newMeta2 && newMeta2.length > 0) newMeta2[0].textContent = (catInput.value || '') + ' · ' + (yearInput.value || '');
-                            if (newMeta2 && newMeta2.length > 1) newMeta2[1].textContent = 'Colorway: ' + (colorInput.value || '') + ' · Tallas: ' + (sizeInput.value || '');
-
-                            // Update price and badge in restored HTML (fallback)
-                            try {
-                                var newPriceEl2 = cardBody.querySelector('.fw-semibold'); if (newPriceEl2) newPriceEl2.textContent = ((priceInput.value || '') ? (priceInput.value + ' € ') : '');
-                                var newBadge2 = cardBody.querySelector('.badge'); if (newBadge2) newBadge2.textContent = '⭐ ' + (ratingInput.value || '');
-                            } catch (e) { }
-
-                            // re-init delete handlers if needed
-                            if (window.UIHelpers && typeof window.UIHelpers.initDeleteModelAjax === 'function') { try { window.UIHelpers.initDeleteModelAjax(); } catch (e) { } }
-                        } catch (inner) {
-                            // If anything fails, show generic error and restore form
-                            try { if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); } catch (_) { }
-                            showErrorDialog('Respuesta inesperada del servidor. No se pudo guardar.');
-                            cardBody.innerHTML = originalHTML;
+                    // Normalize price to numeric string (remove currency and non-digit except , and .)
+                    if (price && typeof price === 'string') {
+                        var m = price.match(/[0-9]+[\.,]?[0-9]*/);
+                        if (m && m[0]) {
+                            price = m[0].replace(',', '.');
+                        } else {
+                            price = '';
                         }
                     }
+                    if (metaEls && metaEls.length > 0) metaEls[0].textContent = (catInput.value || '') + ' · ' + (yearInput.value || '');
+                    if (metaEls && metaEls.length > 1) metaEls[1].textContent = 'Colorway: ' + (colorInput.value || '') + ' · Tallas: ' + (sizeInput.value || '');
+                    if (descriptionFromData) descInput.value = descriptionFromData;
+                    var priceEl = card.querySelector('.fw-semibold');
+                    if (priceEl) {
+                        var shownPrice = (updated && (updated.price || updated.price === 0)) ? String(updated.price) : (priceInput.value || '');
+                        setPricePreserveBadge(priceEl, shownPrice);
+                    }
+                    var badge2 = card.querySelector('.badge'); if (badge2) badge2.textContent = '⭐ ' + ((updated && updated.average_rating) ? String(updated.average_rating) : (ratingInput.value || ''));
+
+                    // Update container data-* attributes so future inline edits use fresh values
+                    var containerWithData = (card.closest ? card.closest('[data-price], [data-average_rating]') : null);
+                    if (!containerWithData) containerWithData = (card.closest ? card.closest('.col-12, .col-md-6') : null) || card.parentElement;
+                    if (containerWithData) {
+                        if (updated && (updated.price || updated.price === 0)) containerWithData.setAttribute('data-price', String(updated.price));
+                        else if (priceInput && priceInput.value) containerWithData.setAttribute('data-price', String(priceInput.value));
+                        if (updated && updated.average_rating) containerWithData.setAttribute('data-average_rating', String(updated.average_rating));
+                        else if (ratingInput && ratingInput.value) containerWithData.setAttribute('data-average_rating', String(ratingInput.value));
+                        if (updated && updated.description) containerWithData.setAttribute('data-description', updated.description);
+                        else if (descInput && descInput.value) containerWithData.setAttribute('data-description', descInput.value);
+                    }
+
+                    // Update image if server returned url
+                    if (updated && updated._id) {
+                        var imgEl = card.querySelector('img.card-img-top');
+                        if (imgEl && updated._id) imgEl.src = '/brand.models/' + updated._id + '/image';
+                    }
+
+                    // restore originalHTML then patch text nodes to ensure layout same
+                    cardBody.innerHTML = originalHTML;
+                    var newTitle = cardBody.querySelector('.card-title'); if (newTitle) newTitle.textContent = titleEl ? titleEl.textContent : nameInput.value;
+                    var newMeta = cardBody.querySelectorAll('.mb-1.small.text-muted');
+                    if (newMeta && newMeta.length > 0) newMeta[0].textContent = (catInput.value || '') + ' · ' + (yearInput.value || '');
+                    if (newMeta && newMeta.length > 1) newMeta[1].textContent = 'Colorway: ' + (colorInput.value || '') + ' · Tallas: ' + (sizeInput.value || '');
+
+                    // Update price and badge in restored HTML
+                    var newPriceEl = cardBody.querySelector('.fw-semibold');
+                    if (newPriceEl) {
+                        var shownPrice = (updated && (updated.price || updated.price === 0)) ? String(updated.price) : (priceInput.value || '');
+                        setPricePreserveBadge(newPriceEl, shownPrice);
+                    }
+                    var newBadge = cardBody.querySelector('.badge'); if (newBadge) newBadge.textContent = '⭐ ' + ((updated && updated.average_rating) ? String(updated.average_rating) : (ratingInput.value || ''));
+
+                    // re-init delete handlers if needed
+                    if (window.UIHelpers && typeof window.UIHelpers.initDeleteModelAjax === 'function') window.UIHelpers.initDeleteModelAjax();
                 } else {
-                    try { var err = JSON.parse(xhr.responseText); try { if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); } catch (_) { } showErrorDialog(err.message || 'Error al guardar'); }
-                    catch (_) { try { if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); } catch (_) { } showErrorDialog('Error al guardar'); }
+                    var ctErr = (xhr.getResponseHeader && xhr.getResponseHeader('Content-Type')) || '';
+                    if (ctErr.indexOf('application/json') !== -1 && xhr.responseText) {
+                        var err = JSON.parse(xhr.responseText);
+                        if (document.activeElement && typeof document.activeElement.blur === 'function') document.activeElement.blur();
+                        showErrorDialog(err && err.message ? err.message : 'Error al guardar');
+                    } else {
+                        if (document.activeElement && typeof document.activeElement.blur === 'function') document.activeElement.blur();
+                        showErrorDialog('Error al guardar');
+                    }
                 }
             };
 
-            xhr.onerror = function () { btnSave.disabled = false; btnSave.textContent = oldText; try { if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); } catch (_) { } showErrorDialog('Error de conexión. Intenta nuevamente.'); };
+            xhr.onerror = function () { btnSave.disabled = false; btnSave.textContent = oldText; if (document.activeElement && typeof document.activeElement.blur === 'function') document.activeElement.blur(); showErrorDialog('Error de conexión. Intenta nuevamente.'); };
 
             xhr.send(fd);
         });
     }, true);
     // Prevent middle-click / auxclick from opening link in new tab
     document.addEventListener('auxclick', function (e) {
-        try {
-            if (e.button !== 1) return; // only middle click
-            var link = e.target && e.target.closest && e.target.closest('a.js-edit-model, a[href*="/model/"][href$="/edit"]');
-            if (!link) return;
-            e.preventDefault(); e.stopImmediatePropagation(); e.stopPropagation();
-            // Simulate normal click handling
-            link.click();
-        } catch (_) { }
+        if (!e || e.button !== 1) return; // only middle click
+        var link = e.target && e.target.closest && e.target.closest('a.js-edit-model, a[href*="/model/"][href$="/edit"]');
+        if (!link) return;
+        if (e.preventDefault) e.preventDefault(); if (e.stopImmediatePropagation) e.stopImmediatePropagation(); if (e.stopPropagation) e.stopPropagation();
+        // Simulate normal click handling
+        link.click();
     }, true);
 }
 
@@ -1285,80 +1212,113 @@ function initInlineModelEdit() {
     }
 
     document.addEventListener('DOMContentLoaded', function () {
-        try {
-            if (!document.getElementById('marcas')) return;
-            var currentPage, totalPages, q, category;
-            var cfg = (typeof window !== 'undefined' && window.INFINITE_SCROLL) ? window.INFINITE_SCROLL : null;
-            if (cfg) {
-                currentPage = parseInt(cfg.currentPage, 10) || 1;
-                totalPages = parseInt(cfg.totalPages, 10) || 1;
-                q = cfg.q || '';
-                category = cfg.category || '';
-            } else {
-                var main = document.getElementById('marcas');
-                if (!main) return;
-                currentPage = parseInt(main.getAttribute('data-current-page') || '1', 10) || 1;
-                totalPages = parseInt(main.getAttribute('data-total-pages') || '1', 10) || 1;
-                q = main.getAttribute('data-q') || '';
-                category = main.getAttribute('data-category') || '';
-            }
+        if (!document.getElementById('marcas')) return;
+        var currentPage, totalPages, q, category;
+        var cfg = (typeof window !== 'undefined' && window.INFINITE_SCROLL) ? window.INFINITE_SCROLL : null;
+        if (cfg) {
+            currentPage = parseInt(cfg.currentPage, 10) || 1;
+            totalPages = parseInt(cfg.totalPages, 10) || 1;
+            q = cfg.q || '';
+            category = cfg.category || '';
+        } else {
+            var main = document.getElementById('marcas');
+            if (!main) return;
+            currentPage = parseInt(main.getAttribute('data-current-page') || '1', 10) || 1;
+            totalPages = parseInt(main.getAttribute('data-total-pages') || '1', 10) || 1;
+            q = main.getAttribute('data-q') || '';
+            category = main.getAttribute('data-category') || '';
+        }
 
-            var loading = false;
-            var sentinel = document.getElementById('infinite-scroll-sentinel');
-            var loadingEl = document.getElementById('infinite-loading');
+        var loading = false;
+        var sentinel = document.getElementById('infinite-scroll-sentinel');
+        var loadingEl = document.getElementById('infinite-loading');
 
-            if (!sentinel) return;
+        if (!sentinel) return;
 
-            function sentinelVisible() {
-                var rect = sentinel.getBoundingClientRect();
-                var vh = (window.innerHeight || document.documentElement.clientHeight);
-                return (rect.top <= vh && rect.bottom >= 0);
-            }
+        function sentinelVisible() {
+            var rect = sentinel.getBoundingClientRect();
+            var vh = (window.innerHeight || document.documentElement.clientHeight);
+            return (rect.top <= vh && rect.bottom >= 0);
+        }
 
-            function fetchNextPage() {
-                if (loading) return;
-                var next = currentPage + 1;
-                loading = true;
-                if (loadingEl) loadingEl.classList.remove('d-none');
+        function fetchNextPage() {
+            if (loading) return;
+            var next = currentPage + 1;
+            loading = true;
+            if (loadingEl) loadingEl.classList.remove('d-none');
 
-                var url = '/api/brands?page=' + next + '&q=' + encodeURIComponent(q) + '&category=' + encodeURIComponent(category);
-                var gotItems = false;
+            var url = '/api/brands?page=' + next + '&q=' + encodeURIComponent(q) + '&category=' + encodeURIComponent(category);
+            var gotItems = false;
 
-                setTimeout(function () {
-                    fetch(url, { credentials: 'same-origin' })
-                        .then(function (r) { return r.json(); })
-                        .then(function (data) {
-                            if (data && Array.isArray(data.items) && data.items.length) {
-                                data.items.forEach(function (b) { appendBrandToListEnd(b); });
-                                gotItems = true;
-                                currentPage = data.page || next;
-                            }
-                            if (data && data.totalPages) totalPages = data.totalPages;
-                        })
-                        .catch(function (err) { console.error('Error fetching next page:', err); })
-                        .finally(function () {
-                            loading = false;
-                            if (loadingEl) loadingEl.classList.add('d-none');
-                            // If sentinel is still visible after appending, try to load again (chain)
-                            if (sentinelVisible()) {
-                                // small delay to allow layout
-                                setTimeout(function () {
-                                    // if we got items or there are more pages, attempt another load
-                                    if (gotItems || currentPage < totalPages) fetchNextPage();
-                                }, 100);
-                            }
-                        });
-                }, 1500);
-            }
+            setTimeout(function () {
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', url, true);
+                if ('withCredentials' in xhr) xhr.withCredentials = true;
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState !== 4) return;
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        var data = null;
+                        var ct = (xhr.getResponseHeader && xhr.getResponseHeader('Content-Type')) || '';
+                        if (ct.indexOf('application/json') !== -1 && xhr.responseText) {
+                            data = JSON.parse(xhr.responseText);
+                        }
+                        if (data && Array.isArray(data.items) && data.items.length) {
+                            data.items.forEach(function (b) { appendBrandToListEnd(b); });
+                            gotItems = true;
+                            currentPage = data.page || next;
+                        }
+                        if (data && data.totalPages) totalPages = data.totalPages;
+                    } else {
+                        console.error('Error fetching next page: status', xhr.status);
+                    }
 
-            var observer = new IntersectionObserver(function (entries) {
-                if (!entries || !entries[0]) return;
-                if (entries[0].isIntersecting) {
+                    loading = false;
+                    if (loadingEl) loadingEl.classList.add('d-none');
+                    // If sentinel is still visible after appending, try to load again (chain)
+                    if (sentinelVisible()) {
+                        // small delay to allow layout
+                        setTimeout(function () {
+                            // if we got items or there are more pages, attempt another load
+                            if (gotItems || currentPage < totalPages) fetchNextPage();
+                        }, 100);
+                    }
+                };
+                xhr.onerror = function () {
+                    loading = false;
+                    if (loadingEl) loadingEl.classList.add('d-none');
+                    console.error('Network error fetching next page');
+                };
+                xhr.send();
+            }, 1500);
+        }
+
+        var pollIntervalId = null;
+        var POLL_MS = 2000;
+        function startPolling() {
+            if (pollIntervalId) return;
+            pollIntervalId = setInterval(function () {
+                if (!loading) {
                     fetchNextPage();
                 }
-            }, { rootMargin: '300px' });
+            }, POLL_MS);
+        }
+        function stopPolling() {
+            if (!pollIntervalId) return;
+            clearInterval(pollIntervalId);
+            pollIntervalId = null;
+        }
 
-            observer.observe(sentinel);
-        } catch (e) { console.error('Infinite scroll init error:', e); }
+        var observer = new IntersectionObserver(function (entries) {
+            if (!entries || !entries[0]) return;
+            if (entries[0].isIntersecting) {
+                // immediate attempt then poll while sentinel remains visible
+                fetchNextPage();
+                startPolling();
+            } else {
+                stopPolling();
+            }
+        }, { rootMargin: '300px' });
+
+        observer.observe(sentinel);
     });
 })();

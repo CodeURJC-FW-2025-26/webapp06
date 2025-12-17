@@ -120,7 +120,7 @@ router.post('/brand/new', upload.single('brand_image'), async function (req, res
                 errors.push("El año de fundación debe ser un número.");
             } else {
                 const minYear = 1900;
-                const maxYear = 2025; // igual en HTML
+                const maxYear = 2025; // same as in HTML
                 if (year < minYear || year > maxYear) {
                     errors.push(`El año de fundación debe estar entre ${minYear} y ${maxYear}.`);
                 }
@@ -367,12 +367,12 @@ router.post('/brand/:id/edit', upload.single('brand_image'), async (req, res) =>
             });
         }
 
-        // Campos (ajusta solo si tu form usa otros names)
+        // Fields (adjust only if your form uses different names)
         const name = (req.body.name || '').trim();
         const description = (req.body.description || '').trim();
         const country_origin = (req.body.country_origin || '').trim();
 
-        // Validación mínima server-side (sin inventar reglas nuevas)
+        // Minimal server-side validation (don't invent new rules)
         if (!name || !description || !country_origin) {
             if (isAjax) {
                 return res.status(400).json({
@@ -391,10 +391,10 @@ router.post('/brand/:id/edit', upload.single('brand_image'), async (req, res) =>
 
         const updatedFields = { name, description, country_origin };
 
-        // ✅ NUEVO: remove_image
+        //NUEVO: remove_image
         const wantsRemove = req.body.remove_image === 'true' || req.body.remove_image === 'on';
 
-        // Helper para borrar sin romper si el archivo no existe
+        // Helper to remove safely without failing if the file does not exist
         const safeRemove = async (filename) => {
             if (!filename) return;
             const path = sneakersdb.UPLOADS_FOLDER + '/' + filename;
@@ -402,17 +402,17 @@ router.post('/brand/:id/edit', upload.single('brand_image'), async (req, res) =>
         };
 
         if (req.file) {
-            // Subió nueva imagen: reemplaza y borra la anterior
+            // Uploaded new image: replace and delete the previous one
             updatedFields.imageFilename = req.file.filename;
             await safeRemove(currentBrand.imageFilename);
 
         } else if (wantsRemove) {
-            // No subió nueva y quiere borrar la actual
+            // Did not upload a new image and wants to remove the current one
             await safeRemove(currentBrand.imageFilename);
             updatedFields.imageFilename = null;
 
         } else {
-            // Mantener la actual
+            // Keep the current one
             updatedFields.imageFilename = currentBrand.imageFilename;
         }
 
