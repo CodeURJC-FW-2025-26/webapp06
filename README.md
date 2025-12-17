@@ -72,6 +72,8 @@
   - `size_range`  
   - `average_rating`
 
+---
+
 ## Práctica 2
 
 ### 1. Instrucciones de ejecución
@@ -177,3 +179,58 @@ De esta forma no es necesario reiniciar manualmente la aplicación durante el de
 | Julián García Panadero | `julianjgp23` | Backend, vistas, estilos |
 | Pablo Villaplana Rodríguez | `pvillar81` | Rutas, validaciones, filtros |
 | Álvaro Fernández Jiménez | `minicruck` | MongoDB, carga de datos |
+
+---
+
+## Práctica 3 
+
+En esta práctica se ha mejorado la experiencia de usuario mediante el uso intensivo de **JavaScript en el cliente**, **AJAX** y **componentes de Bootstrap**, cumpliendo todos los requisitos del enunciado y la rúbrica.
+
+## Funcionalidades implementadas
+
+### Página principal
+- Implementación de **scroll infinito** para cargar dinámicamente las marcas.
+- Carga progresiva de datos mediante AJAX.
+- Indicador visual de carga (**spinner**) durante las peticiones.
+
+### Página de nuevo y edición de Marca
+- Validación completa de formularios en el cliente usando **Bootstrap**.
+- Validaciones adicionales con JavaScript (campos obligatorios, formatos, mayúsculas).
+- Validación de nombre duplicado mediante **AJAX**.
+- Envío del formulario sin recargar la página.
+- **Previsualización de imagen**, eliminación de imagen seleccionada y gestión correcta en edición.
+- Uso de **modales de Bootstrap** para mostrar errores del servidor.
+- Spinner visible durante el procesamiento.
+
+### Página de detalle
+- Creación de **Sneakers** mediante AJAX sin recargar la página.
+- Limpieza automática del formulario tras una creación correcta.
+- Inserción dinámica del nuevo elemento en la lista.
+- Edición de Sneakers directamente en la página de detalle.
+- Eliminación de Sneakers mediante AJAX.
+- Gestión de errores con modales de Bootstrap.
+- Spinners durante todas las operaciones AJAX.
+
+### Eliminaciones
+- Confirmación mediante cuadro de diálogo antes de borrar elementos.
+- Eliminación dinámica sin recargar la página.
+
+---
+
+## Vídeo demostrativo Práctica 3
+
+📹 **ENLACE AL VÍDEO DE LA PRÁCTICA 3 (PENDIENTE DE AÑADIR)**
+
+---
+
+## Participación del equipo – Práctica 3
+
+Todos los miembros del equipo han participado de forma **equitativa y activa** en la implementación de las funcionalidades de la Práctica 3, incluyendo:
+- Desarrollo de lógica JavaScript en cliente.
+- Integración de AJAX.
+- Validaciones con Bootstrap.
+- Gestión de modales, spinners y experiencia de usuario.
+
+Todos los integrantes conocen el funcionamiento completo de la aplicación y han colaborado conjuntamente en su desarrollo.
+
+
