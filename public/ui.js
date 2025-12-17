@@ -347,6 +347,20 @@
     initModelImageUX();
   });
 
+  // ---------- Image error fallback ----------
+  document.addEventListener('error', function(e) {
+    if (e.target.tagName === 'IMG' && e.target.classList.contains('js-fallback-img')) {
+      const wrapper = e.target.closest('.image-wrapper');
+      if (wrapper) {
+        e.target.remove();
+        const placeholder = document.createElement('div');
+        placeholder.className = 'image-placeholder';
+        placeholder.textContent = 'Sin imagen';
+        wrapper.appendChild(placeholder);
+      }
+    }
+  }, true);
+
   // Expose in case A/B want to reuse
   window.UIHelpers = {
     showErrorModal: showErrorModal,

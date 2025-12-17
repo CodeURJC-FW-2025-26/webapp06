@@ -579,6 +579,19 @@ function submitFormAjax(form) {
                 }
 
                 if (isModelNew) {
+                    // If server returned HTML, insert it directly
+                    if (response.html) {
+                        var container = document.querySelector('main .col-12.col-lg-7 .row.g-4');
+                        if (!container) container = document.querySelector('.row.g-4');
+                        if (container) {
+                            container.insertAdjacentHTML('beforeend', response.html);
+                        }
+                        if (form && typeof form.reset === 'function') form.reset();
+                        var cover = form.querySelector('#coverImage');
+                        if (cover) { cover.value = ''; }
+                        return;
+                    }
+
                     // If server returned full model object, use it. Otherwise build minimal from form values.
                     var model = response.model || null;
                     var brandId = response.brandId || null;
@@ -744,14 +757,20 @@ function appendModelToList(model, brandId) {
     var card = document.createElement('div');
     card.className = 'card h-100';
 
-    var img = document.createElement('img');
-    img.className = 'card-img-top';
-    img.alt = 'Imagen de la sneaker ' + (model.name || '');
-    // Use a predictable image route if id present
-    if (model._id) {
-        img.src = '/brand.models/' + model._id + '/image';
+    var wrapper = document.createElement('div');
+    wrapper.className = 'image-wrapper';
+
+    if (model.imageFilename) {
+        var img = document.createElement('img');
+        img.src = '/brand.models/' + (model._id || '') + '/image';
+        img.className = 'js-fallback-img';
+        img.alt = 'Imagen de la sneaker ' + (model.name || '');
+        wrapper.appendChild(img);
     } else {
-        img.src = '/img/sneakers/placeholder.png';
+        var placeholder = document.createElement('div');
+        placeholder.className = 'image-placeholder';
+        placeholder.textContent = 'Sin imagen';
+        wrapper.appendChild(placeholder);
     }
 
     var body = document.createElement('div');
@@ -802,7 +821,7 @@ function appendModelToList(model, brandId) {
     body.appendChild(pPrice);
     body.appendChild(actions);
 
-    card.appendChild(img);
+    card.appendChild(wrapper);
     card.appendChild(body);
     col.appendChild(card);
 
@@ -1185,10 +1204,21 @@ function initInlineModelEdit() {
         var card = document.createElement('div');
         card.className = 'card h-100';
 
-        var img = document.createElement('img');
-        img.src = '/brand/' + (brand._id || '') + '/image';
-        img.alt = 'Logo de ' + (brand.name || '');
-        img.className = 'card-img-top';
+        var wrapper = document.createElement('div');
+        wrapper.className = 'image-wrapper';
+
+        if (brand.imageFilename) {
+            var img = document.createElement('img');
+            img.src = '/brand/' + (brand._id || '') + '/image';
+            img.alt = 'Logo de ' + (brand.name || '');
+            img.className = 'js-fallback-img';
+            wrapper.appendChild(img);
+        } else {
+            var placeholder = document.createElement('div');
+            placeholder.className = 'image-placeholder';
+            placeholder.textContent = 'Sin imagen';
+            wrapper.appendChild(placeholder);
+        }
 
         var body = document.createElement('div');
         body.className = 'card-body';
@@ -1203,7 +1233,7 @@ function initInlineModelEdit() {
 
         body.appendChild(h5);
         body.appendChild(p);
-        card.appendChild(img);
+        card.appendChild(wrapper);
         card.appendChild(body);
         link.appendChild(card);
         col.appendChild(link);

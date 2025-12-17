@@ -8,7 +8,16 @@
       <div class="col-12 col-lg-5">
         {{#brand}}
         <div class="card">
-          <img src="/brand/{{_id}}/image" class="card-img-top" alt="Logo de {{name}}">
+          <div class="image-wrapper">
+            {{#imageFilename}}
+              <img src="/brand/{{_id}}/image" class="js-fallback-img" alt="Logo de {{name}}">
+            {{/imageFilename}}
+            {{^imageFilename}}
+              <div class="image-placeholder">
+                Sin imagen
+              </div>
+            {{/imageFilename}}
+          </div>
           <div class="card-body">
             <h1 class="h4" href="brand/{{_id}}">{{name}}</h1>
             <p class="mb-1"><strong>País de origen:</strong> {{country_origin}}</p>
@@ -40,7 +49,16 @@
           {{#models}}
           <div class="col-12 col-md-6" data-price="{{price}}" data-description="{{description}}" data-average_rating="{{average_rating}}" data-colorway="{{colorway}}" data-size_range="{{size_range}}">
             <div class="card h-100">
-              <img src="/brand.models/{{_id}}/image" class="card-img-top" alt="Imagen de la sneaker {{name}}">
+              <div class="image-wrapper">
+                {{#imageFilename}}
+                  <img src="/brand.models/{{_id}}/image" class="js-fallback-img" alt="Imagen de la sneaker {{name}}">
+                {{/imageFilename}}
+                {{^imageFilename}}
+                  <div class="image-placeholder">
+                    Sin imagen
+                  </div>
+                {{/imageFilename}}
+              </div>
               <div class="card-body">
                 <h5 class="card-title">{{name}}</h5>
                 <p class="mb-1 small text-muted">{{category}} · {{release_year}}</p>

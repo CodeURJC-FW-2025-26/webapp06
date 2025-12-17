@@ -78,16 +78,12 @@ export async function getModelById(modelId) {
 
     // If not found, try if modelId is a hex-based ObjectId and search with ObjectId
     if (!brand) {
-        try {
-            if (ObjectId.isValid(modelId)) {
-                const oid = new ObjectId(modelId);
-                brand = await brands.findOne(
-                    { 'models._id': oid },
-                    { projection: { models: { $elemMatch: { _id: oid } }, _id: 1 } }
-                );
-            }
-        } catch (e) {
-            // ignore
+        if (ObjectId.isValid(modelId)) {
+            const oid = new ObjectId(modelId);
+            brand = await brands.findOne(
+                { 'models._id': oid },
+                { projection: { models: { $elemMatch: { _id: oid } }, _id: 1 } }
+            );
         }
     }
 

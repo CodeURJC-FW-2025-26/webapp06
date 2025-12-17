@@ -1,0 +1,26 @@
+<div class="col-12 col-md-6" data-price="{{price}}" data-description="{{description}}" data-average_rating="{{average_rating}}" data-colorway="{{colorway}}" data-size_range="{{size_range}}">
+  <div class="card h-100">
+    <div class="image-wrapper">
+      {{#imageFilename}}
+        <img src="/brand.models/{{_id}}/image" class="js-fallback-img" alt="Imagen de la sneaker {{name}}">
+      {{/imageFilename}}
+      {{^imageFilename}}
+        <div class="image-placeholder">
+          Sin imagen
+        </div>
+      {{/imageFilename}}
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">{{name}}</h5>
+      <p class="mb-1 small text-muted">{{category}} · {{release_year}}</p>
+      <p class="mb-1 small text-muted">Colorway: {{colorway}} · Tallas: {{size_range}}</p>
+      <p class="fw-semibold">{{price}} € <span class="badge badge-soft ms-2">⭐ {{average_rating}}</span></p>
+      <div class="d-flex gap-2">
+        <form action="/brand.models/{{_id}}/delete" method="POST" class="d-inline js-delete-model">
+          <button class="btn btn-outline-danger btn-sm" type="submit">Borrar</button>
+        </form>
+        <a class="btn btn-outline-primary btn-sm" href="/brand.models/{{_id}}/edit">Editar</a>
+      </div>
+    </div>
+  </div>
+</div>
