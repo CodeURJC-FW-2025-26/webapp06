@@ -219,7 +219,7 @@ En esta práctica se ha mejorado la experiencia de usuario mediante el uso inten
 
 ## Vídeo demostrativo Práctica 3
 
-📹 **ENLACE AL VÍDEO DE LA PRÁCTICA 3 (PENDIENTE DE AÑADIR)**
+📹 https://youtu.be/nJ3MrRkMd5M?si=gl49O1ZS5n5h1kbV)
 
 ---
 
